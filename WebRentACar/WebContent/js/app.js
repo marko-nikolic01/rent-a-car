@@ -1,9 +1,11 @@
-const Template = { template: '<template></template>' }
+const Home = { template: '<home></home>' }
+const SignUp = { template: '<signUp></signUp>' }
 
 const router = new VueRouter({
 	mode: 'hash',
 	  routes: [
-		{ path: '/', name: 'home', component: Template},
+		{ path: '/', name: 'home', component: Home},
+		{ path: '/signUp/', component: SignUp},
 	  ]
 });
 
