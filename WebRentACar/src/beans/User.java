@@ -115,6 +115,7 @@ public class User {
 				|| firstName.isEmpty()
 				|| lastName.isEmpty()
 				|| birthday == null
+				|| birthday.isAfter(LocalDate.now())
 				|| role == null) {
 			return false;
 		}

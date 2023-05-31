@@ -17,6 +17,7 @@ Vue.component("signUp", {
 	    template: `
 	    <div>
 			<ul>
+				<li v-on:click="home" style="float:left"><a>Home</a></li>
   				<li v-on:click="signUp" style="float:right"><a class="selectedTab">Sign up</a></li>
   				<li style="float:right"><a>Sign in</a></li>
 			</ul>
@@ -55,7 +56,7 @@ Vue.component("signUp", {
     				</tr>
             		<tr>
     					<td><label class="signUpLabel">Birthdate:</label></td>
-        				<td><input v-model="user.birthday" type="date" class="signUpInput"/></td>
+        				<td><input v-model="user.birthday" type="date" id="birthdayDatePicker" class="signUpInput"/></td>
     				</tr>
     				<br/>
     				<tr>
@@ -71,6 +72,30 @@ Vue.component("signUp", {
 		`,
     mounted () {
         now = new Date();
+        var dd = now.getDate();
+		var mm = now.getMonth() + 1;
+		var yyyy = now.getFullYear();
+		if (dd < 10) {
+   			dd = '0' + dd;
+		}
+		if (mm < 10) {
+  			mm = '0' + mm;
+		} 
+		maxDate = yyyy + '-' + mm + '-' + dd;
+        document.getElementById("birthdayDatePicker").setAttribute("max", maxDate);
+        
+        minDate = new Date(1900, 0, 1);
+        var dd = minDate.getDate();
+		var mm = minDate.getMonth() + 1;
+		var yyyy = minDate.getFullYear();
+		if (dd < 10) {
+   			dd = '0' + dd;
+		}
+		if (mm < 10) {
+  			mm = '0' + mm;
+		} 
+		minDate = yyyy + '-' + mm + '-' + dd;
+        document.getElementById("birthdayDatePicker").setAttribute("min", minDate);
     },
     methods: {
     	signUp : function() {
@@ -89,6 +114,9 @@ Vue.component("signUp", {
 				return;
 			}
 			this.valid = true;
+    	},
+    	home : function() {
+			router.push('/');
     	}
     }
 });

@@ -5,6 +5,7 @@ Vue.component("home", {
 	},
 	    template: `
 	    <ul>
+	    	<li style="float:left"><a class="selectedTab">Home</a></li>
   			<li v-on:click="signUp" style="float:right"><a>Sign up</a></li>
   			<li style="float:right"><a>Sign in</a></li>
 		</ul>
