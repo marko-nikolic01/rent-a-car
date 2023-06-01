@@ -59,6 +59,6 @@ public class UserService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public User signIn(SignInCredentialsDTO credentials) {
 		UserDAO dao = (UserDAO) servletContext.getAttribute("userDAO");
-		return dao.getBySignInCredentials(credentials);
+		return dao.signInBySignInCredentials(credentials);
 	}
 }

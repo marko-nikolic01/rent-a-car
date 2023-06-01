@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import beans.User;
@@ -19,6 +20,7 @@ import utilities.Role;
 public class UserDAO {
 	private String path = "users.csv";
 	private ArrayList<User> users = new ArrayList<>();
+	private User signedInUser = null;
 
 	public UserDAO() {
 
@@ -33,13 +35,14 @@ public class UserDAO {
 		return users;
 	}
 	
-	public User getBySignInCredentials(SignInCredentialsDTO credentials) {
-		return getByUsernamePassword(credentials.getUsername(), credentials.getPassword());
+	public User signInBySignInCredentials(SignInCredentialsDTO credentials) {
+		return singInByUsernamePassword(credentials.getUsername(), credentials.getPassword());
 	}
 	
-	public User getByUsernamePassword(String username, String password) {
+	public User singInByUsernamePassword(String username, String password) {
 		for (User user : users) {
 			if (user.getUsername().equals(username) || user.getPassword().equals(password)) {
+				signedInUser = user;
 				return user;
 			}
 		}
