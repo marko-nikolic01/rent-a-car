@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 
 import beans.User;
 import dao.UserDAO;
+import dto.SignInCredentialsDTO;
 
 @Path("/users")
 public class UserService {
@@ -50,5 +51,14 @@ public class UserService {
 			return dao.save(user);
 		}
 		return null;
+	}
+	
+	@POST
+	@Path("/signin")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public User signIn(SignInCredentialsDTO credentials) {
+		UserDAO dao = (UserDAO) servletContext.getAttribute("userDAO");
+		return dao.getBySignInCredentials(credentials);
 	}
 }

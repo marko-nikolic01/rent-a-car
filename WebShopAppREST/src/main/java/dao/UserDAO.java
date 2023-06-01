@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.StringTokenizer;
 
 import beans.User;
+import dto.SignInCredentialsDTO;
 import utilities.Gender;
 import utilities.Role;
 
@@ -30,6 +31,19 @@ public class UserDAO {
 
 	public Collection<User> getAll() {
 		return users;
+	}
+	
+	public User getBySignInCredentials(SignInCredentialsDTO credentials) {
+		return getByUsernamePassword(credentials.getUsername(), credentials.getPassword());
+	}
+	
+	public User getByUsernamePassword(String username, String password) {
+		for (User user : users) {
+			if (user.getUsername().equals(username) || user.getPassword().equals(password)) {
+				return user;
+			}
+		}
+		return null;
 	}
 
 	public User save(User user) {
