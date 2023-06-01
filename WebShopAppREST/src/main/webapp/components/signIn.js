@@ -16,7 +16,7 @@ Vue.component("signIn", {
   				<li style="float:right"><a>Sign in</a></li>
 			</ul>
 			<form class="center">
-			<h4 class="headingCenter">Account info</h4>
+				<h4 class="headingCenter">Account info</h4>
     			<table class="center">
 					<tr>
     					<td><label class="signUpLabel">Username:</label></td>
@@ -35,6 +35,7 @@ Vue.component("signIn", {
         		<table class="center">
     				<tr><td><label v-if="!valid" class="labelError">You didn't fill the form correctly!</label></td></tr>
         		</table>
+        	</form>
     	</div>
 		`,
     mounted () {
