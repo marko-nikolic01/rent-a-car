@@ -44,8 +44,8 @@ Vue.component("signIn", {
 			event.preventDefault();
 			this.validate();
 			if (this.valid) {
-				axios.post("rest/users/signin", this.credentials).then(response => {
-					if(response.data != null) {
+				axios.post("rest/users/signIn", this.credentials).then(response => {
+					if(response.status === 200) {
 						router.push("/userProfile/");
 					}
 				});
