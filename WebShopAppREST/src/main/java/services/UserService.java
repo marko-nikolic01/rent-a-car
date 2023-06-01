@@ -54,7 +54,7 @@ public class UserService {
 	}
 	
 	@POST
-	@Path("/signin")
+	@Path("/signIn")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public User signIn(SignInCredentialsDTO credentials) {
