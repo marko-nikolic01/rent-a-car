@@ -7,7 +7,7 @@ Vue.component("home", {
 	    <ul>
 	    	<li style="float:left"><a class="selectedTab">Home</a></li>
   			<li v-on:click="signUp" style="float:right"><a>Sign up</a></li>
-  			<li style="float:right"><a>Sign in</a></li>
+  			<li v-on:click="signIn" style="float:right"><a>Sign in</a></li>
 		</ul>
 	    `,
     mounted () {
@@ -16,6 +16,9 @@ Vue.component("home", {
     methods: {
     	signUp : function() {
 			router.push('/signUp/');
+    	},
+    	signIn : function() {
+			router.push('/signIn/');
     	}
     }
 });

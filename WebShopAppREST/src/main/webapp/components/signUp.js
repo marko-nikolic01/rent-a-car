@@ -22,7 +22,7 @@ Vue.component("signUp", {
 			<ul>
 				<li v-on:click="home" style="float:left"><a>Home</a></li>
   				<li v-on:click="signUp" style="float:right"><a class="selectedTab">Sign up</a></li>
-  				<li style="float:right"><a>Sign in</a></li>
+  				<li v-on:click="signIn" style="float:right"><a>Sign in</a></li>
 			</ul>
 			<form class="center">
 			<h4 class="headingCenter">Account info</h4>
@@ -105,7 +105,7 @@ Vue.component("signUp", {
 			event.preventDefault();
 			this.validate();
 			if (this.valid) {
-				axios.post("rest/users/", this.user).then(response => (router.push("/")));
+				axios.post("rest/users/", this.user).then(response => (this.signIn()));
 			}
     	},
     	validate : function() {
@@ -123,6 +123,9 @@ Vue.component("signUp", {
     	},
     	home : function() {
 			router.push('/');
+    	},
+    	signIn : function() {
+			router.push('/signIn/');
     	}
     }
 });
