@@ -46,8 +46,8 @@ public class UserService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public User singUp(User user) {
-		if (user.isValid()) {
-			UserDAO dao = (UserDAO) servletContext.getAttribute("userDAO");
+		UserDAO dao = (UserDAO) servletContext.getAttribute("userDAO");
+		if (user.isValid() && !dao.userExists(user.getUsername())) {
 			return dao.save(user);
 		}
 		return null;
@@ -60,5 +60,13 @@ public class UserService {
 	public User signIn(SignInCredentialsDTO credentials) {
 		UserDAO dao = (UserDAO) servletContext.getAttribute("userDAO");
 		return dao.signInBySignInCredentials(credentials);
+	}
+	
+	@GET
+	@Path("/signedInUser")
+	@Produces(MediaType.APPLICATION_JSON)
+	public User getSignedInUser() {
+		UserDAO dao = (UserDAO) servletContext.getAttribute("userDAO");
+		return dao.getSignedInUser();
 	}
 }

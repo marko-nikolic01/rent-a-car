@@ -48,6 +48,10 @@ public class UserDAO {
 		}
 		return null;
 	}
+	
+	public User getSignedInUser() {
+		return signedInUser;
+	}
 
 	public User save(User user) {
 		user.setId(nextId());
@@ -61,6 +65,15 @@ public class UserDAO {
 			return 1;
 		}
 		return users.stream().mapToInt(c -> c.getId()).max().getAsInt() + 1;
+	}
+	
+	public boolean userExists(String username) {
+		for(User user : users) {
+			if(user.getUsername().equals(username)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private void load() {
