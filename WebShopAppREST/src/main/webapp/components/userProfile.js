@@ -53,7 +53,7 @@ Vue.component("userProfile", {
       <td><label>{{signedInUser.role}}</label></td>
     </tr>
     <tr>
-      <button v-on:click="editProfile">Edit</button>
+      <button class="button" v-on:click="editProfile">Edit</button>
     </tr>
   </table>
 </div>
