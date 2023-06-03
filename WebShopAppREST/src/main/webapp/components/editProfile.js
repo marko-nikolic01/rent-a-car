@@ -12,6 +12,17 @@ Vue.component("editProfile", {
 				role: 'CUSTOMER',
 				isDeleted: false
 			},
+			userCopy: {
+				id: -1,
+				username: '',
+				password: '',
+				firstName: '',
+				lastName: '',
+				birthday: '',
+				gender: '',
+				role: 'CUSTOMER',
+				isDeleted: false
+			}
 	    }
 	},
 	    template: `
@@ -47,18 +58,29 @@ Vue.component("editProfile", {
 			<td><textarea>{{signedInUser.role}}</textarea></td>
 		</tr>
 	    <tr>
-	    	<td><button>Apply</button></td>
-	    	<td><button v-on:click="discardChanges">Discard</button></td>
+	    	<td><button class="signUpInput">Apply</button></td>
+	    	<td><button v-on:click="discardChanges" class="signUpInput">Discard</button></td>
 	    </tr>
 	</table>
 </div>
 	    `,
     mounted () {
-        axios.get("rest/users/signedInUser").then(response => (this.signedInUser = response.data));
+        axios.get("rest/users/signedInUser").then(response => {
+			this.signedInUser = response.data;
+			this.userCopy = structuredClone(this.signedInUser)});
     },
     methods: {
     	discardChanges : function() {
 			router.push("/userProfile/");
+    	},
+    	editProfile : function() {
+			event.preventDefault()
+			if(JSON.stringify(this.signedInUser) === JSON.stringify(this.userCopy)) {
+				 return;
+			} 
+			else {
+				axios.put("rest/editProfile/", this.signedInUser).then(response => (router.push("/userProfile/")))
+			}
     	}
     }
 });
