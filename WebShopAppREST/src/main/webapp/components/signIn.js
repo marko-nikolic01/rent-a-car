@@ -12,8 +12,8 @@ Vue.component("signIn", {
 	    <div>
 			<ul>
 				<li v-on:click="home" style="float:left"><a>Home</a></li>
-  				<li v-on:click="signUp" style="float:right"><a class="selectedTab">Sign up</a></li>
-  				<li style="float:right"><a>Sign in</a></li>
+  				<li v-on:click="signUp" style="float:right"><a>Sign up</a></li>
+  				<li style="float:right"><a class="selectedTab">Sign in</a></li>
 			</ul>
 			<form class="center">
 				<h4 class="headingCenter">Account info</h4>
