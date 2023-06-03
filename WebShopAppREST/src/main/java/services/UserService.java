@@ -7,6 +7,7 @@ import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
@@ -68,5 +69,14 @@ public class UserService {
 	public User getSignedInUser() {
 		UserDAO dao = (UserDAO) servletContext.getAttribute("userDAO");
 		return dao.getSignedInUser();
+	}
+	
+	@PUT
+	@Path("/editProfile")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public User updateUser(User updatedUser) {
+		UserDAO dao = (UserDAO) servletContext.getAttribute("userDAO");
+		return dao.update(updatedUser);
 	}
 }

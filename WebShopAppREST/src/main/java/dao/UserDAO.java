@@ -74,6 +74,15 @@ public class UserDAO {
 		}
 		return false;
 	}
+	
+	public User getById(int id) {
+		for (User user : users) {
+			if (user.getId() == id) {
+				return user;
+			}
+		}
+		return null;
+	}
 
 	private void load() {
 		BufferedReader reader = null;
@@ -147,5 +156,21 @@ public class UserDAO {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public User update(User updatedUser) {
+		User user = getById(updatedUser.getId());
+		if (user != null) {
+			users.remove(user);
+			users.add(updatedUser);
+			user = updatedUser;
+			if (signedInUser != null) {
+				if (user.getId() == signedInUser.getId()) {
+					signedInUser = user;
+				}
+			}
+			toCSV();
+		}
+		return user;
 	}
 }
