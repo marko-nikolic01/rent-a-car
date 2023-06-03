@@ -54,7 +54,6 @@ Vue.component("editProfile", {
 </div>
 	    `,
     mounted () {
-		console.log("aljfasdjf");
         axios.get("rest/users/signedInUser").then(response => (this.signedInUser = response.data));
     },
     methods: {
