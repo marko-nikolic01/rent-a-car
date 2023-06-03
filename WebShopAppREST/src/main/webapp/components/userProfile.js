@@ -24,31 +24,36 @@ Vue.component("userProfile", {
   </ul>
   
   <h4 class="headingCenter">Account info</h4>
+  
+  
 			
   <table class="center">
     <tr>
       <td><label class="signUpLabel">Username:</label></td>
-      <td><textarea v-model="signedInUser.username"></textarea></td>
+      <td><label>{{signedInUser.username}}</label></td>
     </tr>
      <tr>
       <td><label class="signUpLabel">First name:</label></td>
-      <td><textarea v-model="signedInUser.firstName"></textarea></td>
+      <td><label>{{signedInUser.firstName}}</label></td>
     </tr>
      <tr>
       <td><label class="signUpLabel">Last name:</label></td>
-      <td><textarea v-model="signedInUser.lastName"></textarea></td>
+      <td><label>{{signedInUser.lastName}}</label></td>
     </tr>
      <tr>
       <td><label class="signUpLabel">Birthday:</label></td>
-      <td><textarea v-model="signedInUser.birthday"></textarea></td>
+      <td><label>{{signedInUser.birthday}}</label></td>
     </tr>
      <tr>
       <td><label class="signUpLabel">Gender:</label></td>
-      <td><textarea v-model="signedInUser.gender"></textarea></td>
+      <td><label>{{signedInUser.gender}}</label></td>
     </tr>
      <tr>
       <td><label class="signUpLabel">Role:</label></td>
-      <td><textarea v-model="signedInUser.role"></textarea></td>
+      <td><label>{{signedInUser.role}}</label></td>
+    </tr>
+    <tr>
+      <button v-on:click="editProfile">Edit</button>
     </tr>
   </table>
 </div>
@@ -57,7 +62,9 @@ Vue.component("userProfile", {
         axios.get("rest/users/signedInUser").then(response => (this.signedInUser = response.data));
     },
     methods: {
-    	template : function() {
+    	editProfile : function() {
+			event.preventDefault();
+			router.push("/editProfile/");
     	}
     }
 });
