@@ -126,7 +126,6 @@ public class User implements ISerializable {
 
 	@Override
 	public void fromCSV(String[] values) {
-		// TODO Auto-generated method stub
 		id = Integer.parseInt(values[0]);
 		username = values[1];
 		password = values[2];

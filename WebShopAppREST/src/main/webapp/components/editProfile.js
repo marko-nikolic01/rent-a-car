@@ -21,9 +21,7 @@ Vue.component("editProfile", {
 		<li style="float: right;"><a class="selectedTab">Profile</a></li>
 		<li style="float: left;"><a>Home</a></li>
 	</ul>
-	Discard Apply
 	<table class="center">
-		<tbody>
 		<tr>
 			<td><label class="signUpLabel">Username:</label></td>
 			<td><textarea>{{signedInUser.username}}</textarea></td>
@@ -52,17 +50,16 @@ Vue.component("editProfile", {
 	    	<td><button>Apply</button></td>
 	    	<td><button v-on:click="discardChanges">Discard</button></td>
 	    </tr>
-		</tbody>
 	</table>
 </div>
 	    `,
     mounted () {
+		console.log("aljfasdjf");
         axios.get("rest/users/signedInUser").then(response => (this.signedInUser = response.data));
     },
     methods: {
     	discardChanges : function() {
-			event.preventDefault();
-			router.push("/userProfile/")
+			router.push("/userProfile/");
     	}
     }
 });

@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.StringTokenizer;
 
 import beans.User;
@@ -112,7 +111,6 @@ public class UserDAO {
 				users.add(new User(id, username, password, firstName, lastName, birthday, gender, role, isDeleted));
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		} finally {
 			if (reader != null) {

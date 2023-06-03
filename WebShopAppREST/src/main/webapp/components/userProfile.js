@@ -63,7 +63,6 @@ Vue.component("userProfile", {
     },
     methods: {
     	editProfile : function() {
-			event.preventDefault();
 			router.push("/editProfile/");
     	}
     }
