@@ -17,11 +17,12 @@ Vue.component("home", {
 				<label class="containerLabel">Name: {{object.name}}</label><br/>
 				<label class="containerLabel">Location: {{object.location.address.street}} {{object.location.address.streetNumber}}, {{object.location.address.city}}</label><br/>
 				<label class="containerLabel">Rating: {{object.rating}}</label><br/>
+				<label class="containerLabel">Working time: {{object.workingHours.startTime}}   -   {{object.workingHours.endTime}}</label><br/>
 			</div>
 		</div>
 	    `,
     mounted () {
-        axios.get('rest/rentACarObjects').then(response => (this.rentACarObjects = response.data));
+        axios.get('rest/rentACarObjects/sortedByWorkingStatus').then(response => (this.rentACarObjects = response.data));
     },
     methods: {
     	signUp : function() {
