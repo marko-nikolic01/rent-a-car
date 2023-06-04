@@ -91,6 +91,18 @@ color: #ffcc00;
 	float: left;
 }
 
+.containerConditionalLabelFalse{
+	margin-left: 20px;
+	float: left;
+	color: #ff0000;
+}
+
+.containerConditionalLabelTrue{
+	margin-left: 20px;
+	float: left;
+	color: #00ff00;
+}
+
 .containerImage {
 	float: left;
 	}
