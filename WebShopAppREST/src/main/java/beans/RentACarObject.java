@@ -76,11 +76,11 @@ public class RentACarObject {
 		this.location = location;
 	}
 
-	public String getLogoPath() {
+	public String getLogoURL() {
 		return logoURL;
 	}
 
-	public void setLogoPath(String logoPath) {
+	public void setLogoURL(String logoPath) {
 		this.logoURL = logoPath;
 	}
 
