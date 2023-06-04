@@ -1,4 +1,4 @@
-Vue.component("home", { 
+Vue.component("homeSignedIn", { 
 	data: function () {
 	    return {
 			rentACarObjects: [
@@ -18,10 +18,10 @@ Vue.component("home", {
 	    template: `
 	    <div>
 	    	<ul>
-	    		<li style="float:left"><a class="selectedTab">Home</a></li>
-  				<li v-on:click="signUp" style="float:right"><a>Sign up</a></li>
-  				<li v-on:click="signIn" style="float:right"><a>Sign in</a></li>
-			</ul>
+    			<li v-on:click="signOut" style="float:right"><a>Sign out</a></li>
+    			<li v-on:click="userProfile" style="float:right"><a>Profile</a></li>
+    			<li style="float:left"><a class="selectedTab">Home</a></li>
+  			</ul>
 			<h4 class="headingCenter">Rent a car objects</h4>
 			<div v-for="object in rentACarObjects" class='container'>
 				<img v-bind:src="object.logo" src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg" height="100" width="100" class="containerImage">
@@ -35,11 +35,11 @@ Vue.component("home", {
         axios.get('rest/renACarObjects/').then(response => (this.rentACarObjects = response.data));
     },
     methods: {
-    	signUp : function() {
-			router.push('/signUp/');
+    	signOut : function() {
+			router.push('/');
     	},
-    	signIn : function() {
-			router.push('/signIn/');
+    	userProfile : function() {
+    		router.push("/userProfile/");
     	}
     }
 });

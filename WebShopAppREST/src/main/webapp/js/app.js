@@ -3,6 +3,7 @@ const SignUp = { template: '<signUp></signUp>' }
 const SignIn = { template: '<signIn></signIn>' }
 const UserProfile = { template: '<userProfile></userProfile>' }
 const EditProfile = { template: '<editProfile></editProfile>' }
+const HomeSignedIn = { template: '<homeSignedIn></hHomeSignedInome>' }
 
 
 const router = new VueRouter({
@@ -12,7 +13,8 @@ const router = new VueRouter({
 		{ path: '/signUp/', component: SignUp},
 		{ path: '/signIn/', component: SignIn},
 		{ path: '/userProfile/', component: UserProfile},
-		{ path: '/editProfile/', component: EditProfile}
+		{ path: '/editProfile/', component: EditProfile},
+		{ path: '/home/', component: HomeSignedIn}
 	  ]
 });
 

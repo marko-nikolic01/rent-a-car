@@ -68,3 +68,29 @@ input[type='radio'] {
 	color: #ff0000;
 	width: 320px;
 }
+
+.container 
+{border-style: solid;
+padding: 5px;
+margin: 10px;
+height: 100px;
+margin-left: 20%;
+margin-right: 20%;
+background-color: #333;
+border-color: #333;
+color: #ffcc00;
+}
+
+.container:hover{
+	background-color: #ffcc00;
+    color: #333;
+}
+
+.containerLabel{
+	margin-left: 20px;
+	float: left;
+}
+
+.containerImage {
+	float: left;
+	}

@@ -30,9 +30,9 @@ Vue.component("editProfile", {
 	    template: `
 <div>
 	<ul>
-		<li style="float: right;"><a>Sign out</a></li>
+		<li v-on:click="signOut" style="float: right;"><a>Sign out</a></li>
 		<li style="float: right;"><a class="selectedTab">Profile</a></li>
-		<li style="float: left;"><a>Home</a></li>
+		<li v-on:click="home" style="float:left"><a>Home</a></li>
 	</ul>
 	<form class="center">
 			<h4 class="headingCenter">Account info</h4>
@@ -148,6 +148,12 @@ Vue.component("editProfile", {
 			}
 			this.valid = true;
 			return true;
+    	},
+    	signOut : function() {
+			router.push('/');
+    	},
+    	home : function() {
+			router.push('/home/');
     	}
     }
 });
