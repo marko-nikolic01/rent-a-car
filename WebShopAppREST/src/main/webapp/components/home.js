@@ -1,18 +1,7 @@
 Vue.component("home", { 
 	data: function () {
 	    return {
-			rentACarObjects: [
-				{
-        			name:'Rent a car',
-        			location: {
-						street: 'Street',
-						number: '123',
-						city: 'NYC'
-					},
-					averageRating: 4.7,
-					logo: 'https://upload.wikimedia.org/wikipedia/commons/f/f9/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg'
-    			}
-			]
+			rentACarObjects: []
 	    }
 	},
 	    template: `
@@ -24,15 +13,15 @@ Vue.component("home", {
 			</ul>
 			<h4 class="headingCenter">Rent a car objects</h4>
 			<div v-for="object in rentACarObjects" class='container'>
-				<img v-bind:src="object.logo" src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg" height="100" width="100" class="containerImage">
+				<img v-bind:src="object.logoURL" height="100" width="100" class="containerImage">
 				<label class="containerLabel">Name: {{object.name}}</label><br/>
-				<label class="containerLabel">Lokacija: {{object.location.street}} {{object.location.number}}, {{object.location.city}}</label><br/>
-				<label class="containerLabel">Rating: {{object.averageRating}}</label><br/>
+				<label class="containerLabel">Location: {{object.location.address.street}} {{object.location.address.streetNumber}}, {{object.location.address.city}}</label><br/>
+				<label class="containerLabel">Rating: {{object.rating}}</label><br/>
 			</div>
 		</div>
 	    `,
     mounted () {
-        axios.get('rest/renACarObjects/').then(response => (this.rentACarObjects = response.data));
+        axios.get('rest/rentACarObjects').then(response => (this.rentACarObjects = response.data));
     },
     methods: {
     	signUp : function() {
