@@ -43,7 +43,15 @@ public class RentACarObjectService {
 	@Path("/sortedByWorkingStatus")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<RentACarObject> getSortedRentACarObjects() {
-		return sortByWorkingStatus(getRentACarObjects());
+		return sortByWorkingStatus(getWorkingRentACarObjects());
+	}
+	
+	@GET
+	@Path("/working")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<RentACarObject> getWorkingRentACarObjects() {
+		RentACarObjectDAO dao = (RentACarObjectDAO) servletContext.getAttribute("rentACarObjectDAO");
+		return dao.getWorking();
 	}
 	
 	public Collection<RentACarObject> sortByWorkingStatus(Collection<RentACarObject> rentACarObjects) {

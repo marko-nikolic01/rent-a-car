@@ -69,8 +69,8 @@ Vue.component("editProfile", {
     				</tr>
     				<br/>
     				<tr>
+        				<td><input v-on:click="editProfile" type="submit" class="button" value="Apply"/></td>
     					<td><button class="button" v-on:click="discardChanges">Back</button></td>
-        				<td><input v-on:click="editProfile" type="submit" class="button"/></td>
     				</tr>
         		</table>
         		<table class="center">
