@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
@@ -36,5 +37,30 @@ public class RentACarObjectService {
 	public Collection<RentACarObject> getRentACarObjects() {
 		RentACarObjectDAO dao = (RentACarObjectDAO) servletContext.getAttribute("rentACarObjectDAO");
 		return dao.getAll();
+	}
+	
+	@GET
+	@Path("/sortedByWorkingStatus")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<RentACarObject> getSortedRentACarObjects() {
+		return sortByWorkingStatus(getRentACarObjects());
+	}
+	
+	public Collection<RentACarObject> sortByWorkingStatus(Collection<RentACarObject> rentACarObjects) {
+		Collection<RentACarObject> sorted = new ArrayList<>();
+		Collection<RentACarObject> closed = new ArrayList<>();
+		
+		for (RentACarObject rentACarObject : rentACarObjects) {
+			if (rentACarObject.isOpen()) {
+				sorted.add(rentACarObject);
+			}
+			else if (rentACarObject.isClosed()) {
+				closed.add(rentACarObject);
+			}
+		}
+		
+		sorted.addAll(closed);
+		
+		return sorted;
 	}
 }

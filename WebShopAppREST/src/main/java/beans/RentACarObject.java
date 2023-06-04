@@ -7,41 +7,31 @@ public class RentACarObject {
 	private int id;
 	private String name;
 	private WorkingHours workingHours;
-	private WorkingStatus workingStatus;
+	private boolean isWorking;
 	private Location location;
 	private String logoURL;
 	private double rating;
-	private boolean isDeleted;
 	
 	public RentACarObject() { }
 	
-	public RentACarObject(int id, String name, WorkingHours workingHours, WorkingStatus workingStatus,
-			Location location, String logoPath, double rating, boolean isDeleted) {
+	public RentACarObject(int id, String name, WorkingHours workingHours, boolean isWorking, Location location,
+			String logoURL, double rating) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.workingHours = workingHours;
-		this.workingStatus = workingStatus;
+		this.isWorking = isWorking;
 		this.location = location;
-		this.logoURL = logoPath;
+		this.logoURL = logoURL;
 		this.rating = rating;
-		this.isDeleted = isDeleted;
 	}
-
+	
 	public int getId() {
 		return id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public boolean isDeleted() {
-		return isDeleted;
-	}
-
-	public void setDeleted(boolean isDeleted) {
-		this.isDeleted = isDeleted;
 	}
 
 	public String getName() {
@@ -60,12 +50,12 @@ public class RentACarObject {
 		this.workingHours = workingHours;
 	}
 
-	public WorkingStatus getWorkingStatus() {
-		return workingStatus;
+	public boolean isWorking() {
+		return isWorking;
 	}
 
-	public void setWorkingStatus(WorkingStatus workingStatus) {
-		this.workingStatus = workingStatus;
+	public void setWorking(boolean isWorking) {
+		this.isWorking = isWorking;
 	}
 
 	public Location getLocation() {
@@ -80,8 +70,8 @@ public class RentACarObject {
 		return logoURL;
 	}
 
-	public void setLogoURL(String logoPath) {
-		this.logoURL = logoPath;
+	public void setLogoURL(String logoURL) {
+		this.logoURL = logoURL;
 	}
 
 	public double getRating() {
@@ -90,5 +80,13 @@ public class RentACarObject {
 
 	public void setRating(double rating) {
 		this.rating = rating;
+	}
+
+	public boolean isOpen() {
+		return workingHours.isOpen() && isWorking;
+	}
+	
+	public boolean isClosed() {
+		return !workingHours.isOpen() && isWorking;
 	}
 }
