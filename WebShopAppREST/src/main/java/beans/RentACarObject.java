@@ -1,7 +1,6 @@
 package beans;
 
 import utilities.WorkingHours;
-import utilities.WorkingStatus;
 
 public class RentACarObject {
 	private int id;

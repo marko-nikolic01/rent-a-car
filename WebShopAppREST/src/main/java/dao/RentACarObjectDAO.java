@@ -8,7 +8,6 @@ import beans.Location;
 import beans.RentACarObject;
 import utilities.Address;
 import utilities.WorkingHours;
-import utilities.WorkingStatus;
 
 public class RentACarObjectDAO {
 	private String filePath = "rentACarObjects.csv";
@@ -23,6 +22,18 @@ public class RentACarObjectDAO {
 	
 	public Collection<RentACarObject> getAll() {
 		return rentACarObjects;
+	}
+	
+	public Collection<RentACarObject> getWorking() {
+		Collection<RentACarObject> workingObjects = new ArrayList<RentACarObject>();
+		
+		for (RentACarObject rentACarObject : rentACarObjects) {
+			if (rentACarObject.isWorking()) {
+				workingObjects.add(rentACarObject);
+			}
+		}
+		
+		return workingObjects;
 	}
 	
 	private void load(String path) {

@@ -40,7 +40,7 @@ Vue.component("signIn", {
     				<br/>
     				<tr>
     					<td></td>
-        				<td><input v-on:click="signIn" type="submit" class="button"/></td>
+        				<td><input v-on:click="signIn" type="submit" class="button" value="Sign in"/></td>
     				</tr>
 				</table>
         		<table class="center">
