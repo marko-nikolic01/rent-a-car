@@ -1,4 +1,4 @@
-Vue.component("editProfile", { 
+Vue.component("managerEditProfile", { 
 	data: function () {
 	    return {
 			signedInUser: {
@@ -111,7 +111,8 @@ Vue.component("editProfile", {
     },
     methods: {
     	discardChanges : function() {
-			router.push("/userProfile/");
+			event.preventDefault();
+			router.push("/managerUserProfile/");
     	},
     	editProfile : function() {
 			event.preventDefault();
@@ -129,7 +130,7 @@ Vue.component("editProfile", {
 			} 
 			else {
 				this.valid = true;
-				axios.put("rest/users/editProfile", this.signedInUser).then(response => (router.push("/userProfile/")))
+				axios.put("rest/users/editProfile", this.signedInUser).then(response => (router.push("/managerUserProfile/")))
 			}
     	},
     	validate : function() {
@@ -153,7 +154,7 @@ Vue.component("editProfile", {
 			router.push('/');
     	},
     	home : function() {
-			router.push('/home/');
+			router.push('/managerHome/');
     	}
     }
 });

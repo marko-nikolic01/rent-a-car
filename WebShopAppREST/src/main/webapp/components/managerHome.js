@@ -1,4 +1,4 @@
-Vue.component("homeSignedIn", { 
+Vue.component("managerHome", { 
 	data: function () {
 	    return {
 			rentACarObjects: []
@@ -29,7 +29,7 @@ Vue.component("homeSignedIn", {
 			router.push('/');
     	},
     	userProfile : function() {
-    		router.push("/userProfile/");
+    		router.push("/managerUserProfile/");
     	}
     }
 });

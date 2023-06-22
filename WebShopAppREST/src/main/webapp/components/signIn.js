@@ -5,7 +5,18 @@ Vue.component("signIn", {
 				username: '',
 				password: ''
 			},
-			valid: true
+			valid: true,
+			signedInUser: {
+				id: -1,
+				username: '',
+				password: '',
+				firstName: '',
+				lastName: '',
+				birthday: '',
+				gender: '',
+				role: '',
+				isDeleted: ''
+			}
 	    }
 	},
 	    template: `
@@ -46,9 +57,21 @@ Vue.component("signIn", {
 			this.validate();
 			if (this.valid) {
 				axios.post("rest/users/signIn", this.credentials).then(response => {
-					if(response.status === 200) {
-						router.push("/userProfile/");
+					if(response.status != 200) {
+						return;
 					}
+					axios.get("rest/users/signedInUser").then(response => {
+							this.signedInUser = response.data;
+							if(this.signedInUser.role === 'CUSTOMER') {
+								router.push("/customerUserProfile/");
+							}
+							else if(this.signedInUser.role === 'ADMINISTRATOR') {
+								router.push("/adminUserProfile/");
+							}
+							else if(this.signedInUser.role === 'MANAGER') {
+								router.push("/managerUserProfile/");
+							}
+					});
 				});
 			}
     	},
@@ -64,7 +87,7 @@ Vue.component("signIn", {
 			router.push('/');
     	},
     	signUp : function() {
-			router.push('/signUp/');
+			router.push("/signUp/");
     	}
     }
 });

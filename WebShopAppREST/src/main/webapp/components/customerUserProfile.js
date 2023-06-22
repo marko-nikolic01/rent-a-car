@@ -1,4 +1,4 @@
-Vue.component("userProfile", { 
+Vue.component("customerUserProfile", { 
 	data: function () {
 	    return {
 			signedInUser: {
@@ -63,13 +63,13 @@ Vue.component("userProfile", {
     },
     methods: {
     	editProfile : function() {
-			router.push("/editProfile/");
+			router.push("/customerEditProfile/");
     	},
     	signOut : function() {
 			router.push('/');
     	},
     	home : function() {
-			router.push('/home/');
+			router.push('/customerHome/');
     	}
     }
 });
