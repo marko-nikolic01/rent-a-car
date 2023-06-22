@@ -66,18 +66,47 @@ public class UserDAO {
 		return users.stream().mapToInt(c -> c.getId()).max().getAsInt() + 1;
 	}
 	
-	public boolean userExists(String username) {
-		for(User user : users) {
-			if(user.getUsername().equals(username)) {
-				return true;
-			}
-		}
-		return false;
+	public boolean userWithUsernameExists(String username) {
+		User user = getByUsername(username);
+		return userExists(user);
+	}
+	
+	public boolean userExists(User user) {
+		return users.contains(user);
 	}
 	
 	public User getById(int id) {
 		for (User user : users) {
 			if (user.getId() == id) {
+				return user;
+			}
+		}
+		return null;
+	}
+	
+	public User deleteByUsername(String username) {
+		User user = getByUsername(username);		
+		return delete(user);
+	}
+	
+	public User delete(User user) {
+		if (!userExists(user)) {
+			return null;
+		}
+		users.remove(user);
+		toCSV();
+		return user;
+	}
+	
+	public Collection<User> deleteAll() {
+		users.clear();
+		toCSV();
+		return users;
+	}
+	
+	public User getByUsername(String username) {
+		for (User user : users) {
+			if (user.getUsername().equals(username)) {
 				return user;
 			}
 		}

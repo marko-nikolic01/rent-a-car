@@ -5,6 +5,7 @@ import java.util.Collection;
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -16,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 import beans.User;
 import dao.UserDAO;
 import dto.SignInCredentialsDTO;
+import dto.UserUsernameDTO;
 
 @Path("/users")
 public class UserService {
@@ -48,7 +50,7 @@ public class UserService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public User singUp(User user) {
 		UserDAO dao = (UserDAO) servletContext.getAttribute("userDAO");
-		if (user.isValid() && !dao.userExists(user.getUsername())) {
+		if (user.isValid() && !dao.userWithUsernameExists(user.getUsername())) {
 			return dao.save(user);
 		}
 		return null;
@@ -78,5 +80,22 @@ public class UserService {
 	public User updateUser(User updatedUser) {
 		UserDAO dao = (UserDAO) servletContext.getAttribute("userDAO");
 		return dao.update(updatedUser);
+	}
+	
+	@DELETE
+	@Path("deleteByUsername")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public User deleteUserByUsername(UserUsernameDTO user) {
+		UserDAO dao = (UserDAO) servletContext.getAttribute("userDAO");
+		return dao.deleteByUsername(user.getUsername());
+	}
+	
+	@DELETE
+	@Path("deleteAllUsers")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<User> deleteAllUsers() {
+		UserDAO dao = (UserDAO) servletContext.getAttribute("userDAO");
+		return dao.deleteAll();
 	}
 }
