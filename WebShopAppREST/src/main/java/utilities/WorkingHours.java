@@ -18,6 +18,7 @@ public class WorkingHours {
 		this.endTime = LocalTime.of(endTimeHour, endTimeMinute);
 	}
 	
+	// checks if open
 	public boolean isOpen() {
 		LocalTime currentTime = LocalTime.now();
 		return currentTime.isAfter(startTime) && currentTime.isBefore(endTime);
