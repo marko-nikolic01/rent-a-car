@@ -1,4 +1,4 @@
-Vue.component("adminCreateManager", { 
+Vue.component("adminCreateRentACarObject", { 
 	data: function () {
 	    return {
 			user: {
@@ -14,6 +14,7 @@ Vue.component("adminCreateManager", {
 			},
 			repeatPassword: '',
 			valid: true,
+			unemployedManagersExist: true,
 			now: ''
 	    }
 	},
@@ -23,13 +24,76 @@ Vue.component("adminCreateManager", {
   				<li v-on:click="signOut" style="float:right"><a>Sign out</a></li>
     			<li v-on:click="userProfile" style="float:right"><a>Profile</a></li>
     			<li v-on:click="home" style="float:left"><a>Home</a></li>
-    			<li style="float:left"><a class="selectedTab">Create managers</a></li>
-    			<li v-on:click="createRentACarObject" style="float:left"><a>Create rent a car objects</a></li>
+    			<li v-on:click="createManagers" style="float:left"><a>Create managers</a></li>
+    			<li style="float:left"><a class="selectedTab">Create rent a car objects</a></li>
 			</ul>
 			<form class="center">
-			<h2 class="headingCenter">Create a manager</h2>
-			<h4 class="headingCenter">Account info</h4>
-    			<table class="center">
+			<h2 class="headingCenter">Create a rent a car object</h2>
+			<h4 class="headingCenter">Object info</h4>
+				<table class="center">
+					<tr>
+    					<td><label class="signUpLabel">Name:</label></td>
+        				<td><input type="text" class="signUpInput"/></td>
+    				</tr>
+    				
+    				<tr>
+    					<td><label class="signUpLabel">Logo (image URL):</label></td>
+        				<td><input type="text" class="signUpInput"/></td>
+    				</tr>
+				</table>
+			<h4 class="headingCenter">Working time</h4>
+				<table class="center">
+					<tr>
+    					<td><label class="signUpLabel">Start:</label></td>
+        				<td><input type="time" class="signUpInput"/></td>
+    				</tr>
+    				
+    				<tr>
+    					<td><label class="signUpLabel">End:</label></td>
+        				<td><input type="time" class="signUpInput"/></td>
+    				</tr>
+				</table>
+			<h4 class="headingCenter">Location info</h4>
+				<table class="center">
+					<tr>
+    					<td><label class="signUpLabel">Longitude:</label></td>
+        				<td><input type="number" class="signUpInput"/></td>
+    				</tr>
+    				<tr>
+    					<td><label class="signUpLabel">Latitude:</label></td>
+        				<td><input type="number" class="signUpInput"/></td>
+    				</tr>
+    				<tr>
+    					<td><label class="signUpLabel">City:</label></td>
+        				<td><input type="text" class="signUpInput"/></td>
+    				</tr>
+    				<tr>
+    					<td><label class="signUpLabel">Street:</label></td>
+        				<td><input type="text" class="signUpInput"/></td>
+    				</tr>
+    				<tr>
+    					<td><label class="signUpLabel">Street number:</label></td>
+        				<td><input type="number" class="signUpInput"/></td>
+    				</tr>
+    				<tr>
+    					<td><label class="signUpLabel">ZIP Code:</label></td>
+        				<td><input type="number" class="signUpInput"/></td>
+    				</tr>
+				</table>
+			<h4 class="headingCenter">Manager</h4>
+				<table class="center" v-if="unemployedManagersExist">
+					<tr>
+    					<td><label class="signUpLabel">Manager:</label></td>
+        				<td>
+        					<select name="cars" id="cars" class="signUpInput">
+  								<option>Boss</option>
+  								<option>Pera</option>
+  								<option>Bruh</option>
+							</select>
+						</td>
+    				</tr>
+				</table>
+    			<table class="center" v-if="!unemployedManagersExist">
 					<tr>
     					<td><label class="signUpLabel">Username:</label></td>
         				<td><input v-model="user.username" type="text" class="signUpInput"/></td>
@@ -42,9 +106,6 @@ Vue.component("adminCreateManager", {
     					<td><label class="signUpLabel">Repeat password:</label></td>
         				<td><input v-model="repeatPassword" type="password" class="signUpInput"/></td>
     				</tr>
-				</table>
-				<h4 class="headingCenter">User info</h4>
-        		<table class="center">
     				<tr>
     					<td><label class="signUpLabel">First name:</label></td>
         				<td><input v-model="user.firstName" type="text" class="signUpInput"/></td>
@@ -69,7 +130,7 @@ Vue.component("adminCreateManager", {
     					<td></td>
         				<td><input v-on:click="signUp" type="submit" class="button"/></td>
     				</tr>
-        		</table>
+				</table>
         		<table class="center">
     				<tr><td><label v-if="!valid" class="labelError">You didn't fill the form correctly!</label></td></tr>
         		</table>
@@ -133,8 +194,8 @@ Vue.component("adminCreateManager", {
     	home : function() {
 			router.push('/admin/home/');
     	},
-    	createRentACarObject : function() {
-			router.push('/admin/createRentACarObject/');
+    	createManagers : function() {
+			router.push('/admin/createManager/');
     	}
     }
 });

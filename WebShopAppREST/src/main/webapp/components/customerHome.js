@@ -29,7 +29,7 @@ Vue.component("customerHome", {
 			router.push('/');
     	},
     	userProfile : function() {
-    		router.push("/customerUserProfile/");
+    		router.push("/customer/userProfile/");
     	}
     }
 });

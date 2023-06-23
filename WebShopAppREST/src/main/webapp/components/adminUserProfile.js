@@ -21,6 +21,8 @@ Vue.component("adminUserProfile", {
     <li v-on:click="signOut" style="float:right"><a>Sign out</a></li>
     <li style="float:right"><a class="selectedTab">Profile</a></li>
     <li v-on:click="home" style="float:left"><a>Home</a></li>
+    <li v-on:click="createManagers" style="float:left"><a>Create managers</a></li>
+    <li v-on:click="createRentACarObject" style="float:left"><a>Create rent a car objects</a></li>
   </ul>
   
   <h4 class="headingCenter">Account info</h4>
@@ -63,13 +65,19 @@ Vue.component("adminUserProfile", {
     },
     methods: {
     	editProfile : function() {
-			router.push("/adminEditProfile/");
+			router.push("/admin/editProfile/");
     	},
     	signOut : function() {
 			router.push('/');
     	},
     	home : function() {
-			router.push('/adminHome/');
+			router.push('/admin/home/');
+    	},
+    	createManagers : function() {
+			router.push('/admin/createManager/');
+    	},
+    	createRentACarObject : function() {
+			router.push('/admin/createRentACarObject/');
     	}
     }
 });

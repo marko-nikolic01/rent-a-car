@@ -16,6 +16,8 @@ public class User implements ISerializable {
 	private Gender gender;
 	private Role role;
 	private boolean isDeleted;
+	
+	private RentACarObject rentACarObject;
 
 	public User() {
 		super();

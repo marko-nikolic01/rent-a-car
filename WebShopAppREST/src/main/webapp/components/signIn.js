@@ -63,13 +63,13 @@ Vue.component("signIn", {
 					axios.get("rest/users/signedInUser").then(response => {
 							this.signedInUser = response.data;
 							if(this.signedInUser.role === 'CUSTOMER') {
-								router.push("/customerUserProfile/");
+								router.push("/customer/userProfile/");
 							}
 							else if(this.signedInUser.role === 'ADMINISTRATOR') {
-								router.push("/adminUserProfile/");
+								router.push("/admin/userProfile/");
 							}
 							else if(this.signedInUser.role === 'MANAGER') {
-								router.push("/managerUserProfile/");
+								router.push("/manager/userProfile/");
 							}
 					});
 				});

@@ -63,13 +63,13 @@ Vue.component("customerUserProfile", {
     },
     methods: {
     	editProfile : function() {
-			router.push("/customerEditProfile/");
+			router.push("/customer/editProfile/");
     	},
     	signOut : function() {
 			router.push('/');
     	},
     	home : function() {
-			router.push('/customerHome/');
+			router.push('/customer/home/');
     	}
     }
 });

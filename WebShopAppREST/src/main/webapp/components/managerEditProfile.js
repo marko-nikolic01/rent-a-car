@@ -112,7 +112,7 @@ Vue.component("managerEditProfile", {
     methods: {
     	discardChanges : function() {
 			event.preventDefault();
-			router.push("/managerUserProfile/");
+			router.push("/manager/userProfile/");
     	},
     	editProfile : function() {
 			event.preventDefault();
@@ -130,7 +130,7 @@ Vue.component("managerEditProfile", {
 			} 
 			else {
 				this.valid = true;
-				axios.put("rest/users/editProfile", this.signedInUser).then(response => (router.push("/managerUserProfile/")))
+				axios.put("rest/users/editProfile", this.signedInUser).then(response => (router.push("/manager/userProfile/")))
 			}
     	},
     	validate : function() {
@@ -154,7 +154,7 @@ Vue.component("managerEditProfile", {
 			router.push('/');
     	},
     	home : function() {
-			router.push('/managerHome/');
+			router.push('/manager/home/');
     	}
     }
 });

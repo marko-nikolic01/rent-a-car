@@ -10,6 +10,8 @@ Vue.component("adminHome", {
     			<li v-on:click="signOut" style="float:right"><a>Sign out</a></li>
     			<li v-on:click="userProfile" style="float:right"><a>Profile</a></li>
     			<li style="float:left"><a class="selectedTab">Home</a></li>
+    			<li v-on:click="createManagers" style="float:left"><a>Create managers</a></li>
+    			<li v-on:click="createRentACarObject" style="float:left"><a>Create rent a car objects</a></li>
   			</ul>
 			<h4 class="headingCenter">Rent a car objects</h4>
 			<div v-for="object in rentACarObjects" class='container'>
@@ -29,7 +31,13 @@ Vue.component("adminHome", {
 			router.push('/');
     	},
     	userProfile : function() {
-    		router.push("/adminUserProfile/");
+    		router.push("/admin/userProfile/");
+    	},
+    	createManagers : function() {
+			router.push('/admin/createManager/');
+    	},
+    	createRentACarObject : function() {
+			router.push('/admin/createRentACarObject/');
     	}
     }
 });

@@ -29,7 +29,7 @@ Vue.component("managerHome", {
 			router.push('/');
     	},
     	userProfile : function() {
-    		router.push("/managerUserProfile/");
+    		router.push("/manager/userProfile/");
     	}
     }
 });

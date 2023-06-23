@@ -112,7 +112,7 @@ Vue.component("customerEditProfile", {
     methods: {
     	discardChanges : function() {
 			event.preventDefault();
-			router.push("/customerUserProfile/");
+			router.push("/customer/userProfile/");
     	},
     	editProfile : function() {
 			event.preventDefault();
@@ -130,7 +130,7 @@ Vue.component("customerEditProfile", {
 			} 
 			else {
 				this.valid = true;
-				axios.put("rest/users/editProfile", this.signedInUser).then(response => (router.push("/customerUserProfile/")))
+				axios.put("rest/users/editProfile", this.signedInUser).then(response => (router.push("/customer/userProfile/")))
 			}
     	},
     	validate : function() {
@@ -154,7 +154,7 @@ Vue.component("customerEditProfile", {
 			router.push('/');
     	},
     	home : function() {
-			router.push('/customerHome/');
+			router.push('/customer/home/');
     	}
     }
 });

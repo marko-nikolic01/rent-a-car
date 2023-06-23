@@ -63,13 +63,13 @@ Vue.component("managerUserProfile", {
     },
     methods: {
     	editProfile : function() {
-			router.push("/managerEditProfile/");
+			router.push("/manager/editProfile/");
     	},
     	signOut : function() {
 			router.push('/');
     	},
     	home : function() {
-			router.push('/managerHome/');
+			router.push('/manager/home/');
     	}
     }
 });
