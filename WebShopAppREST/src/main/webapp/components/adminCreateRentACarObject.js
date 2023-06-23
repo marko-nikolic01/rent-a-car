@@ -17,26 +17,29 @@ Vue.component("adminCreateRentACarObject", {
 			unemployedManagersExist: false,
 			now: '',
 			managers: [],
-			rentACarObject: {
-				id: -1,
-				name: '',
-				workingHours: {
-					startTime: '',
-					endTime: ''
-				},
-				location: {
+			rentACarObjectDTO: {
+				rentACarObject: {
 					id: -1,
-					longitude: '',
-					latitude: '',
-					address: {
-						city: '',
-						street: '',
-						streetNumber: '',
-						zipCode: ''
-					}
+					name: '',
+					workingHours: {
+						startTime: '',
+						endTime: ''
+					},
+					location: {
+						id: -1,
+						longitude: '',
+						latitude: '',
+						address: {
+							city: '',
+							street: '',
+							streetNumber: '',
+							zipCode: ''
+						}
+					},
+					logoURL: '',
+					rating: 3
 				},
-				logoURL: '',
-				rating: 3
+				managerId: -1
 			},
 			selectedManager: {
 					id: -1,
@@ -48,7 +51,7 @@ Vue.component("adminCreateRentACarObject", {
 					gender: '',
 					role: 'MANAGER',
 					isDeleted: false
-				}
+			}
 	    }
 	},
 	    template: `
@@ -66,51 +69,51 @@ Vue.component("adminCreateRentACarObject", {
 				<table class="center">
 					<tr>
     					<td><label class="signUpLabel">Name:</label></td>
-        				<td><input v-model="rentACarObject.name" type="text" class="signUpInput"/></td>
+        				<td><input v-model="rentACarObjectDTO.rentACarObject.name" type="text" class="signUpInput"/></td>
     				</tr>
     				
     				<tr>
     					<td><label class="signUpLabel">Logo (image URL):</label></td>
-        				<td><input v-model="rentACarObject.logoURL" type="text" class="signUpInput"/></td>
+        				<td><input v-model="rentACarObjectDTO.rentACarObject.logoURL" type="text" class="signUpInput"/></td>
     				</tr>
 				</table>
 			<h4 class="headingCenter">Working time</h4>
 				<table class="center">
 					<tr>
     					<td><label  class="signUpLabel">Start:</label></td>
-        				<td><input v-model="rentACarObject.workingHours.startTime" type="time" class="signUpInput"/></td>
+        				<td><input v-model="rentACarObjectDTO.rentACarObject.workingHours.startTime" type="time" class="signUpInput"/></td>
     				</tr>
     				
     				<tr>
     					<td><label class="signUpLabel">End:</label></td>
-        				<td><input v-model="rentACarObject.workingHours.endTime" type="time" class="signUpInput"/></td>
+        				<td><input v-model="rentACarObjectDTO.rentACarObject.workingHours.endTime" type="time" class="signUpInput"/></td>
     				</tr>
 				</table>
 			<h4 class="headingCenter">Location info</h4>
 				<table class="center">
 					<tr>
     					<td><label class="signUpLabel">Longitude:</label></td>
-        				<td><input v-model="rentACarObject.location.longitude" type="number" class="signUpInput"/></td>
+        				<td><input v-model="rentACarObjectDTO.rentACarObject.location.longitude" type="number" class="signUpInput"/></td>
     				</tr>
     				<tr>
     					<td><label class="signUpLabel">Latitude:</label></td>
-        				<td><input v-model="rentACarObject.location.latitude" type="number" class="signUpInput"/></td>
+        				<td><input v-model="rentACarObjectDTO.rentACarObject.location.latitude" type="number" class="signUpInput"/></td>
     				</tr>
     				<tr>
     					<td><label class="signUpLabel">City:</label></td>
-        				<td><input v-model="rentACarObject.location.address.city" type="text" class="signUpInput"/></td>
+        				<td><input v-model="rentACarObjectDTO.rentACarObject.location.address.city" type="text" class="signUpInput"/></td>
     				</tr>
     				<tr>
     					<td><label class="signUpLabel">Street:</label></td>
-        				<td><input v-model="rentACarObject.location.address.street" type="text" class="signUpInput"/></td>
+        				<td><input v-model="rentACarObjectDTO.rentACarObject.location.address.street" type="text" class="signUpInput"/></td>
     				</tr>
     				<tr>
     					<td><label class="signUpLabel">Street number:</label></td>
-        				<td><input v-model="rentACarObject.location.address.streetNumber" type="number" class="signUpInput"/></td>
+        				<td><input v-model="rentACarObjectDTO.rentACarObject.location.address.streetNumber" type="number" class="signUpInput"/></td>
     				</tr>
     				<tr>
     					<td><label class="signUpLabel">ZIP Code:</label></td>
-        				<td><input v-model="rentACarObject.location.address.zipCode" type="number" class="signUpInput"/></td>
+        				<td><input v-model="rentACarObjectDTO.rentACarObject.location.address.zipCode" type="number" class="signUpInput"/></td>
     				</tr>
 				</table>
 			<h4 class="headingCenter">Manager</h4>
@@ -161,7 +164,7 @@ Vue.component("adminCreateRentACarObject", {
 				<table class="center">
         			<tr>
     					<td></td>
-        				<td><input v-on:click="signUp" type="submit" class="button"/></td>
+        				<td><input v-on:click="createRentACarObject" type="submit" class="button"/></td>
     				</tr>
         		</table>
         		<table class="center">
@@ -213,28 +216,30 @@ Vue.component("adminCreateRentACarObject", {
 			this.validate();
 			if (this.valid) {
 				if(this.unemployedManagersExist) {
-					axios.post("rest/rentACarObjects/create", this.rentACarObject, this.selectedManager.id).then(response => (this.userProfile()));
+					this.rentACarObjectDTO.managerId = this.selectedManager.id;
+					axios.post("rest/rentACarObjects/create", this.rentACarObjectDTO).then(response => (this.userProfile()));
 				}
 				else {
 					axios.post("rest/users/", this.user).then(response => {
 						this.selectedManager = response.data;
-						axios.post("rest/rentACarObjects/create", this.rentACarObject, this.selectedManager.id).then(response => (this.userProfile()));
+						this.rentACarObjectDTO.managerId = this.selectedManager.id;
+						axios.post("rest/rentACarObjects/create", this.rentACarObjectDTO).then(response => (this.userProfile()));
 					});
 				}
 			}
     	},
     	validate : function() {
-			if(this.rentACarObject.name === ''
-			|| this.rentACarObject.workingHours.startTime === ''
-			|| this.rentACarObject.workingHours.endTime === ''
-			|| (this.rentACarObject.workingHours.startTime > this.rentACarObject.workingHours.endTime)
-			|| this.rentACarObject.location.longitude === ''
-			|| this.rentACarObject.location.latitude === ''
-			|| this.rentACarObject.location.address.city === ''
-			|| this.rentACarObject.location.address.street === ''
-			|| this.rentACarObject.location.address.streetNumber === ''
-			|| this.rentACarObject.location.address.zipCode === ''
-			|| this.rentACarObject.logoURL === '') {
+			if(this.rentACarObjectDTO.rentACarObject.name === ''
+			|| this.rentACarObjectDTO.rentACarObject.workingHours.startTime === ''
+			|| this.rentACarObjectDTO.rentACarObject.workingHours.endTime === ''
+			|| (this.rentACarObjectDTO.rentACarObject.workingHours.startTime > this.rentACarObjectDTO.rentACarObject.workingHours.endTime)
+			|| this.rentACarObjectDTO.rentACarObject.location.longitude === ''
+			|| this.rentACarObjectDTO.rentACarObject.location.latitude === ''
+			|| this.rentACarObjectDTO.rentACarObject.location.address.city === ''
+			|| this.rentACarObjectDTO.rentACarObject.location.address.street === ''
+			|| this.rentACarObjectDTO.rentACarObject.location.address.streetNumber === ''
+			|| this.rentACarObjectDTO.rentACarObject.location.address.zipCode === ''
+			|| this.rentACarObjectDTO.rentACarObject.logoURL === '') {
 				this.valid = false;
 				return;
 			}
