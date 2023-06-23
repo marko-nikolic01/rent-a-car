@@ -6,6 +6,11 @@ public class WorkingHours {
 	public LocalTime startTime;
 	public LocalTime endTime;
 	
+	public WorkingHours() {
+		startTime = LocalTime.of(12, 0);
+		endTime = LocalTime.of(12, 0);
+	}
+	
 	public WorkingHours(LocalTime startTime, LocalTime endTime) {
 		super();
 		this.startTime = startTime;
