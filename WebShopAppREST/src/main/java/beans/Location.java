@@ -8,7 +8,12 @@ public class Location {
 	private double latitude;
 	private Address address;
 	
-	public Location() { }
+	public Location() {
+		id = -1;
+		longitude = 0;
+		latitude = 0;
+		address = new Address();
+	}
 	
 	public Location(int id, double longitude, double latitude, Address address) {
 		super();

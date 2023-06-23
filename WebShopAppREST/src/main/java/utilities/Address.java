@@ -6,7 +6,12 @@ public class Address {
 	public int streetNumber;
 	public int zipCode;
 	
-	public Address() { }
+	public Address() {
+		city = "";
+		street = "";
+		streetNumber = 0;
+		zipCode = 0;
+	}
 	
 	public Address(String city, String street, int streetNumber, int zipCode) {
 		super();

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.StringTokenizer;
 
+import beans.RentACarObject;
 import beans.User;
 import dto.SignInCredentialsDTO;
 import utilities.Gender;
@@ -48,8 +49,26 @@ public class UserDAO {
 		return null;
 	}
 	
+	public void linkRentACarObjects(Collection<RentACarObject> objects) {
+		for (User user : users) {
+			for (RentACarObject rentACarObject : objects) {
+				if (user.getRentACarObject().getId() == rentACarObject.getId()) {
+					user.setRentACarObject(rentACarObject);
+					break;
+				}
+			}
+		}
+	}
+	
 	public User getSignedInUser() {
 		return signedInUser;
+	}
+	
+	public User signUp(User user) {
+		RentACarObject object = new RentACarObject();
+		object.setId(-1);
+		user.setRentACarObject(object);
+		return save(user);
 	}
 
 	public User save(User user) {
@@ -112,6 +131,18 @@ public class UserDAO {
 		}
 		return null;
 	}
+	
+	public Collection<User> getUnassignedManagers() {
+		Collection<User> unassignedManagers = new ArrayList<>();
+		
+		for (User user : users) {
+			if (user.getRole().equals(Role.MANAGER) && user.getRentACarObject().getId() == -1) {
+				unassignedManagers.add(user);
+			}
+		}
+		
+		return unassignedManagers;
+	}
 
 	private void load() {
 		BufferedReader reader = null;
@@ -125,6 +156,7 @@ public class UserDAO {
 			LocalDate birthday = null;
 			Gender gender = null;
 			Role role = null;
+			RentACarObject rentACarObject = new RentACarObject();
 			boolean isDeleted = false;
 
 			StringTokenizer st;
@@ -143,10 +175,11 @@ public class UserDAO {
 					birthday = LocalDate.parse(st.nextToken().trim());
 					gender = Gender.valueOf(st.nextToken().trim());
 					role = Role.valueOf(st.nextToken().trim());
+					rentACarObject.setId(Integer.parseInt(st.nextToken()));
 					isDeleted = Boolean.parseBoolean(st.nextToken().trim());
 				}
 
-				users.add(new User(id, username, password, firstName, lastName, birthday, gender, role, isDeleted));
+				users.add(new User(id, username, password, firstName, lastName, birthday, gender, role, rentACarObject, isDeleted));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -161,10 +194,6 @@ public class UserDAO {
 	}
 
 	public void toCSV() {
-//		File oldFile = new File(path);
-//		oldFile.delete();
-//		File newFile = new File(path);
-
 		String content = "";
 		for (User user : users) {
 			content += Integer.toString(user.getId()) + ';';
@@ -175,6 +204,7 @@ public class UserDAO {
 			content += user.getBirthday().toString() + ';';
 			content += user.getGender().toString() + ';';
 			content += user.getRole().toString() + ';';
+			content += Integer.toString(user.getRentACarObject().getId()) + ';';
 			content += Boolean.toString(user.isDeleted()) + '\n';
 		}
 

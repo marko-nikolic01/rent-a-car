@@ -15,16 +15,15 @@ public class User implements ISerializable {
 	private LocalDate birthday;
 	private Gender gender;
 	private Role role;
-	private boolean isDeleted;
-	
 	private RentACarObject rentACarObject;
+	private boolean isDeleted;
 
 	public User() {
 		super();
 	}
 
 	public User(int id, String username, String password, String firstName, String lastName, LocalDate birthday,
-			Gender gender, Role role, boolean isDeleted) {
+			Gender gender, Role role, RentACarObject rentACarObject, boolean isDeleted) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -34,6 +33,7 @@ public class User implements ISerializable {
 		this.birthday = birthday;
 		this.gender = gender;
 		this.role = role;
+		this.rentACarObject = rentACarObject;
 		this.isDeleted = isDeleted;
 	}
 
@@ -99,6 +99,14 @@ public class User implements ISerializable {
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+	
+	public RentACarObject getRentACarObject() {
+		return rentACarObject;
+	}
+	
+	public void setRentACarObject(RentACarObject rentACarObject) {
+		this.rentACarObject = rentACarObject;
 	}
 
 	public boolean isDeleted() {

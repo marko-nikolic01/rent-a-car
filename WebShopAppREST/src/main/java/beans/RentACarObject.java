@@ -11,7 +11,15 @@ public class RentACarObject {
 	private String logoURL;
 	private double rating;
 	
-	public RentACarObject() { }
+	public RentACarObject() {
+		id = -1;
+		name = "";
+		workingHours = WorkingHours.of(10, 0, 10, 10);
+		isWorking = false;
+		location = new Location();
+		logoURL = "";
+		rating = 0.0;
+	}
 	
 	public RentACarObject(int id, String name, WorkingHours workingHours, boolean isWorking, Location location,
 			String logoURL, double rating) {

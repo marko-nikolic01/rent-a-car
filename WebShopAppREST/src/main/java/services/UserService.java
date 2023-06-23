@@ -14,7 +14,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.RentACarObject;
 import beans.User;
+import dao.RentACarObjectDAO;
 import dao.UserDAO;
 import dto.SignInCredentialsDTO;
 import dto.UserUsernameDTO;
@@ -30,9 +32,27 @@ public class UserService {
 
 	@PostConstruct
 	public void init() {
+		boolean userDAOinitialized = true;
+		
 		if (servletContext.getAttribute("userDAO") == null) {
+			userDAOinitialized = false;
 			String contextPath = servletContext.getRealPath("");
 			servletContext.setAttribute("userDAO", new UserDAO(contextPath));
+		}
+
+		boolean rentACarObjectDAOinitialized = true;
+		if (servletContext.getAttribute("rentACarObjectDAO") == null) {
+			rentACarObjectDAOinitialized = false;
+			String contextPath = servletContext.getRealPath("");
+			servletContext.setAttribute("rentACarObjectDAO", new RentACarObjectDAO(contextPath));
+		}
+		
+		if (!userDAOinitialized || (userDAOinitialized && !rentACarObjectDAOinitialized)) {
+			UserDAO userDAO = (UserDAO) servletContext.getAttribute("userDAO");
+			RentACarObjectDAO rentACarObjectDAO = (RentACarObjectDAO) servletContext.getAttribute("rentACarObjectDAO");
+			Collection<RentACarObject> objects = rentACarObjectDAO.getAll();
+			
+			userDAO.linkRentACarObjects(objects);
 		}
 	}
 
@@ -51,7 +71,7 @@ public class UserService {
 	public User singUp(User user) {
 		UserDAO dao = (UserDAO) servletContext.getAttribute("userDAO");
 		if (user.isValid() && !dao.userWithUsernameExists(user.getUsername())) {
-			return dao.save(user);
+			return dao.signUp(user);
 		}
 		return null;
 	}
@@ -83,7 +103,7 @@ public class UserService {
 	}
 	
 	@DELETE
-	@Path("deleteByUsername")
+	@Path("/deleteByUsername")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public User deleteUserByUsername(UserUsernameDTO user) {
@@ -92,10 +112,18 @@ public class UserService {
 	}
 	
 	@DELETE
-	@Path("deleteAllUsers")
+	@Path("/deleteAllUsers")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<User> deleteAllUsers() {
 		UserDAO dao = (UserDAO) servletContext.getAttribute("userDAO");
 		return dao.deleteAll();
+	}
+	
+	@GET
+	@Path("/unassignedManagers")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<User> getUnassignedManagers() {
+		UserDAO dao = (UserDAO) servletContext.getAttribute("userDAO");
+		return dao.getUnassignedManagers();
 	}
 }
