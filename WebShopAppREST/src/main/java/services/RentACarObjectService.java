@@ -16,6 +16,7 @@ import beans.RentACarObject;
 import beans.User;
 import dao.RentACarObjectDAO;
 import dao.UserDAO;
+import dto.RentACarObjectWithManagerDTO;
 
 @Path("/rentACarObjects")
 public class RentACarObjectService {
@@ -64,11 +65,12 @@ public class RentACarObjectService {
 	@POST
 	@Path("/create")
 	@Produces(MediaType.APPLICATION_JSON)
-	public RentACarObject create(RentACarObject object, int managerId) {
+	public RentACarObject create(RentACarObjectWithManagerDTO object) {
 		RentACarObjectDAO objectDAO = (RentACarObjectDAO) servletContext.getAttribute("rentACarObjectDAO");
 		UserDAO userDAO = (UserDAO) servletContext.getAttribute("userDAO");
-		RentACarObject newObject = objectDAO.save(object);
-		User manager = userDAO.getById(managerId);
+		
+		RentACarObject newObject = objectDAO.save(object.getRentACarObject());
+		User manager = userDAO.getById(object.getManagerId());
 		manager.setRentACarObject(newObject);
 		userDAO.toCSV();
 		return newObject;

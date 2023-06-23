@@ -5,32 +5,21 @@ import utilities.Address;
 public class Location {
 	public static String delimiter = "^";
 	
-	private int id;
 	private double longitude;
 	private double latitude;
 	private Address address;
 	
 	public Location() {
-		id = -1;
 		longitude = 0;
 		latitude = 0;
 		address = new Address();
 	}
 	
-	public Location(int id, double longitude, double latitude, Address address) {
+	public Location(double longitude, double latitude, Address address) {
 		super();
-		this.id = id;
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.address = address;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public double getLongitude() {
@@ -65,12 +54,12 @@ public class Location {
 		double latitude = Double.parseDouble(tokens[2]);
 		Address address = Address.parseAddress(tokens[3]);
 		
-		return new Location(id, longitude, latitude, address);
+		return new Location(longitude, latitude, address);
 	}
 
 	@Override
 	public String toString() {
-		return "" + id + delimiter + longitude + delimiter + latitude + delimiter + address
+		return "" + longitude + delimiter + latitude + delimiter + address
 				+ "]";
 	}
 }

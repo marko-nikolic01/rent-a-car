@@ -20,6 +20,16 @@ public class User implements ISerializable {
 
 	public User() {
 		super();
+		id = -1;
+		username = "";
+		password = "";
+		firstName = "";
+		lastName = "";
+		birthday = LocalDate.of(1999, 1, 1);
+		gender = Gender.MALE;
+		role = Role.CUSTOMER;
+		rentACarObject = new RentACarObject();
+		isDeleted = false;
 	}
 
 	public User(int id, String username, String password, String firstName, String lastName, LocalDate birthday,
