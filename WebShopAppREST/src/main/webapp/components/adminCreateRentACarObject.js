@@ -37,7 +37,18 @@ Vue.component("adminCreateRentACarObject", {
 				},
 				logoURL: '',
 				rating: 3
-			}
+			},
+			selectedManager: {
+					id: -1,
+					username: '',
+					password: '',
+					firstName: '',
+					lastName: '',
+					birthday: '',
+					gender: '',
+					role: 'MANAGER',
+					isDeleted: false
+				}
 	    }
 	},
 	    template: `
@@ -107,8 +118,8 @@ Vue.component("adminCreateRentACarObject", {
 					<tr>
     					<td><label class="signUpLabel">Manager:</label></td>
         				<td>
-        					<select name="cars" id="cars" class="signUpInput">
-  								<option v-for="manager in managers">{{manager.username}}</option>
+        					<select v-model="selectedManager" name="cars" id="cars" class="signUpInput">
+  								<option v-for="manager in managers" :value="manager">{{manager.username}}</option>
 							</select>
 						</td>
     				</tr>
@@ -190,22 +201,26 @@ Vue.component("adminCreateRentACarObject", {
 			this.managers = response.data;
 			if (this.managers.length == 0) {
 			this.unemployedManagersExist = false;
-			console.log("nema");
 			}
 			else {
 				this.unemployedManagersExist = true;
-				console.log("ima");
 			}
-			console.log("posle");
-			console.log(this.managers.length);
 		});
     },
     methods: {
-    	signUp : function() {
+    	createRentACarObject : function() {
 			event.preventDefault();
 			this.validate();
 			if (this.valid) {
-				return;
+				if(this.unemployedManagersExist) {
+					axios.post("rest/rentACarObjects/create", this.rentACarObject, this.selectedManager.id).then(response => (this.userProfile()));
+				}
+				else {
+					axios.post("rest/users/", this.user).then(response => {
+						this.selectedManager = response.data;
+						axios.post("rest/rentACarObjects/create", this.rentACarObject, this.selectedManager.id).then(response => (this.userProfile()));
+					});
+				}
 			}
     	},
     	validate : function() {
