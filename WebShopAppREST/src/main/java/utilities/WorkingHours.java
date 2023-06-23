@@ -31,4 +31,18 @@ public class WorkingHours {
 	public static WorkingHours of(int startTimeHour, int startTimeMinute, int endTimeHour, int endTimeMinute) {
 		return new WorkingHours(startTimeHour, startTimeMinute, endTimeHour, endTimeMinute);
 	}
+	
+	public static WorkingHours parseWorkingHours(String text) {		
+		String[] tokens = text.split("-");
+		
+		LocalTime startTime = LocalTime.parse(tokens[0]);
+		LocalTime endTime = LocalTime.parse(tokens[1]);
+		
+		return new WorkingHours(startTime, endTime);
+	}
+
+	@Override
+	public String toString() {
+		return startTime + "-" + endTime;
+	}
 }

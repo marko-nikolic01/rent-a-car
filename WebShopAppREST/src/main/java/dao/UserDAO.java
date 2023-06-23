@@ -63,7 +63,6 @@ public class UserDAO {
 	public User getSignedInUser() {
 		return signedInUser;
 	}
-	
 	public User signUp(User user) {
 		RentACarObject object = new RentACarObject();
 		object.setId(-1);
