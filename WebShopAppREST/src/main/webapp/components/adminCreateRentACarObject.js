@@ -14,7 +14,7 @@ Vue.component("adminCreateRentACarObject", {
 			},
 			repeatPassword: '',
 			valid: true,
-			unemployedManagersExist: true,
+			unemployedManagersExist: false,
 			now: '',
 			managers: [],
 			rentACarObject: {
@@ -108,9 +108,7 @@ Vue.component("adminCreateRentACarObject", {
     					<td><label class="signUpLabel">Manager:</label></td>
         				<td>
         					<select name="cars" id="cars" class="signUpInput">
-  								<option>Boss</option>
-  								<option>Pera</option>
-  								<option>Bruh</option>
+  								<option v-for="manager in managers">{{manager.username}}</option>
 							</select>
 						</td>
     				</tr>
@@ -187,6 +185,20 @@ Vue.component("adminCreateRentACarObject", {
 		} 
 		minDate = yyyy + '-' + mm + '-' + dd;
         document.getElementById("birthdayDatePicker").setAttribute("min", minDate);
+        console.log("pre");
+        axios.get("rest/users/unassignedManagers").then(response => {
+			this.managers = response.data;
+			if (this.managers.length == 0) {
+			this.unemployedManagersExist = false;
+			console.log("nema");
+			}
+			else {
+				this.unemployedManagersExist = true;
+				console.log("ima");
+			}
+			console.log("posle");
+			console.log(this.managers.length);
+		});
     },
     methods: {
     	signUp : function() {
