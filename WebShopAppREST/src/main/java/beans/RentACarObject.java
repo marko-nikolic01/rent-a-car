@@ -15,7 +15,7 @@ public class RentACarObject {
 		id = -1;
 		name = "";
 		workingHours = WorkingHours.of(10, 0, 10, 10);
-		isWorking = false;
+		isWorking = true;
 		location = new Location();
 		logoURL = "";
 		rating = 0.0;

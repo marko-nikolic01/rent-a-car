@@ -1,9 +1,11 @@
 package beans;
 
+import java.util.StringTokenizer;
+
 import utilities.Address;
 
 public class Location {
-	public static String delimiter = "^";
+	public static String delimiter = "|";
 	
 	private double longitude;
 	private double latitude;
@@ -49,17 +51,17 @@ public class Location {
 	public static Location parseLocation(String text) {
 		String[] tokens = text.split(delimiter);
 		
-		int id = Integer.parseInt(tokens[0]);
-		double longitude = Double.parseDouble(tokens[1]);
-		double latitude = Double.parseDouble(tokens[2]);
-		Address address = Address.parseAddress(tokens[3]);
+		StringTokenizer st = new StringTokenizer(text, delimiter);
+		
+		double longitude = Double.parseDouble(st.nextToken());
+		double latitude = Double.parseDouble(st.nextToken());
+		Address address = Address.parseAddress(st.nextToken());
 		
 		return new Location(longitude, latitude, address);
 	}
 
 	@Override
 	public String toString() {
-		return "" + longitude + delimiter + latitude + delimiter + address
-				+ "]";
+		return "" + longitude + delimiter + latitude + delimiter + address;
 	}
 }

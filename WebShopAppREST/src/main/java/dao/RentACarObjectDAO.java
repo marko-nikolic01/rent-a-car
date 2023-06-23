@@ -88,10 +88,11 @@ public class RentACarObjectDAO {
 			content += object.getLocation().toString() + ';';
 			content += object.getLogoURL() + ';';
 			content += Double.toString(object.getRating()) + ';';
+			content += "\n";
 		}
 
 		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
+			BufferedWriter writer = new BufferedWriter(new FileWriter(path));
 			writer.write(content);
 			writer.close();
 		} catch (IOException e) {
