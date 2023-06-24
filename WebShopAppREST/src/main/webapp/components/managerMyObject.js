@@ -67,10 +67,7 @@ Vue.component("managerMyObject", {
     </tr>
      <tr>
       <td><label class="signUpLabel">Vehicles:</label></td>
-    </tr>
-    
-     <tr>
-		
+      <td><button class="button" v-on:click="addVehicle">Add vehicle</button></td>
     </tr>
   </table>
   
@@ -101,6 +98,9 @@ Vue.component("managerMyObject", {
     	},
     	home : function() {
 			router.push('/manager/home/');
-    	}
+    	},
+    	addVehicle : function() {
+			router.push('/manager/addVehicle/');
+		}
     }
 });
