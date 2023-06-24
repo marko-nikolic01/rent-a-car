@@ -35,7 +35,7 @@ Vue.component("managerMyObject", {
     <li v-on:click="signOut" style="float:right"><a>Sign out</a></li>
     <li style="float:right"><a>Profile</a></li>
     <li v-on:click="home" style="float:left"><a>Home</a></li>
-    <li v-on:click="signOut" style="float:left"><a class="selectedTab">My object</a></li>
+    <li style="float:left"><a class="selectedTab">My object</a></li>
   </ul>
   
   <h4 class="headingCenter">Rent-A-Car object info</h4> 
@@ -74,12 +74,12 @@ Vue.component("managerMyObject", {
     </tr>
   </table>
   
-  <div v-for="vehicle in signedInUser.rentACarObject.vehicles" class='container' style="height: 220px; margin-left: 33%; margin-right: 33%">
+  <div v-for="vehicle in signedInUser.rentACarObject.vehicles" class='container' style="height: 220px; margin-left: 20%; margin-right: 20%">
   	<img v-bind:src="vehicle.photoURL" height="200" class="containerImage">
 	<label class='containerLabel'>Name: {{vehicle.brand}} {{vehicle.model}}</label></br>
 	<label class='containerLabel'>Price: {{vehicle.price}}</label></br>
 	<label class='containerLabel'>Type: {{vehicle.type}}</label></br>
-	<label class='containerLabel'>Fuel: {{vehicle.fuel}} ({{vehicle.fuelConsumption}} l/km)</label></br>
+	<label class='containerLabel'>Fuel: {{vehicle.fuel}} ({{vehicle.fuelConsumption}} l/100km)</label></br>
 	<label class='containerLabel'>No. passengers: {{vehicle.doors}}</label></br>
 	<label class='containerLabel'>Description: {{vehicle.description}}</label></br>
 	<label class='containerLabel'>Status: {{vehicle.status}}</label></br>
