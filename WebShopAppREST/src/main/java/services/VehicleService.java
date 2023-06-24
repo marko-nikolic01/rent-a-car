@@ -22,7 +22,6 @@ import dao.UserDAO;
 import dao.VehicleDAO;
 import dto.SignInCredentialsDTO;
 import dto.UserUsernameDTO;
-import dto.VehicleCreationDTO;
 
 @Path("/vehicles")
 public class VehicleService {
@@ -66,6 +65,7 @@ public class VehicleService {
 		RentACarObjectDAO rentACarObjectDAO = (RentACarObjectDAO) servletContext.getAttribute("rentACarObjectDAO");
 		Vehicle newVehicle = vehicleDAO.save(vehicle);
 		RentACarObject object = rentACarObjectDAO.getById(vehicle.getRentACarObject().getId());
+		vehicle.setRentACarObject(object);
 		object.getVehicles().add(newVehicle);
 		return newVehicle;
 	}

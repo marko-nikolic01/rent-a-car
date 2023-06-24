@@ -43,6 +43,7 @@ public class RentACarObjectDAO {
 	
 	public void linkVehicles(Collection<Vehicle> vehicles) {
 		for (RentACarObject object : rentACarObjects) {
+			object.setVehicles(new ArrayList<>());
 			for (Vehicle vehicle : vehicles) {
 				if (object.getId() == vehicle.getRentACarObject().getId() && !vehicle.isDeleted()) {
 					object.getVehicles().add(vehicle);
