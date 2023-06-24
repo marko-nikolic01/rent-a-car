@@ -133,6 +133,7 @@ public class RentACarObjectDAO {
 				}
 
 				rentACarObjects.add(new RentACarObject(id, name, workingHours, isWorking, location, logoURL, rating));
+				location = new Location();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
