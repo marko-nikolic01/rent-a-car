@@ -22,7 +22,6 @@ import dao.UserDAO;
 import dao.VehicleDAO;
 import dto.SignInCredentialsDTO;
 import dto.UserUsernameDTO;
-import dto.VehicleCreationDTO;
 
 @Path("/vehicles")
 public class VehicleService {
