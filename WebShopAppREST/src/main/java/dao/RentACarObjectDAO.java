@@ -43,9 +43,9 @@ public class RentACarObjectDAO {
 	
 	public void linkVehicles(Collection<Vehicle> vehicles) {
 		for (RentACarObject object : rentACarObjects) {
-			object.setVehicles(new ArrayList<>());
+			object.getVehicles().clear();
 			for (Vehicle vehicle : vehicles) {
-				if (object.getId() == vehicle.getRentACarObject().getId() && !vehicle.isDeleted()) {
+				if (object.getId() == vehicle.getRentACarObjectId() && !vehicle.isDeleted()) {
 					object.getVehicles().add(vehicle);
 				}
 			}

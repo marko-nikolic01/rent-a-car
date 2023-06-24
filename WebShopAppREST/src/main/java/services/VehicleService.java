@@ -42,10 +42,10 @@ public class VehicleService {
 			String contextPath = servletContext.getRealPath("");
 			servletContext.setAttribute("rentACarObjectDAO", new RentACarObjectDAO(contextPath));
 		}
-		VehicleDAO vehicleDAO = (VehicleDAO) servletContext.getAttribute("vehicleDAO");
-		RentACarObjectDAO rentACarObjectDAO = (RentACarObjectDAO) servletContext.getAttribute("rentACarObjectDAO");
-		Collection<RentACarObject> objects = rentACarObjectDAO.getAll();
-		vehicleDAO.linkRentACarObjects(objects);
+//		VehicleDAO vehicleDAO = (VehicleDAO) servletContext.getAttribute("vehicleDAO");
+//		RentACarObjectDAO rentACarObjectDAO = (RentACarObjectDAO) servletContext.getAttribute("rentACarObjectDAO");
+//		Collection<RentACarObject> objects = rentACarObjectDAO.getAll();
+//		vehicleDAO.linkRentACarObjects(objects);
 	}
 	
 	@GET
@@ -60,13 +60,12 @@ public class VehicleService {
 	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Vehicle create(Vehicle vehicle) {
+	public void create(Vehicle vehicle) {
 		VehicleDAO vehicleDAO = (VehicleDAO) servletContext.getAttribute("vehicleDAO");
 		RentACarObjectDAO rentACarObjectDAO = (RentACarObjectDAO) servletContext.getAttribute("rentACarObjectDAO");
 		Vehicle newVehicle = vehicleDAO.save(vehicle);
-		RentACarObject object = rentACarObjectDAO.getById(vehicle.getRentACarObject().getId());
-		vehicle.setRentACarObject(object);
+		RentACarObject object = rentACarObjectDAO.getById(vehicle.getRentACarObjectId());
+		vehicle.setRentACarObjectId(object.getId());
 		object.getVehicles().add(newVehicle);
-		return newVehicle;
 	}
 }

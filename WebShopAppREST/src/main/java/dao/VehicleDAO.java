@@ -33,8 +33,8 @@ public class VehicleDAO {
 	public void linkRentACarObjects(Collection<RentACarObject> objects) {
 		for (Vehicle vehicle : vehicles) {
 			for (RentACarObject rentACarObject : objects) {
-				if (vehicle.getRentACarObject().getId() == rentACarObject.getId()) {
-					vehicle.setRentACarObject(rentACarObject);
+				if (vehicle.getRentACarObjectId() == rentACarObject.getId()) {
+					vehicle.setRentACarObjectId(rentACarObject.getId());
 					break;
 				}
 			}
@@ -71,7 +71,7 @@ public class VehicleDAO {
 	public Collection<Vehicle> getByObjectId(int id) {
 		Collection<Vehicle> vehiclesByObject = new ArrayList<>();
 		for (Vehicle vehicle : vehicles) {
-			if (vehicle.getRentACarObject().getId() == id && !vehicle.isDeleted()) {
+			if (vehicle.getRentACarObjectId() == id && !vehicle.isDeleted()) {
 				vehiclesByObject.add(vehicle);
 			}
 		}
@@ -92,7 +92,7 @@ public class VehicleDAO {
 			Transmission transmission = null;
 			Fuel fuel = null;
 			RentalStatus status = null;
-			RentACarObject rentACarObject = new RentACarObject();
+			int rentACarObjectId =  0;
 			boolean isDeleted = false;
 
 			StringTokenizer st;
@@ -116,12 +116,12 @@ public class VehicleDAO {
 					description = st.nextToken().trim();
 					photoURL = st.nextToken().trim();
 					status = RentalStatus.valueOf(st.nextToken().trim());
-					rentACarObject.setId(Integer.parseInt(st.nextToken()));
+					rentACarObjectId = Integer.parseInt(st.nextToken());
 					isDeleted = Boolean.parseBoolean(st.nextToken().trim());
 				}
 
 				vehicles.add(new Vehicle(id, brand, model, price, type, transmission, fuel, fuelConsumption, doors,
-						numberOfPassengers, description, photoURL, status, rentACarObject, isDeleted));
+						numberOfPassengers, description, photoURL, status, rentACarObjectId, isDeleted));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -151,7 +151,7 @@ public class VehicleDAO {
 			content += vehicle.getDescription() + ';';
 			content += vehicle.getPhotoURL() + ';';
 			content += vehicle.getStatus().toString() + ';';
-			content += Integer.toString(vehicle.getRentACarObject().getId()) + ';';
+			content += Integer.toString(vehicle.getRentACarObjectId()) + ';';
 			content += Boolean.toString(vehicle.isDeleted()) + '\n';
 		}
 

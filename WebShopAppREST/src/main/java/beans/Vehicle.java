@@ -19,7 +19,7 @@ public class Vehicle {
 	private String description;
 	private String photoURL;
 	private RentalStatus status;
-	private RentACarObject rentACarObject;
+	private int rentACarObjectId;
 	private boolean isDeleted;
 	
 	public Vehicle() {
@@ -36,7 +36,7 @@ public class Vehicle {
 		description = "";
 		photoURL = "";
 		status = RentalStatus.AVAILABLE;
-		rentACarObject = new RentACarObject();
+		rentACarObjectId = -1;
 		isDeleted = false;
 	}
 	
@@ -44,7 +44,7 @@ public class Vehicle {
 
 	public Vehicle(int id, String brand, String model, double price, VehicleType type, Transmission transmission, Fuel fuel,
 			double fuelConsumption, int doors, int numberOfPassengers, String description, String photoURL,
-			RentalStatus status, RentACarObject rentACarObject, boolean isDeleted) {
+			RentalStatus status, int rentACarObjectId, boolean isDeleted) {
 		super();
 		this.id = id;
 		this.brand = brand;
@@ -59,7 +59,7 @@ public class Vehicle {
 		this.description = description;
 		this.photoURL = photoURL;
 		this.status = status;
-		this.rentACarObject = rentACarObject;
+		this.rentACarObjectId = rentACarObjectId;
 		this.isDeleted = isDeleted;
 	}
 
@@ -169,12 +169,12 @@ public class Vehicle {
 		this.status = status;
 	}
 
-	public RentACarObject getRentACarObject() {
-		return rentACarObject;
+	public int getRentACarObjectId() {
+		return rentACarObjectId;
 	}
 
-	public void setRentACarObject(RentACarObject rentACarObject) {
-		this.rentACarObject = rentACarObject;
+	public void setRentACarObjectId(int rentACarObjectId) {
+		this.rentACarObjectId = rentACarObjectId;
 	}
 
 	public boolean isDeleted() {
