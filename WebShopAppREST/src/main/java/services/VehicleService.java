@@ -42,10 +42,14 @@ public class VehicleService {
 			String contextPath = servletContext.getRealPath("");
 			servletContext.setAttribute("rentACarObjectDAO", new RentACarObjectDAO(contextPath));
 		}
-//		VehicleDAO vehicleDAO = (VehicleDAO) servletContext.getAttribute("vehicleDAO");
-//		RentACarObjectDAO rentACarObjectDAO = (RentACarObjectDAO) servletContext.getAttribute("rentACarObjectDAO");
-//		Collection<RentACarObject> objects = rentACarObjectDAO.getAll();
-//		vehicleDAO.linkRentACarObjects(objects);
+	}
+	
+	@GET
+	@Path("/")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Vehicle> getVehicles() {
+		VehicleDAO dao = (VehicleDAO) servletContext.getAttribute("vehicleDAO");
+		return dao.getAll();
 	}
 	
 	@GET
