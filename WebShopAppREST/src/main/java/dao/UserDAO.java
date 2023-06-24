@@ -2,6 +2,7 @@ package dao;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.Console;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -179,6 +180,7 @@ public class UserDAO {
 				}
 
 				users.add(new User(id, username, password, firstName, lastName, birthday, gender, role, rentACarObject, isDeleted));
+				rentACarObject = new RentACarObject();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

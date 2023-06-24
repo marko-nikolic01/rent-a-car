@@ -50,7 +50,6 @@ public class UserService {
 		UserDAO userDAO = (UserDAO) servletContext.getAttribute("userDAO");
 		RentACarObjectDAO rentACarObjectDAO = (RentACarObjectDAO) servletContext.getAttribute("rentACarObjectDAO");
 		Collection<RentACarObject> objects = rentACarObjectDAO.getAll();
-		
 		userDAO.linkRentACarObjects(objects);
 	}
 

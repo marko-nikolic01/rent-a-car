@@ -10,8 +10,12 @@ Vue.component("managerEditProfile", {
 				birthday: '',
 				gender: '',
 				role: 'CUSTOMER',
-				isDeleted: false
+				isDeleted: false,
+				rentACarObject: {
+					id: -1
+				}
 			},
+			doesManagerHaveObject: false,
 			userCopy: {
 				id: -1,
 				username: '',
@@ -83,7 +87,14 @@ Vue.component("managerEditProfile", {
     mounted () {
         axios.get("rest/users/signedInUser").then(response => {
 			this.signedInUser = response.data;
-			this.userCopy = structuredClone(this.signedInUser)});
+			this.userCopy = structuredClone(this.signedInUser);
+			if(this.signedInUser.rentACarObject.id == -1) {
+				this.doesManagerHaveObject = false;
+			}
+			else {
+				this.doesManagerHaveObject = true;
+			}
+		});
         now = new Date();
         var dd = now.getDate();
 		var mm = now.getMonth() + 1;

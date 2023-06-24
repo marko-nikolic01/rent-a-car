@@ -10,8 +10,12 @@ Vue.component("managerUserProfile", {
 				birthday: '',
 				gender: '',
 				role: 'CUSTOMER',
-				isDeleted: false
+				isDeleted: false,
+				rentACarObject: {
+					id: -1
+				}
 			},
+			doesManagerHaveObject: false
 	    }
 	},
 	    template: `
@@ -21,7 +25,7 @@ Vue.component("managerUserProfile", {
     <li v-on:click="signOut" style="float:right"><a>Sign out</a></li>
     <li style="float:right"><a class="selectedTab">Profile</a></li>
     <li v-on:click="home" style="float:left"><a>Home</a></li>
-    <li v-on:click="myObject" style="float:left"><a>My object</a></li>
+    <li v-on:click="myObject" v-if="doesManagerHaveObject" style="float:left"><a>My object</a></li>
   </ul>
   
   <h4 class="headingCenter">Account info</h4>
@@ -60,7 +64,15 @@ Vue.component("managerUserProfile", {
 </div>
 	    `,
     mounted () {
-        axios.get("rest/users/signedInUser").then(response => (this.signedInUser = response.data));
+        axios.get("rest/users/signedInUser").then(response => {
+			this.signedInUser = response.data
+			if(this.signedInUser.rentACarObject.id == -1) {
+				this.doesManagerHaveObject = false;
+			}
+			else {
+				this.doesManagerHaveObject = true;
+			}
+		});
     },
     methods: {
     	editProfile : function() {
