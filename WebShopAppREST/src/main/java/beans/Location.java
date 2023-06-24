@@ -48,9 +48,7 @@ public class Location {
 		this.address = address;
 	}
 	
-	public static Location parseLocation(String text) {
-		String[] tokens = text.split(delimiter);
-		
+	public static Location parseLocation(String text) {		
 		StringTokenizer st = new StringTokenizer(text, delimiter);
 		
 		double longitude = Double.parseDouble(st.nextToken());

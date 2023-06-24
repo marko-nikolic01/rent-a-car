@@ -21,6 +21,7 @@ Vue.component("managerUserProfile", {
     <li v-on:click="signOut" style="float:right"><a>Sign out</a></li>
     <li style="float:right"><a class="selectedTab">Profile</a></li>
     <li v-on:click="home" style="float:left"><a>Home</a></li>
+    <li v-on:click="myObject" style="float:left"><a>My object</a></li>
   </ul>
   
   <h4 class="headingCenter">Account info</h4>
@@ -67,6 +68,9 @@ Vue.component("managerUserProfile", {
     	},
     	signOut : function() {
 			router.push('/');
+    	},
+    	myObject : function() {
+			router.push('/manager/myObject/');
     	},
     	home : function() {
 			router.push('/manager/home/');

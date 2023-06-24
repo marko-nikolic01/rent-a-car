@@ -10,6 +10,7 @@ Vue.component("managerHome", {
     			<li v-on:click="signOut" style="float:right"><a>Sign out</a></li>
     			<li v-on:click="userProfile" style="float:right"><a>Profile</a></li>
     			<li style="float:left"><a class="selectedTab">Home</a></li>
+    			<li v-on:click="myObject" style="float:left"><a>My object</a></li>
   			</ul>
 			<h4 class="headingCenter">Rent a car objects</h4>
 			<div v-for="object in rentACarObjects" class='container'>
@@ -27,6 +28,9 @@ Vue.component("managerHome", {
     methods: {
     	signOut : function() {
 			router.push('/');
+    	},
+    	myObject : function() {
+			router.push('/manager/myObject');
     	},
     	userProfile : function() {
     		router.push("/manager/userProfile/");

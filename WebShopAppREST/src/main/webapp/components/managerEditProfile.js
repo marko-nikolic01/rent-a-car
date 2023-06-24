@@ -33,6 +33,7 @@ Vue.component("managerEditProfile", {
 		<li v-on:click="signOut" style="float: right;"><a>Sign out</a></li>
 		<li style="float: right;"><a class="selectedTab">Profile</a></li>
 		<li v-on:click="home" style="float:left"><a>Home</a></li>
+    	<li v-on:click="myObject" style="float:left"><a>My object</a></li>
 	</ul>
 	<form class="center">
 			<h4 class="headingCenter">Account info</h4>
@@ -149,6 +150,9 @@ Vue.component("managerEditProfile", {
 			}
 			this.valid = true;
 			return true;
+    	},
+    	myObject : function() {
+			router.push('/manager/myObject/');
     	},
     	signOut : function() {
 			router.push('/');
