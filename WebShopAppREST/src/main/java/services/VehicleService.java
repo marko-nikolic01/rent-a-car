@@ -65,6 +65,7 @@ public class VehicleService {
 		RentACarObjectDAO rentACarObjectDAO = (RentACarObjectDAO) servletContext.getAttribute("rentACarObjectDAO");
 		Vehicle newVehicle = vehicleDAO.save(vehicle);
 		RentACarObject object = rentACarObjectDAO.getById(vehicle.getRentACarObject().getId());
+		vehicle.setRentACarObject(object);
 		object.getVehicles().add(newVehicle);
 		return newVehicle;
 	}
