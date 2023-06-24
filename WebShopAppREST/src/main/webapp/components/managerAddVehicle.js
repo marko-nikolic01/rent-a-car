@@ -1,19 +1,51 @@
 Vue.component("managerAddVehicle", { 
 	data: function () {
 	    return {
+			signedInUser: {
+				id: -1,
+				username: '',
+				password: '',
+				firstName: '',
+				lastName: '',
+				birthday: '',
+				gender: '',
+				role: 'CUSTOMER',
+				rentACarObject: {
+					id: -1,
+					name: '',
+					workingHours: '',
+					location: {
+						address: {
+							city: '',
+							country: ''
+						}
+					},
+					open: '',
+					logoURL: '',
+					rating: 0
+				},
+				isDeleted: false,
+				vehicles: []
+			},
+			
 			vehicle: {
+				id: -1,
 				brand: '',
 				model: '',
-				price: 0,
+				price: 1,
 				type: 'CAR',
 				transmission: 'MANUAL',
 				fuel: 'PETROL',
-				fuelConsumption: 0,
-				doors: 0,
-				numberOfPassengers: 0,
+				fuelConsumption: 1,
+				doors: 1,
+				numberOfPassengers: 1,
 				description: '',
-				photoURL: ''
-			}
+				photoURL: '',
+				status: 'AVAILABLE',
+				rentACarObjectId: -1,
+				isDeleted: false
+			},
+			valid: true
 	    }
 	},
 	    template: `
@@ -39,7 +71,7 @@ Vue.component("managerAddVehicle", {
      </tr>
      <tr>
       <td><label class="signUpLabel">Price:</label></td>
-      <td><input type="number" v-model="vehicle.price"/></td>
+      <td><input type="number" v-model="vehicle.price" min="1"/></td>
     </tr>
     <tr>
       <td><label class="signUpLabel">Type:</label></td>
@@ -61,19 +93,21 @@ Vue.component("managerAddVehicle", {
 	  <td>
 		<input v-model="vehicle.fuel" type="radio" id="petrol" name="fuel" value="PETROL"/>Petrol
 		<input v-model="vehicle.fuel" type="radio" id="diesel" name="fuel" value="DIESEL"/>Diesel
+		<input v-model="vehicle.fuel" type="radio" id="hybrid" name="fuel" value="HYBRID"/>Hybrid
+		<input v-model="vehicle.fuel" type="radio" id="electric" name="fuel" value="ELECTRIC"/>Electric
 	  </td>
     </tr>
      <tr>
       <td><label class="signUpLabel">Fuel consumption:</label></td>
-      <td><input type="number" v-model="vehicle.fuelConsumption"/></td>
+      <td><input type="number" v-model="vehicle.fuelConsumption" min="1"/></td>
     </tr>
      <tr>
       <td><label class="signUpLabel">No. doors:</label></td>
-      <td><input type="number" v-model="vehicle.doors"/></td>
+      <td><input type="number" v-model="vehicle.doors" min="1"/></td>
     </tr>
      <tr>
       <td><label class="signUpLabel">No. passengers:</label></td>
-      <td><input type="number" v-model="vehicle.numberOfPassengers"/></td>
+      <td><input type="number" v-model="vehicle.numberOfPassengers" min="1"/></td>
     </tr>
      <tr>
       <td><label class="signUpLabel">Description:</label></td>
@@ -89,6 +123,9 @@ Vue.component("managerAddVehicle", {
 		<td><input v-on:click="addVehicle" type="submit" class="button" value="Add"/></td>
     </tr>
   </table>
+	<table class="center">
+		<tr><td><label v-if="!valid" class="labelError">You didn't fill the form correctly!</label></td></tr>
+	</table>
 </div>
 	    `,
     mounted () {
@@ -105,7 +142,24 @@ Vue.component("managerAddVehicle", {
 			router.push('/manager/home/');
     	},
     	addVehicle: function() {
-			console.log("dodato");
+			this.vehicle.rentACarObjectId = this.signedInUser.rentACarObject.id;
+			this.validate();
+			if (this.valid) {
+				axios.post("rest/vehicles/create", this.vehicle).then(response => (this.goBack()));
+			}
+		},
+		validate: function() {
+			if (this.vehicle.brand === '' ||
+				this.vehicle.model === '' ||
+				this.vehicle.price < 1 ||
+				this.vehicle.fuelConsumption < 1 ||
+				this.vehicle.doors < 1 ||
+				this.vehicle.numberOfPassengers < 1 ||
+				this.vehicle.photoURL === '') {
+					this.valid = false;
+					return;
+				}
+				this.valid = true;
 		}
     }
 });
