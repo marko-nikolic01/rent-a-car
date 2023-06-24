@@ -245,6 +245,11 @@ Vue.component("adminCreateRentACarObject", {
 			}
 			console.log('1');
 			
+			if(this.unemployedManagersExist && (this.selectedManager.username === '')) {
+				this.valid = false;
+				return;
+			}
+			
 			if(!this.unemployedManagersExist && (this.user.username === ''
 			|| this.user.password === ''
 			|| !(this.user.password === this.repeatPassword)

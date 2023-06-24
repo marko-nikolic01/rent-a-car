@@ -3,10 +3,9 @@ package beans;
 import java.time.LocalDate;
 
 import utilities.Gender;
-import utilities.ISerializable;
 import utilities.Role;
 
-public class User implements ISerializable {
+public class User {
 	private int id;
 	private String username;
 	private String password;
@@ -134,25 +133,5 @@ public class User implements ISerializable {
 		}
 
 		return true;
-	}
-
-	@Override
-	public String[] toCSV() {
-		String[] values = { Integer.toString(id), username, password, firstName, lastName, birthday.toString(),
-				gender.toString(), role.toString(), Boolean.toString(isDeleted) };
-
-		return values;
-	}
-
-	@Override
-	public void fromCSV(String[] values) {
-		id = Integer.parseInt(values[0]);
-		username = values[1];
-		password = values[2];
-		firstName = values[3];
-		lastName = values[4];
-		birthday = LocalDate.parse(values[5]);
-		gender = Gender.valueOf(values[6]);
-		role = Role.valueOf(values[7]);
 	}
 }

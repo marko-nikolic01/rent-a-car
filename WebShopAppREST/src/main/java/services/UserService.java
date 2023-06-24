@@ -47,7 +47,7 @@ public class UserService {
 			servletContext.setAttribute("rentACarObjectDAO", new RentACarObjectDAO(contextPath));
 		}
 		
-		if (!userDAOinitialized || (userDAOinitialized && !rentACarObjectDAOinitialized)) {
+		if (!userDAOinitialized || !rentACarObjectDAOinitialized) {
 			UserDAO userDAO = (UserDAO) servletContext.getAttribute("userDAO");
 			RentACarObjectDAO rentACarObjectDAO = (RentACarObjectDAO) servletContext.getAttribute("rentACarObjectDAO");
 			Collection<RentACarObject> objects = rentACarObjectDAO.getAll();
