@@ -22,6 +22,7 @@ import dao.UserDAO;
 import dao.VehicleDAO;
 import dto.SignInCredentialsDTO;
 import dto.UserUsernameDTO;
+import dto.VehicleCreationDTO;
 
 @Path("/vehicles")
 public class VehicleService {
@@ -34,26 +35,18 @@ public class VehicleService {
 
 	@PostConstruct
 	public void init() {
-		boolean vehicleDAOinitialized = true;
 		if (servletContext.getAttribute("vehicleDAO") == null) {
-			vehicleDAOinitialized = false;
 			String contextPath = servletContext.getRealPath("");
 			servletContext.setAttribute("vehicleDAO", new VehicleDAO(contextPath));
 		}
-		
-		boolean rentACarObjectDAOinitialized = true;
 		if (servletContext.getAttribute("rentACarObjectDAO") == null) {
-			rentACarObjectDAOinitialized = false;
 			String contextPath = servletContext.getRealPath("");
 			servletContext.setAttribute("rentACarObjectDAO", new RentACarObjectDAO(contextPath));
 		}
-		
-		if (!vehicleDAOinitialized || !rentACarObjectDAOinitialized) {
-			VehicleDAO vehicleDAO = (VehicleDAO) servletContext.getAttribute("vehicleDAO");
-			RentACarObjectDAO rentACarObjectDAO = (RentACarObjectDAO) servletContext.getAttribute("rentACarObjectDAO");
-			Collection<RentACarObject> objects = rentACarObjectDAO.getAll();
-			vehicleDAO.linkRentACarObjects(objects);
-		}
+		VehicleDAO vehicleDAO = (VehicleDAO) servletContext.getAttribute("vehicleDAO");
+		RentACarObjectDAO rentACarObjectDAO = (RentACarObjectDAO) servletContext.getAttribute("rentACarObjectDAO");
+		Collection<RentACarObject> objects = rentACarObjectDAO.getAll();
+		vehicleDAO.linkRentACarObjects(objects);
 	}
 	
 	@GET
@@ -62,5 +55,18 @@ public class VehicleService {
 	public Collection<Vehicle> getVehiclesByObjectId(int id) {
 		VehicleDAO dao = (VehicleDAO) servletContext.getAttribute("vehicleDAO");
 		return dao.getByObjectId(id);
+	}
+	
+	@POST
+	@Path("/create")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Vehicle create(Vehicle vehicle) {
+		VehicleDAO vehicleDAO = (VehicleDAO) servletContext.getAttribute("vehicleDAO");
+		RentACarObjectDAO rentACarObjectDAO = (RentACarObjectDAO) servletContext.getAttribute("rentACarObjectDAO");
+		Vehicle newVehicle = vehicleDAO.save(vehicle);
+		RentACarObject object = rentACarObjectDAO.getById(vehicle.getRentACarObject().getId());
+		object.getVehicles().add(newVehicle);
+		return newVehicle;
 	}
 }

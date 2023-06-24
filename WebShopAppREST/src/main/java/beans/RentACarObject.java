@@ -1,5 +1,8 @@
 package beans;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import utilities.WorkingHours;
 
 public class RentACarObject {
@@ -10,6 +13,7 @@ public class RentACarObject {
 	private Location location;
 	private String logoURL;
 	private double rating;
+	private List<Vehicle> vehicles;
 	
 	public RentACarObject() {
 		id = -1;
@@ -19,6 +23,7 @@ public class RentACarObject {
 		location = new Location();
 		logoURL = "";
 		rating = 0.0;
+		vehicles = new ArrayList<>();
 	}
 	
 	public RentACarObject(int id, String name, WorkingHours workingHours, boolean isWorking, Location location,
@@ -31,6 +36,7 @@ public class RentACarObject {
 		this.location = location;
 		this.logoURL = logoURL;
 		this.rating = rating;
+		vehicles = new ArrayList<>();
 	}
 	
 	public int getId() {
@@ -95,5 +101,13 @@ public class RentACarObject {
 	
 	public boolean isClosed() {
 		return !workingHours.isOpen() && isWorking;
+	}
+
+	public List<Vehicle> getVehicles() {
+		return vehicles;
+	}
+
+	public void setVehicles(List<Vehicle> vehicles) {
+		this.vehicles = vehicles;
 	}
 }

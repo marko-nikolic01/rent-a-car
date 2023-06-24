@@ -18,6 +18,7 @@ import utilities.Fuel;
 import utilities.Gender;
 import utilities.RentalStatus;
 import utilities.Role;
+import utilities.Transmission;
 import utilities.VehicleType;
 
 public class VehicleDAO {
@@ -38,6 +39,10 @@ public class VehicleDAO {
 				}
 			}
 		}
+	}
+	
+	public Collection<Vehicle> getAll() {
+		return vehicles;
 	}
 	
 	public Vehicle save(Vehicle vehicle) {
@@ -84,6 +89,7 @@ public class VehicleDAO {
 			double price = 0, fuelConsumption = 0;
 			String brand = null, model = null, description = null, photoURL = null;
 			VehicleType type = null;
+			Transmission transmission = null;
 			Fuel fuel = null;
 			RentalStatus status = null;
 			RentACarObject rentACarObject = new RentACarObject();
@@ -102,6 +108,7 @@ public class VehicleDAO {
 					model = st.nextToken().trim();
 					price = Double.parseDouble(st.nextToken().trim());
 					type = VehicleType.valueOf(st.nextToken().trim());
+					transmission = Transmission.valueOf(st.nextToken().trim());
 					fuel = Fuel.valueOf(st.nextToken().trim());
 					fuelConsumption = Double.parseDouble(st.nextToken().trim());
 					doors = Integer.parseInt(st.nextToken().trim());
@@ -113,7 +120,7 @@ public class VehicleDAO {
 					isDeleted = Boolean.parseBoolean(st.nextToken().trim());
 				}
 
-				vehicles.add(new Vehicle(id, brand, model, price, type, fuel, fuelConsumption, doors,
+				vehicles.add(new Vehicle(id, brand, model, price, type, transmission, fuel, fuelConsumption, doors,
 						numberOfPassengers, description, photoURL, status, rentACarObject, isDeleted));
 			}
 		} catch (Exception e) {
@@ -136,6 +143,7 @@ public class VehicleDAO {
 			content += vehicle.getModel() + ';';
 			content += Double.toString(vehicle.getPrice()) + ';';
 			content += vehicle.getType().toString() + ';';
+			content += vehicle.getTransmission().toString() + ';';
 			content += vehicle.getFuel().toString() + ';';
 			content += Double.toString(vehicle.getFuelConsumption()) + ';';
 			content += Integer.toString(vehicle.getDoors()) + ';';

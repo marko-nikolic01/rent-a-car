@@ -2,6 +2,7 @@ package beans;
 
 import utilities.Fuel;
 import utilities.RentalStatus;
+import utilities.Transmission;
 import utilities.VehicleType;
 
 public class Vehicle {
@@ -10,6 +11,7 @@ public class Vehicle {
 	private String model;
 	private double price;
 	private VehicleType type;
+	private Transmission transmission;
 	private Fuel fuel;
 	private double fuelConsumption;
 	private int doors;
@@ -26,6 +28,7 @@ public class Vehicle {
 		model = "";
 		price = 0;
 		type = VehicleType.CAR;
+		transmission = Transmission.MANUAL;
 		fuel = Fuel.DIESEL;
 		fuelConsumption = 0;
 		doors = 0;
@@ -39,7 +42,7 @@ public class Vehicle {
 	
 	
 
-	public Vehicle(int id, String brand, String model, double price, VehicleType type, Fuel fuel,
+	public Vehicle(int id, String brand, String model, double price, VehicleType type, Transmission transmission, Fuel fuel,
 			double fuelConsumption, int doors, int numberOfPassengers, String description, String photoURL,
 			RentalStatus status, RentACarObject rentACarObject, boolean isDeleted) {
 		super();
@@ -48,6 +51,7 @@ public class Vehicle {
 		this.model = model;
 		this.price = price;
 		this.type = type;
+		this.transmission = transmission;
 		this.fuel = fuel;
 		this.fuelConsumption = fuelConsumption;
 		this.doors = doors;
@@ -99,6 +103,14 @@ public class Vehicle {
 
 	public void setType(VehicleType type) {
 		this.type = type;
+	}
+	
+	public Transmission getTransmission() {
+		return transmission;
+	}
+
+	public void setTransmission(Transmission transmission) {
+		this.transmission = transmission;
 	}
 
 	public Fuel getFuel() {

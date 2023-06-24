@@ -14,8 +14,10 @@ import javax.ws.rs.core.MediaType;
 
 import beans.RentACarObject;
 import beans.User;
+import beans.Vehicle;
 import dao.RentACarObjectDAO;
 import dao.UserDAO;
+import dao.VehicleDAO;
 import dto.RentACarObjectWithManagerDTO;
 
 @Path("/rentACarObjects")
@@ -37,6 +39,14 @@ public class RentACarObjectService {
 			String contextPath = servletContext.getRealPath("");
 			servletContext.setAttribute("userDAO", new UserDAO(contextPath));
 		}
+		if (servletContext.getAttribute("vehicleDAO") == null) {
+			String contextPath = servletContext.getRealPath("");
+			servletContext.setAttribute("vehicleDAO", new VehicleDAO(contextPath));
+		}
+		VehicleDAO vehicleDAO = (VehicleDAO) servletContext.getAttribute("vehicleDAO");
+		RentACarObjectDAO rentACarObjectDAO = (RentACarObjectDAO) servletContext.getAttribute("rentACarObjectDAO");
+		Collection<Vehicle> objects = vehicleDAO.getAll();
+		rentACarObjectDAO.linkVehicles(objects);
 	}
 	
 	@GET

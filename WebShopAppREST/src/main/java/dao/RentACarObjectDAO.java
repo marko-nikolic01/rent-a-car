@@ -12,6 +12,8 @@ import java.util.StringTokenizer;
 
 import beans.Location;
 import beans.RentACarObject;
+import beans.User;
+import beans.Vehicle;
 import utilities.WorkingHours;
 
 public class RentACarObjectDAO {
@@ -28,6 +30,25 @@ public class RentACarObjectDAO {
 	
 	public Collection<RentACarObject> getAll() {
 		return rentACarObjects;
+	}
+	
+	public RentACarObject getById(int id) {
+		for (RentACarObject object : rentACarObjects) {
+			if (object.getId() == id) {
+				return object;
+			}
+		}
+		return null;
+	}
+	
+	public void linkVehicles(Collection<Vehicle> vehicles) {
+		for (RentACarObject object : rentACarObjects) {
+			for (Vehicle vehicle : vehicles) {
+				if (object.getId() == vehicle.getRentACarObject().getId() && !vehicle.isDeleted()) {
+					object.getVehicles().add(vehicle);
+				}
+			}
+		}
 	}
 	
 	public Collection<RentACarObject> getWorking() {
