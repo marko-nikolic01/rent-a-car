@@ -54,6 +54,14 @@ public class VehicleService {
 	}
 	
 	@GET
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Vehicle getVehicle(@PathParam("id") int id) {
+		VehicleDAO dao = (VehicleDAO) servletContext.getAttribute("vehicleDAO");
+		return dao.getById(id);
+	}
+	
+	@GET
 	@Path("/getByObject")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Vehicle> getVehiclesByObjectId(int id) {
