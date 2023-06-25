@@ -4,13 +4,13 @@ import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
-import javax.websocket.server.PathParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -76,9 +76,9 @@ public class VehicleService {
 	
 	@DELETE
 	@Path("/delete/{id}")
-	public void delete(@PathParam("id") String id) {
+	public void delete(@PathParam("id") int id) {
 		VehicleDAO dao = (VehicleDAO) servletContext.getAttribute("vehicleDAO");
-		Vehicle vehicle = dao.getById(Integer.parseInt(id));
+		Vehicle vehicle = dao.getById(id);
 		vehicle.delete();
 		dao.toCSV();
 	}
