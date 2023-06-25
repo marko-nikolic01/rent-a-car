@@ -77,10 +77,10 @@ public class VehicleService {
 	@DELETE
 	@Path("/delete/{id}")
 	public void delete(@PathParam("id") int id) {
-		VehicleDAO dao = (VehicleDAO) servletContext.getAttribute("vehicleDAO");
-		Vehicle vehicle = dao.getById(id);
-		vehicle.delete();
-		dao.toCSV();
+		VehicleDAO vehicleDAO = (VehicleDAO) servletContext.getAttribute("vehicleDAO");
+		RentACarObjectDAO rentACarObjectDAO = (RentACarObjectDAO) servletContext.getAttribute("rentACarObjectDAO");
+		vehicleDAO.delete(id);
+		rentACarObjectDAO.linkVehicles(vehicleDAO.getAll());
 	}
 	
 	@PUT
