@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
+import javax.websocket.server.PathParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -74,8 +75,8 @@ public class VehicleService {
 	}
 	
 	@DELETE
-	@Path("/delete")
-	public void delete(int id) {
+	@Path("/delete/{id}")
+	public void delete(@PathParam("id")int id) {
 		VehicleDAO dao = (VehicleDAO) servletContext.getAttribute("vehicleDAO");
 		Vehicle vehicle = dao.getById(id);
 		vehicle.delete();
