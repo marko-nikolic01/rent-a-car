@@ -75,8 +75,6 @@ public class VehicleService {
 	
 	@DELETE
 	@Path("/delete")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
 	public void delete(int id) {
 		VehicleDAO dao = (VehicleDAO) servletContext.getAttribute("vehicleDAO");
 		Vehicle vehicle = dao.getById(id);
