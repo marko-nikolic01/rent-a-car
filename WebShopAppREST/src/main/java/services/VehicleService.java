@@ -76,9 +76,9 @@ public class VehicleService {
 	
 	@DELETE
 	@Path("/delete/{id}")
-	public void delete(@PathParam("id")int id) {
+	public void delete(@PathParam("id") String id) {
 		VehicleDAO dao = (VehicleDAO) servletContext.getAttribute("vehicleDAO");
-		Vehicle vehicle = dao.getById(id);
+		Vehicle vehicle = dao.getById(Integer.parseInt(id));
 		vehicle.delete();
 		dao.toCSV();
 	}

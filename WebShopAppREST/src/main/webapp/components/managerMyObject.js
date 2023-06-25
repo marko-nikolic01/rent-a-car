@@ -106,8 +106,7 @@ Vue.component("managerMyObject", {
 		},
 		deleteVehicle: function(vehicle) {
 			let id = vehicle.id;
-//			axios.delete("rest/vehicles/delete/", id);
-			console.log(id);
+			axios.delete("rest/vehicles/delete/:" + id);
 		}
     }
 });
