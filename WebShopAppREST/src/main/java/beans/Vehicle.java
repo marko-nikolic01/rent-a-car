@@ -181,7 +181,7 @@ public class Vehicle {
 		return isDeleted;
 	}
 
-	public void setDeleted(boolean isDeleted) {
-		this.isDeleted = isDeleted;
+	public void delete() {
+		this.isDeleted = true;
 	}
 }

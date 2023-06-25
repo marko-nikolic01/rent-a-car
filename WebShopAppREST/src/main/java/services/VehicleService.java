@@ -72,4 +72,24 @@ public class VehicleService {
 		vehicle.setRentACarObjectId(object.getId());
 		object.getVehicles().add(newVehicle);
 	}
+	
+	@DELETE
+	@Path("/delete")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public void delete(int id) {
+		VehicleDAO dao = (VehicleDAO) servletContext.getAttribute("vehicleDAO");
+		Vehicle vehicle = dao.getById(id);
+		vehicle.delete();
+		dao.toCSV();
+	}
+	
+	@PUT
+	@Path("/update")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Vehicle edit(Vehicle updatedVehicle) {
+		VehicleDAO dao = (VehicleDAO) servletContext.getAttribute("vehicleDAO");
+		return dao.update(updatedVehicle);
+	}
 }

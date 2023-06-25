@@ -68,6 +68,24 @@ public class VehicleDAO {
 		return null;
 	}
 	
+	public Vehicle update(Vehicle updatedVehicle) {
+		Vehicle vehicle = getById(updatedVehicle.getId());
+		vehicle.setBrand(updatedVehicle.getBrand());
+		vehicle.setModel(updatedVehicle.getModel());
+		vehicle.setPrice(updatedVehicle.getPrice());
+		vehicle.setType(updatedVehicle.getType());
+		vehicle.setTransmission(updatedVehicle.getTransmission());
+		vehicle.setFuel(updatedVehicle.getFuel());
+		vehicle.setFuelConsumption(updatedVehicle.getFuelConsumption());
+		vehicle.setDoors(updatedVehicle.getDoors());
+		vehicle.setNumberOfPassengers(updatedVehicle.getNumberOfPassengers());
+		vehicle.setDescription(updatedVehicle.getDescription());
+		vehicle.setPhotoURL(updatedVehicle.getPhotoURL());
+		vehicle.setStatus(updatedVehicle.getStatus());
+		toCSV();
+		return vehicle;
+	}
+	
 	public Collection<Vehicle> getByObjectId(int id) {
 		Collection<Vehicle> vehiclesByObject = new ArrayList<>();
 		for (Vehicle vehicle : vehicles) {
