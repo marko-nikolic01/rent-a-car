@@ -14,6 +14,7 @@ const ManagerEditProfile = { template: '<managerEditProfile></managerEditProfile
 const ManagerHome = { template: '<managerHome></managerHome>' }
 const ManagerMyObject = { template: '<managerMyObject></managerMyObject>' }
 const ManagerAddVehicle = { template: '<managerAddVehicle></managerAddVehicle>' }
+const ManagerEditVehicle = { template: '<managerEditVehicle></managerEditVehicle>' }
 
 const router = new VueRouter({
 	mode: 'hash',
@@ -33,7 +34,8 @@ const router = new VueRouter({
 		{ path: '/manager/editProfile/', component: ManagerEditProfile},
 		{ path: '/manager/home/', component: ManagerHome},
 		{ path: '/manager/myObject/', component: ManagerMyObject},
-		{ path: '/manager/addVehicle/', component: ManagerAddVehicle}
+		{ path: '/manager/addVehicle/', component: ManagerAddVehicle},
+		{ path: '/manager/editVehicle/:id', component: ManagerEditVehicle}
 	  ]
 });
 

@@ -81,7 +81,7 @@ Vue.component("managerMyObject", {
 	<label class='containerLabel'>Description: {{vehicle.description}}</label></br>
 	<label class='containerLabel'>Status: {{vehicle.status}}</label></br>
 	<button class="button" v-on:click="deleteVehicle(vehicle)">Delete</button>
-	<button class="button">Edit</button>
+	<button class="button" v-on:click="editVehicle(vehicle)">Edit</button>
 	</div>
 </div>
 	    `,
@@ -105,8 +105,10 @@ Vue.component("managerMyObject", {
 			router.push('/manager/addVehicle/');
 		},
 		deleteVehicle: function(vehicle) {
-			let id = vehicle.id;
-			axios.delete("rest/vehicles/delete/" + id);
+			axios.delete("rest/vehicles/delete/" + vehicle.id).then(router.go());
+		},
+		editVehicle: function(vehicle) {
+			router.push('/manager/editVehicle/' + vehicle.id);
 		}
     }
 });
