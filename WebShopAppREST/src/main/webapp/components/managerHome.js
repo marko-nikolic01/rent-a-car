@@ -7,11 +7,11 @@ Vue.component("managerHome", {
 			sortCriteria: "-",
 			filter: {
 				name: '',
-				vehicleType: 'CAR',
+				vehicleType: '-',
 				location: '',
 				rating: 1,
-				transmission: 'MANUAL',
-				fuel: 'PETROL',
+				transmission: '-',
+				fuel: '-',
 				open: true
 			},
 			manager: {
@@ -35,6 +35,7 @@ Vue.component("managerHome", {
 			<label>Name:</label><input type="text" v-model="filter.name"/>
 			<label>Vehicle type:</label>
 				<select v-model="filter.vehicleType">
+					<option value="-">-</option>
 					<option value="CAR">Car</option>
 					<option value="VAN">Van</option>
 					<option value="MOBILE_HOME">Mobile home</option>
@@ -43,11 +44,13 @@ Vue.component("managerHome", {
 			<label>Rating (1 to 5):</label><input type="range" v-model="filter.rating" min="1" max="5"/>
 			<label>Transmission type:</label>
 				<select v-model="filter.transmission">
+					<option value="-">-</option>
 					<option value="MANUAL">Manual</option>
 					<option value="AUTOMATIC">Automatic</option>
 				</select>
 			<label>Fuel type:</label>
 				<select v-model="filter.fuel">
+					<option value="-">-</option>
 					<option value="PETROL">Petrol</option>
 					<option value="DIESEL">Diesel</option>
 					<option value="HYBRID">Hybrid</option>
@@ -116,6 +119,16 @@ Vue.component("managerHome", {
 			this.filteredObjects = structuredClone(this.rentACarObjects);
 			this.sortedObjects = structuredClone(this.rentACarObjects);
 			this.sortCriteria = "-";
+			
+			this.filter = {
+				name: '',
+				vehicleType: '-',
+				location: '',
+				rating: 1,
+				transmission: '-',
+				fuel: '-',
+				open: true
+			}
 		},
     	sort : function() {			
 			switch (this.sortCriteria) {
@@ -199,6 +212,9 @@ Vue.component("managerHome", {
 			return filtered;
 		},
 		filterByVehicleType: function(objects, vehicleType) {
+			if (vehicleType == "-") {
+				return objects;
+			}
 			let filtered = [];
 			for (let object of objects) {
 				for (vehicle of object.vehicles) {
@@ -229,18 +245,9 @@ Vue.component("managerHome", {
 			return filtered;
 		},
 		filterByTransmissionType: function(objects, transmission) {
-			let filtered = [];
-			for (let object of objects) {
-				for (vehicle of object.vehicles) {
-					if (vehicle.transmission == transmission) {
-						filtered.push(object);
-						break;
-					}
-				}
+			if (transmission == "-") {
+				return objects;
 			}
-			return filtered;
-		},
-		filterByTransmissionType: function(objects, transmission) {
 			let filtered = [];
 			for (let object of objects) {
 				for (vehicle of object.vehicles) {
@@ -253,6 +260,9 @@ Vue.component("managerHome", {
 			return filtered;
 		},
 		filterByFuelType: function(objects, fuel) {
+			if (fuel == "-") {
+				return objects;
+			}
 			let filtered = [];
 			for (let object of objects) {
 				for (vehicle of object.vehicles) {
@@ -275,6 +285,6 @@ Vue.component("managerHome", {
 				}
 			}
 			return objects;
-		} 
+		}
     }
 });
