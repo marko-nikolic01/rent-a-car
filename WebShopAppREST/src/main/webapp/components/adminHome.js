@@ -1,7 +1,9 @@
 Vue.component("adminHome", { 
 	data: function () {
 	    return {
-			rentACarObjects: []
+			rentACarObjects: [],
+			filteredObjects: [],
+			sortCriteria: "-"
 	    }
 	},
 	    template: `
@@ -15,7 +17,23 @@ Vue.component("adminHome", {
   				<li v-on:click="manageUsers" style="float:left"><a>Manage users</a></li>
   			</ul>
 			<h4 class="headingCenter">Rent a car objects</h4>
-			<div v-for="object in rentACarObjects" class='container'>
+			<table class="center">
+					<tr>
+    					<td><label class="signUpLabel">Sort by:</label></td>
+        				<td>
+        					<select v-model="sortCriteria" v-on:change="sort" name="cars" id="cars" class="signUpInput">
+  								<option value="-">-</option>
+  								<option value="NameAscending">NameAscending</option>
+  								<option value="NameDescending">NameDescending</option>
+  								<option value="LocationAscending">LocationAscending</option>
+  								<option value="LocationDescending">LocationDescending</option>
+  								<option value="RatingAscending">RatingAscending</option>
+  								<option value="RatingDescending">RatingDescending</option>
+							</select>
+						</td>
+    				</tr>
+				</table>
+			<div v-for="object in filteredObjects" class='container'>
 				<img v-bind:src="object.logoURL" height="100" width="100" class="containerImage">
 				<label class="containerLabel">Name: {{object.name}}</label><br/>
 				<label class="containerLabel">Location: {{object.location.address.street}} {{object.location.address.streetNumber}}, {{object.location.address.city}}</label><br/>
@@ -25,7 +43,9 @@ Vue.component("adminHome", {
 		</div>
 	    `,
     mounted () {
-        axios.get('rest/rentACarObjects/sortedByWorkingStatus').then(response => (this.rentACarObjects = response.data));
+        axios.get('rest/rentACarObjects/sortedByWorkingStatus').then(response => {
+			this.filteredObjects = response.data;
+		});
     },
     methods: {
     	signOut : function() {
@@ -42,6 +62,65 @@ Vue.component("adminHome", {
     	},
     	manageUsers : function() {
 			router.push('/admin/manageUsers/');
-    	}
+    	},
+    	sort : function() {
+			switch (this.sortCriteria) {
+			  case 'NameAscending':
+			    this.bubbleSort(this.compareByName);
+			    break;
+			  case 'NameDescending':
+			    this.bubbleSort(this.compareByName);
+			    this.filteredObjects = structuredClone(this.filteredObjects.reverse());
+			    break;
+			  case 'LocationAscending':
+			    this.bubbleSort(this.compareByLocation);
+			    break;
+			  case 'LocationDescending':
+			    this.bubbleSort(this.compareByLocation);
+			    this.filteredObjects = structuredClone(this.filteredObjects.reverse());
+			    break;
+			  case 'RatingAscending':
+			    this.bubbleSort(this.compareByRating);
+			    break;
+			  case 'RatingDescending':
+			    this.bubbleSort(this.compareByRating);
+			    this.filteredObjects = structuredClone(this.filteredObjects.reverse());
+			    break;
+			}
+			console.log("ok");
+			for (var i = 0; i < this.filteredObjects.length; i++) {
+		        console.log(this.filteredObjects[i].name + "   " +  this.filteredObjects[i].location.address.city + "   " + this.filteredObjects[i].rating);
+	    	}
+		},
+		bubbleSort : function(comparissonFunction) {
+	    	for (var i = 0; i < this.filteredObjects.length; i++) {
+		        for (var j = 0; j < (this.filteredObjects.length - i - 1); j++) {
+		            if (comparissonFunction(this.filteredObjects[j], this.filteredObjects[j + 1])) {
+		                var temp = this.filteredObjects[j];
+		                this.filteredObjects[j] = this.filteredObjects[j + 1];
+		                this.filteredObjects[j + 1] = temp;
+		            }
+	        	}
+	    	}
+	    	this.filteredObjects = structuredClone(this.filteredObjects);
+		},
+		compareByName : function(object1, object2){
+			if(object1.name.toLowerCase() < object2.name.toLowerCase()){
+				return false;
+			}
+			return true;
+		},
+		compareByLocation : function(object1, object2){
+			if(object1.location.address.city.toLowerCase() < object2.location.address.city.toLowerCase()){
+				return false;
+			}
+			return true;
+		},
+		compareByRating : function(object1, object2){
+			if(object1.rating < object2.rating){
+				return false;
+			}
+			return true;
+		}
     }
 });
