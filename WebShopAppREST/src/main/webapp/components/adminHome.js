@@ -3,7 +3,17 @@ Vue.component("adminHome", {
 	    return {
 			rentACarObjects: [],
 			filteredObjects: [],
-			sortCriteria: "-"
+			sortedObjects: [],
+			sortCriteria: "-",
+			filter: {
+				name: '',
+				vehicleType: 'CAR',
+				location: '',
+				rating: 1,
+				transmission: 'MANUAL',
+				fuel: 'PETROL',
+				open: true
+			}
 	    }
 	},
 	    template: `
@@ -17,6 +27,34 @@ Vue.component("adminHome", {
   				<li v-on:click="manageUsers" style="float:left"><a>Manage users</a></li>
   			</ul>
 			<h4 class="headingCenter">Rent a car objects</h4>
+			
+			<label>Name:</label><input type="text" v-model="filter.name"/>
+			<label>Vehicle type:</label>
+				<select v-model="filter.vehicleType">
+					<option value="CAR">Car</option>
+					<option value="VAN">Van</option>
+					<option value="MOBILE_HOME">Mobile home</option>
+				</select>
+			<label>Location:</label><input type="text" v-model="filter.location"/>
+			<label>Rating (1 to 5):</label><input type="range" v-model="filter.rating" min="1" max="5"/>
+			<label>Transmission type:</label>
+				<select v-model="filter.transmission">
+					<option value="MANUAL">Manual</option>
+					<option value="AUTOMATIC">Automatic</option>
+				</select>
+			<label>Fuel type:</label>
+				<select v-model="filter.fuel">
+					<option value="PETROL">Petrol</option>
+					<option value="DIESEL">Diesel</option>
+					<option value="HYBRID">Hybrid</option>
+					<option value="ELECTRIC">Electric</option>
+				</select>
+			<label>Is open now:</label><input type="checkbox" value="Bike" v-model="filter.open"/>
+			<button v-on:click="filterObjects">Search</button>
+			<button v-on:click="cancelSearch">Cancel search</button>
+			
+			</br>
+			
 			<table class="center">
 					<tr>
     					<td><label class="signUpLabel">Sort by:</label></td>
@@ -32,8 +70,9 @@ Vue.component("adminHome", {
 							</select>
 						</td>
     				</tr>
-				</table>
-			<div v-for="object in filteredObjects" class='container'>
+			</table>
+				
+			<div v-for="object in sortedObjects" class='container'>
 				<img v-bind:src="object.logoURL" height="100" width="100" class="containerImage">
 				<label class="containerLabel">Name: {{object.name}}</label><br/>
 				<label class="containerLabel">Location: {{object.location.address.street}} {{object.location.address.streetNumber}}, {{object.location.address.city}}</label><br/>
@@ -44,7 +83,9 @@ Vue.component("adminHome", {
 	    `,
     mounted () {
         axios.get('rest/rentACarObjects/sortedByWorkingStatus').then(response => {
-			this.filteredObjects = response.data;
+			this.rentACarObjects = response.data;
+			this.filteredObjects = structuredClone(this.rentACarObjects);
+			this.sortedObjects = structuredClone(this.rentACarObjects);
 		});
     },
     methods: {
@@ -63,42 +104,46 @@ Vue.component("adminHome", {
     	manageUsers : function() {
 			router.push('/admin/manageUsers/');
     	},
-    	sort : function() {
+    	cancelSearch: function() {
+			this.filteredObjects = structuredClone(this.rentACarObjects);
+			this.sortedObjects = structuredClone(this.rentACarObjects);
+			this.sortCriteria = "-";
+		},
+    	sort : function() {			
 			switch (this.sortCriteria) {
 			  case 'NameAscending':
 			    this.bubbleSort(this.compareByName);
 			    break;
 			  case 'NameDescending':
 			    this.bubbleSort(this.compareByName);
-			    this.filteredObjects = structuredClone(this.filteredObjects.reverse());
+			    this.sortedObjects = structuredClone(this.filteredObjects.reverse());
 			    break;
 			  case 'LocationAscending':
 			    this.bubbleSort(this.compareByLocation);
 			    break;
 			  case 'LocationDescending':
 			    this.bubbleSort(this.compareByLocation);
-			    this.filteredObjects = structuredClone(this.filteredObjects.reverse());
+			    this.sortedObjects = structuredClone(this.filteredObjects.reverse());
 			    break;
 			  case 'RatingAscending':
 			    this.bubbleSort(this.compareByRating);
 			    break;
 			  case 'RatingDescending':
 			    this.bubbleSort(this.compareByRating);
-			    this.filteredObjects = structuredClone(this.filteredObjects.reverse());
+			    this.sortedObjects = structuredClone(this.filteredObjects.reverse());
 			    break;
+			  case '-':
+				  this.sortedObjects = structuredClone(this.filteredObjects);
+				  break;
 			}
-			console.log("ok");
-			for (var i = 0; i < this.filteredObjects.length; i++) {
-		        console.log(this.filteredObjects[i].name + "   " +  this.filteredObjects[i].location.address.city + "   " + this.filteredObjects[i].rating);
-	    	}
 		},
 		bubbleSort : function(comparissonFunction) {
-	    	for (var i = 0; i < this.filteredObjects.length; i++) {
-		        for (var j = 0; j < (this.filteredObjects.length - i - 1); j++) {
-		            if (comparissonFunction(this.filteredObjects[j], this.filteredObjects[j + 1])) {
-		                var temp = this.filteredObjects[j];
-		                this.filteredObjects[j] = this.filteredObjects[j + 1];
-		                this.filteredObjects[j + 1] = temp;
+	    	for (var i = 0; i < this.sortedObjects.length; i++) {
+		        for (var j = 0; j < (this.sortedObjects.length - i - 1); j++) {
+		            if (comparissonFunction(this.sortedObjects[j], this.sortedObjects[j + 1])) {
+		                var temp = this.sortedObjects[j];
+		                this.sortedObjects[j] = this.sortedObjects[j + 1];
+		                this.sortedObjects[j + 1] = temp;
 		            }
 	        	}
 	    	}
@@ -121,6 +166,107 @@ Vue.component("adminHome", {
 				return false;
 			}
 			return true;
-		}
+		},
+    	filterObjects: function() {
+			this.filteredObjects = structuredClone(this.rentACarObjects);
+			this.sortCriteria = "-";
+			
+			this.filteredObjects = this.filterByName(this.filteredObjects, this.filter.name);
+			this.filteredObjects = this.filterByVehicleType(this.filteredObjects, this.filter.vehicleType);
+			this.filteredObjects = this.filterByLocationName(this.filteredObjects, this.filter.location);
+			this.filteredObjects = this.filterByRating(this.filteredObjects, this.filter.rating);
+			this.filteredObjects = this.filterByTransmissionType(this.filteredObjects, this.filter.transmission);
+			this.filteredObjects = this.filterByFuelType(this.filteredObjects, this.filter.fuel);
+			this.filteredObjects = this.filterByOpenStatus(this.filteredObjects, this.filter.open);
+			
+			this.sortedObjects = structuredClone(this.filteredObjects);
+		},
+		filterByName: function(objects, name) {
+			let filtered = []
+			for (let object of objects) {
+				if (object.name.toLowerCase().includes(name.toLowerCase())) {
+					filtered.push(object);
+				}
+			}
+			return filtered;
+		},
+		filterByVehicleType: function(objects, vehicleType) {
+			let filtered = [];
+			for (let object of objects) {
+				for (vehicle of object.vehicles) {
+					if (vehicle.type == vehicleType) {
+						filtered.push(object);
+						break;
+					}
+				}
+			}
+			return filtered;
+		},
+		filterByLocationName: function(objects, locationName) {
+			let filtered = [];
+			for (let object of objects) {
+				if (object.location.address.city.toLowerCase().includes(locationName.toLowerCase())) {
+					filtered.push(object);
+				}
+			}
+			return filtered;
+		},
+		filterByRating: function(objects, rating) {
+			let filtered = [];
+			for (let object of objects) {
+				if (object.rating >= rating) {
+					filtered.push(object);
+				}
+			}
+			return filtered;
+		},
+		filterByTransmissionType: function(objects, transmission) {
+			let filtered = [];
+			for (let object of objects) {
+				for (vehicle of object.vehicles) {
+					if (vehicle.transmission == transmission) {
+						filtered.push(object);
+						break;
+					}
+				}
+			}
+			return filtered;
+		},
+		filterByTransmissionType: function(objects, transmission) {
+			let filtered = [];
+			for (let object of objects) {
+				for (vehicle of object.vehicles) {
+					if (vehicle.transmission == transmission) {
+						filtered.push(object);
+						break;
+					}
+				}
+			}
+			return filtered;
+		},
+		filterByFuelType: function(objects, fuel) {
+			let filtered = [];
+			for (let object of objects) {
+				for (vehicle of object.vehicles) {
+					if (vehicle.fuel == fuel) {
+						filtered.push(object);
+						break;
+					}
+				}
+			}
+			return filtered;
+		},
+		filterByOpenStatus: function(objects, openStatus) {
+			if (openStatus === true) {
+				let filtered = [];
+				for (let object of objects) {
+				if (object.open === true) {
+					filtered.push(object);
+				}
+				return filtered
+				}
+			}
+			return objects;
+		} 
     }
 });

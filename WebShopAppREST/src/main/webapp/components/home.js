@@ -3,11 +3,13 @@ Vue.component("home", {
 	    return {
 			rentACarObjects: [],
 			filteredObjects: [],
+			sortedObjects: [],
+			sortCriteria: "-",
 			filter: {
-				name: 'jeste',
+				name: '',
 				vehicleType: 'CAR',
-				location: 'Novi Sad',
-				rating: 0,
+				location: '',
+				rating: 1,
 				transmission: 'MANUAL',
 				fuel: 'PETROL',
 				open: true
@@ -21,9 +23,54 @@ Vue.component("home", {
   				<li v-on:click="signUp" style="float:right"><a>Sign up</a></li>
   				<li v-on:click="signIn" style="float:right"><a>Sign in</a></li>
 			</ul>
+			
 			<h4 class="headingCenter">Rent a car objects</h4>
+			
 			<label>Name:</label><input type="text" v-model="filter.name"/>
-			<div v-for="object in rentACarObjects" class='container'>
+			<label>Vehicle type:</label>
+				<select v-model="filter.vehicleType">
+					<option value="CAR">Car</option>
+					<option value="VAN">Van</option>
+					<option value="MOBILE_HOME">Mobile home</option>
+				</select>
+			<label>Location:</label><input type="text" v-model="filter.location"/>
+			<label>Rating (1 to 5):</label><input type="range" v-model="filter.rating" min="1" max="5"/>
+			<label>Transmission type:</label>
+				<select v-model="filter.transmission">
+					<option value="MANUAL">Manual</option>
+					<option value="AUTOMATIC">Automatic</option>
+				</select>
+			<label>Fuel type:</label>
+				<select v-model="filter.fuel">
+					<option value="PETROL">Petrol</option>
+					<option value="DIESEL">Diesel</option>
+					<option value="HYBRID">Hybrid</option>
+					<option value="ELECTRIC">Electric</option>
+				</select>
+			<label>Is open now:</label><input type="checkbox" value="Bike" v-model="filter.open"/>
+			<button v-on:click="filterObjects">Search</button>
+			<button v-on:click="cancelSearch">Cancel search</button>
+			
+			</br>
+			
+			<table class="center">
+					<tr>
+    					<td><label class="signUpLabel">Sort by:</label></td>
+        				<td>
+        					<select v-model="sortCriteria" v-on:change="sort" name="cars" id="cars" class="signUpInput">
+  								<option value="-">-</option>
+  								<option value="NameAscending">NameAscending</option>
+  								<option value="NameDescending">NameDescending</option>
+  								<option value="LocationAscending">LocationAscending</option>
+  								<option value="LocationDescending">LocationDescending</option>
+  								<option value="RatingAscending">RatingAscending</option>
+  								<option value="RatingDescending">RatingDescending</option>
+							</select>
+						</td>
+    				</tr>
+			</table>
+				
+			<div v-for="object in sortedObjects" class='container'>
 				<img v-bind:src="object.logoURL" height="100" width="100" class="containerImage">
 				<label class="containerLabel">Name: {{object.name}}</label><br/>
 				<label class="containerLabel">Location: {{object.location.address.street}} {{object.location.address.streetNumber}}, {{object.location.address.city}}</label><br/>
@@ -33,7 +80,9 @@ Vue.component("home", {
 		</div>
 	    `,
     mounted () {
-        axios.get('rest/rentACarObjects/sortedByWorkingStatus').then(response => {this.rentACarObjects = response.data;});
+        axios.get('rest/rentACarObjects/sortedByWorkingStatus').then(response => {this.rentACarObjects = response.data;
+        																		  this.filteredObjects = structuredClone(this.rentACarObjects);
+        																		  this.sortedObjects = structuredClone(this.rentACarObjects);});
     },
     methods: {
     	signUp : function() {
@@ -42,21 +91,87 @@ Vue.component("home", {
     	signIn : function() {
 			router.push('/signIn/');
     	},
+    	cancelSearch: function() {
+			this.filteredObjects = structuredClone(this.rentACarObjects);
+			this.sortedObjects = structuredClone(this.rentACarObjects);
+			this.sortCriteria = "-";
+		},
+    	sort : function() {			
+			switch (this.sortCriteria) {
+			  case 'NameAscending':
+			    this.bubbleSort(this.compareByName);
+			    break;
+			  case 'NameDescending':
+			    this.bubbleSort(this.compareByName);
+			    this.sortedObjects = structuredClone(this.filteredObjects.reverse());
+			    break;
+			  case 'LocationAscending':
+			    this.bubbleSort(this.compareByLocation);
+			    break;
+			  case 'LocationDescending':
+			    this.bubbleSort(this.compareByLocation);
+			    this.sortedObjects = structuredClone(this.filteredObjects.reverse());
+			    break;
+			  case 'RatingAscending':
+			    this.bubbleSort(this.compareByRating);
+			    break;
+			  case 'RatingDescending':
+			    this.bubbleSort(this.compareByRating);
+			    this.sortedObjects = structuredClone(this.filteredObjects.reverse());
+			    break;
+			  case '-':
+				  this.sortedObjects = structuredClone(this.filteredObjects);
+				  break;
+			}
+		},
+		bubbleSort : function(comparissonFunction) {
+	    	for (var i = 0; i < this.sortedObjects.length; i++) {
+		        for (var j = 0; j < (this.sortedObjects.length - i - 1); j++) {
+		            if (comparissonFunction(this.sortedObjects[j], this.sortedObjects[j + 1])) {
+		                var temp = this.sortedObjects[j];
+		                this.sortedObjects[j] = this.sortedObjects[j + 1];
+		                this.sortedObjects[j + 1] = temp;
+		            }
+	        	}
+	    	}
+	    	this.filteredObjects = structuredClone(this.filteredObjects);
+		},
+		compareByName : function(object1, object2){
+			if(object1.name.toLowerCase() < object2.name.toLowerCase()){
+				return false;
+			}
+			return true;
+		},
+		compareByLocation : function(object1, object2){
+			if(object1.location.address.city.toLowerCase() < object2.location.address.city.toLowerCase()){
+				return false;
+			}
+			return true;
+		},
+		compareByRating : function(object1, object2){
+			if(object1.rating < object2.rating){
+				return false;
+			}
+			return true;
+		},
     	filterObjects: function() {
 			this.filteredObjects = structuredClone(this.rentACarObjects);
+			this.sortCriteria = "-";
 			
-			this.filteredObjects = this.filterByName(this.filteredObjects, filter.name);
-			this.filteredObjects = this.filterbyfilterByVehicleType(this.filteredObjects, this.filter.vehicleType);
+			this.filteredObjects = this.filterByName(this.filteredObjects, this.filter.name);
+			this.filteredObjects = this.filterByVehicleType(this.filteredObjects, this.filter.vehicleType);
 			this.filteredObjects = this.filterByLocationName(this.filteredObjects, this.filter.location);
 			this.filteredObjects = this.filterByRating(this.filteredObjects, this.filter.rating);
 			this.filteredObjects = this.filterByTransmissionType(this.filteredObjects, this.filter.transmission);
 			this.filteredObjects = this.filterByFuelType(this.filteredObjects, this.filter.fuel);
-			this.filteredObjects = this.filterByOpenStatus(this.filteredObjects);
+			this.filteredObjects = this.filterByOpenStatus(this.filteredObjects, this.filter.open);
+			
+			this.sortedObjects = structuredClone(this.filteredObjects);
 		},
 		filterByName: function(objects, name) {
 			let filtered = []
 			for (let object of objects) {
-				if (object.name == name) {
+				if (object.name.toLowerCase().includes(name.toLowerCase())) {
 					filtered.push(object);
 				}
 			}
@@ -77,7 +192,7 @@ Vue.component("home", {
 		filterByLocationName: function(objects, locationName) {
 			let filtered = [];
 			for (let object of objects) {
-				if (object.location.city == locationName) {
+				if (object.location.address.city.toLowerCase().includes(locationName.toLowerCase())) {
 					filtered.push(object);
 				}
 			}
@@ -128,14 +243,17 @@ Vue.component("home", {
 			}
 			return filtered;
 		},
-		filterByOpenStatus: function(objects) {
-			let filtered = [];
-			for (let object of objects) {
-				if (object.open == true) {
+		filterByOpenStatus: function(objects, openStatus) {
+			if (openStatus === true) {
+				let filtered = [];
+				for (let object of objects) {
+				if (object.open === true) {
 					filtered.push(object);
 				}
+				return filtered
+				}
 			}
-			return filtered;
+			return objects;
 		} 
     }
 });
