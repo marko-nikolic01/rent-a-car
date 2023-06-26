@@ -62,6 +62,7 @@ Vue.component("adminCreateRentACarObject", {
     			<li v-on:click="home" style="float:left"><a>Home</a></li>
     			<li v-on:click="createManagers" style="float:left"><a>Create managers</a></li>
     			<li style="float:left"><a class="selectedTab">Create rent a car objects</a></li>
+    			<li v-on:click="manageUsers" style="float:left"><a>Manage users</a></li>
 			</ul>
 			<form class="center">
 			<h2 class="headingCenter">Create a rent a car object</h2>
@@ -275,6 +276,9 @@ Vue.component("adminCreateRentACarObject", {
     	},
     	createManagers : function() {
 			router.push('/admin/createManager/');
+    	},
+    	manageUsers : function() {
+			router.push('/admin/manageUsers/');
     	}
     }
 });

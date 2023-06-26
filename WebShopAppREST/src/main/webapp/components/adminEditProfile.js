@@ -35,6 +35,7 @@ Vue.component("adminEditProfile", {
 		<li v-on:click="home" style="float:left"><a>Home</a></li>
 		<li v-on:click="createManagers" style="float:left"><a>Create managers</a></li>
 		<li v-on:click="createRentACarObject" style="float:left"><a>Create rent a car objects</a></li>
+		<li v-on:click="manageUsers" style="float:left"><a>Manage users</a></li>
 	</ul>
 	<form class="center">
 			<h4 class="headingCenter">Account info</h4>
@@ -163,6 +164,9 @@ Vue.component("adminEditProfile", {
     	},
     	createRentACarObject : function() {
 			router.push('/admin/createRentACarObject/');
+    	},
+    	manageUsers : function() {
+			router.push('/admin/manageUsers/');
     	}
     }
 });

@@ -9,6 +9,7 @@ const AdminEditProfile = { template: '<adminEditProfile></adminEditProfile>' }
 const AdminHome = { template: '<adminHome></adminHome>' }
 const AdminCreateManager = { template: '<adminCreateManager></adminCreateManager>' }
 const AdminCreateRentACarObject = { template: '<adminCreateRentACarObject></adminCreateRentACarObject>' }
+const AdminManageUsers = { template: '<adminManageUsers></adminManageUsers>' }
 const ManagerUserProfile = { template: '<managerUserProfile></managerUserProfile>' }
 const ManagerEditProfile = { template: '<managerEditProfile></managerEditProfile>' }
 const ManagerHome = { template: '<managerHome></managerHome>' }
@@ -29,6 +30,7 @@ const router = new VueRouter({
 		{ path: '/admin/home/', component: AdminHome},
 		{ path: '/admin/createManager/', component: AdminCreateManager},
 		{ path: '/admin/createRentACarObject/', component: AdminCreateRentACarObject},
+		{ path: '/admin/manageUsers/', component: AdminManageUsers},
 		{ path: '/manager/userProfile/', component: ManagerUserProfile},
 		{ path: '/manager/editProfile/', component: ManagerEditProfile},
 		{ path: '/manager/home/', component: ManagerHome},
