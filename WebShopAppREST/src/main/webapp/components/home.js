@@ -62,12 +62,12 @@ Vue.component("home", {
         				<td>
         					<select v-model="sortCriteria" v-on:change="sort" name="cars" id="cars" class="signUpInput">
   								<option value="-">-</option>
-  								<option value="NameAscending">NameAscending</option>
-  								<option value="NameDescending">NameDescending</option>
-  								<option value="LocationAscending">LocationAscending</option>
-  								<option value="LocationDescending">LocationDescending</option>
-  								<option value="RatingAscending">RatingAscending</option>
-  								<option value="RatingDescending">RatingDescending</option>
+  								<option value="NameAscending">Name (ascending)</option>
+  								<option value="NameDescending">Name (descending)</option>
+  								<option value="LocationAscending">Location (ascending)</option>
+  								<option value="LocationDescending">Location (descending)</option>
+  								<option value="RatingAscending">Rating (ascending)</option>
+  								<option value="RatingDescending">Rating (descending)</option>
 							</select>
 						</td>
     				</tr>
@@ -116,21 +116,21 @@ Vue.component("home", {
 			    break;
 			  case 'NameDescending':
 			    this.bubbleSort(this.compareByName);
-			    this.sortedObjects = structuredClone(this.filteredObjects.reverse());
+			    this.sortedObjects = structuredClone(this.sortedObjects.reverse());
 			    break;
 			  case 'LocationAscending':
 			    this.bubbleSort(this.compareByLocation);
 			    break;
 			  case 'LocationDescending':
 			    this.bubbleSort(this.compareByLocation);
-			    this.sortedObjects = structuredClone(this.filteredObjects.reverse());
+			    this.sortedObjects = structuredClone(this.sortedObjects.reverse());
 			    break;
 			  case 'RatingAscending':
 			    this.bubbleSort(this.compareByRating);
 			    break;
 			  case 'RatingDescending':
 			    this.bubbleSort(this.compareByRating);
-			    this.sortedObjects = structuredClone(this.filteredObjects.reverse());
+			    this.sortedObjects = structuredClone(this.sortedObjects.reverse());
 			    break;
 			  case '-':
 				  this.sortedObjects = structuredClone(this.filteredObjects);
@@ -147,7 +147,7 @@ Vue.component("home", {
 		            }
 	        	}
 	    	}
-	    	this.filteredObjects = structuredClone(this.filteredObjects);
+	    	this.sortedObjects = structuredClone(this.sortedObjects);
 		},
 		compareByName : function(object1, object2){
 			if(object1.name.toLowerCase() < object2.name.toLowerCase()){
