@@ -1,6 +1,7 @@
 package beans;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import utilities.Gender;
 import utilities.Role;
@@ -15,6 +16,7 @@ public class User {
 	private Gender gender;
 	private Role role;
 	private RentACarObject rentACarObject;
+	private ArrayList<Order> orders = new ArrayList<>();
 	private boolean isDeleted;
 
 	public User() {
@@ -134,4 +136,14 @@ public class User {
 
 		return true;
 	}
+
+	public ArrayList<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(ArrayList<Order> orders) {
+		this.orders = orders;
+	}
+	
+	
 }

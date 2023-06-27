@@ -1,8 +1,11 @@
 package dao;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,7 +14,9 @@ import java.util.StringTokenizer;
 
 import beans.Order;
 import beans.RentACarObject;
+import beans.User;
 import beans.Vehicle;
+import utilities.AlphaNumericCodeGenerator;
 import utilities.OrderStatus;
 
 public class OrderDAO {
@@ -45,6 +50,31 @@ public class OrderDAO {
 				}
 			}
 		}
+	}
+	
+	public Collection<Order> getAll() {
+		return orders;
+	}
+	
+	public Order save(Order order) {
+		order.setOrderCode(generateOrderCode());
+		orders.add(order);
+		toCSV();
+		return order;
+	}
+	
+	private String generateOrderCode() {
+		AlphaNumericCodeGenerator generator = new AlphaNumericCodeGenerator();
+		boolean unique = true;
+		while(!unique) {
+			String code = generator.generate(10);
+			for(Order order : orders) {
+				if(code.equals(order.getOrderCode())) {
+					continue;
+				}
+			}
+		}
+		return code;
 	}
 	
 	private void load() {
@@ -97,6 +127,29 @@ public class OrderDAO {
 				} catch (Exception e) {
 				}
 			}
+		}
+	}
+	
+	public void toCSV() {
+		String content = "";
+		for (Order order : orders) {
+			content += order.getOrderCode() + ';';
+			content += Integer.toString(order.getVehicle().getId()) + ';';
+			content += Integer.toString(order.getRentACarObject().getId()) + ';';
+			content += order.getOrderDateTime().toString() + ';';
+			content += Integer.toString(order.getDurationDays()) + ';';
+			content += Double.toString(order.getPrice()) + ';';
+			content += order.getCustomerName() + ';';
+			content += Integer.toString(order.getCustomerId()) + ';';
+			content += order.getStatus().toString() + ';';
+		}
+
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter(path));
+			writer.write(content);
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

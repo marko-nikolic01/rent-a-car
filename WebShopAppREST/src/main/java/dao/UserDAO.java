@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.StringTokenizer;
 
+import beans.Order;
 import beans.RentACarObject;
 import beans.User;
 import dto.SignInCredentialsDTO;
@@ -56,6 +57,16 @@ public class UserDAO {
 				if (user.getRentACarObject().getId() == rentACarObject.getId()) {
 					user.setRentACarObject(rentACarObject);
 					break;
+				}
+			}
+		}
+	}
+	
+	public void linkOrders(Collection<Order> orders) {
+		for (User user : users) {
+			for (Order order : orders) {
+				if (user.getId() == order.getCustomerId()) {
+					user.getOrders().add(order);
 				}
 			}
 		}

@@ -14,10 +14,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.Order;
 import beans.RentACarObject;
 import beans.User;
+import beans.Vehicle;
+import dao.OrderDAO;
 import dao.RentACarObjectDAO;
 import dao.UserDAO;
+import dao.VehicleDAO;
 import dto.SignInCredentialsDTO;
 import dto.UserUsernameDTO;
 
@@ -32,25 +36,34 @@ public class UserService {
 
 	@PostConstruct
 	public void init() {
-		boolean userDAOinitialized = true;
-		
 		if (servletContext.getAttribute("userDAO") == null) {
-			userDAOinitialized = false;
 			String contextPath = servletContext.getRealPath("");
 			servletContext.setAttribute("userDAO", new UserDAO(contextPath));
 		}
-
-		boolean rentACarObjectDAOinitialized = true;
 		if (servletContext.getAttribute("rentACarObjectDAO") == null) {
-			rentACarObjectDAOinitialized = false;
 			String contextPath = servletContext.getRealPath("");
 			servletContext.setAttribute("rentACarObjectDAO", new RentACarObjectDAO(contextPath));
+		}
+		if (servletContext.getAttribute("vehicleDAO") == null) {
+			String contextPath = servletContext.getRealPath("");
+			servletContext.setAttribute("vehicleDAO", new VehicleDAO(contextPath));
+		}
+		if (servletContext.getAttribute("orderDAO") == null) {
+			String contextPath = servletContext.getRealPath("");
+			servletContext.setAttribute("orderDAO", new OrderDAO(contextPath));
 		}
 		
 		UserDAO userDAO = (UserDAO) servletContext.getAttribute("userDAO");
 		RentACarObjectDAO rentACarObjectDAO = (RentACarObjectDAO) servletContext.getAttribute("rentACarObjectDAO");
+		VehicleDAO vehicleDAO = (VehicleDAO) servletContext.getAttribute("vehicleDAO");
+		OrderDAO orderDAO = (OrderDAO) servletContext.getAttribute("orderDAO");
 		Collection<RentACarObject> objects = rentACarObjectDAO.getAll();
+		Collection<Vehicle> vehicles = vehicleDAO.getAll();
+		Collection<Order> orders = orderDAO.getAll();
 		userDAO.linkRentACarObjects(objects);
+		userDAO.linkOrders(orders);
+		orderDAO.linkRentACarObjects(objects);
+		orderDAO.linkVehicles(vehicles);
 	}
 
 	@GET
