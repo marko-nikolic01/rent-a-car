@@ -46,12 +46,12 @@ Vue.component("adminManageUsers", {
     				<td>
     					<select v-model="sortCriteria" v-on:change="sort" name="cars" id="cars" class="signUpInput">
 							<option value="-">-</option>
-							<option value="FirstNameAscending">First name ascending</option>
-							<option value="FirstNameDescending">First name descending</option>
-							<option value="LastNameAscending">Last name ascending</option>
-							<option value="LastNameDescending">Last name descending</option>
-							<option value="UsernameAscending">Username ascending</option>
-							<option value="UsernameDescending">Username descending</option>
+							<option value="FirstNameAscending">First name (ascending)</option>
+							<option value="FirstNameDescending">First name (descending)</option>
+							<option value="LastNameAscending">Last name (ascending)</option>
+							<option value="LastNameDescending">Last name (descending)</option>
+							<option value="UsernameAscending">Username (ascending)</option>
+							<option value="UsernameDescending">Username (descending)</option>
 						</select>
 					</td>
 				</tr>
