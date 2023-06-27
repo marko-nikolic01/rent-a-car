@@ -65,15 +65,16 @@ public class OrderDAO {
 	
 	private String generateOrderCode() {
 		AlphaNumericCodeGenerator generator = new AlphaNumericCodeGenerator();
+		String code;
 		boolean unique = true;
-		while(!unique) {
-			String code = generator.generate(10);
+		do {
+			code = generator.generate(10);
 			for(Order order : orders) {
 				if(code.equals(order.getOrderCode())) {
-					continue;
+					unique = false;
 				}
 			}
-		}
+		}while(!unique);
 		return code;
 	}
 	
