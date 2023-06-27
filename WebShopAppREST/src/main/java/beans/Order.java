@@ -11,11 +11,24 @@ public class Order {
 	private LocalDateTime orderDateTime;
 	private int durationDays;
 	private double price;
-	private User customer;
+	private String customerName;
+	private int customerId;
 	private OrderStatus status;
-		
+	
+	public Order() {
+		orderCode = "";
+		vehicle = new Vehicle();
+		rentACarObject = new RentACarObject();
+		orderDateTime = LocalDateTime.now();
+		durationDays = 0;
+		price = 0;
+		customerName = "";
+		customerId = 0;
+		status = OrderStatus.PROCESSING;
+	}
+	
 	public Order(String orderCode, Vehicle vehicle, RentACarObject rentACarObject, LocalDateTime orderDateTime,
-			int durationDays, double price, User customer, OrderStatus status) {
+			int durationDays, double price, String customerName, int customerId, OrderStatus status) {
 		super();
 		this.orderCode = orderCode;
 		this.vehicle = vehicle;
@@ -23,10 +36,27 @@ public class Order {
 		this.orderDateTime = orderDateTime;
 		this.durationDays = durationDays;
 		this.price = price;
-		this.customer = customer;
+		this.customerName = customerName;
+		this.customerId = customerId;
 		this.status = status;
 	}
 	
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public int getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(int customerId) {
+		this.customerId = customerId;
+	}
+
 	public String getOrderCode() {
 		return orderCode;
 	}
@@ -62,12 +92,6 @@ public class Order {
 	}
 	public void setPrice(double price) {
 		this.price = price;
-	}
-	public User getCustomer() {
-		return customer;
-	}
-	public void setCustomer(User customer) {
-		this.customer = customer;
 	}
 	public OrderStatus getStatus() {
 		return status;
