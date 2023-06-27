@@ -1,8 +1,6 @@
-package beans;
+package utilities;
 
 import java.util.StringTokenizer;
-
-import utilities.Address;
 
 public class Location {
 	public static String delimiter = "|";
