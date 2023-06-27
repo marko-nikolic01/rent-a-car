@@ -64,6 +64,7 @@ public class UserDAO {
 	
 	public void linkOrders(Collection<Order> orders) {
 		for (User user : users) {
+			user.getOrders().clear();
 			for (Order order : orders) {
 				if (user.getId() == order.getCustomerId()) {
 					user.getOrders().add(order);

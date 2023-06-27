@@ -57,13 +57,13 @@ Vue.component("customerUserProfile", {
       <button class="button" v-on:click="editProfile">Edit</button>
     </tr>
   </table>
-  <h2 class="headingCenter">Orders</h2>
-  	<div v-for="order in signedInUser.orders" class='container'>
-		<img v-bind:src="order.vehicle.photoURL" height="100" width="100" class="containerImage">
+  <h4 class="headingCenter">Orders</h4>
+  	<div v-for="order in signedInUser.orders" class='container' style="height: 120px;">
+		<img v-bind:src="order.vehicle.photoURL" height="120" width="150" class="containerImage">
 		<label class="containerLabel">Vehicle: {{order.vehicle.brand}} {{order.vehicle.model}}</label><br/>
 		<label class="containerLabel">Rent a car object: {{order.rentACarObject.name}}</label><br/>
-		<label class="containerLabel">Order date and time: {{"order.orderDateTime"}}</label><br/>
-		<label class="containerLabel">Order duration (days): {{"order.durationDays"}}</label><br/>
+		<label class="containerLabel">Order date and time: {{order.orderDateTime}}</label><br/>
+		<label class="containerLabel">Order duration (days): {{order.durationDays}}</label><br/>
 		<label class="containerLabel">Price: {{"order.price"}}</label><br/>
 		<label class="containerLabel">Status: {{"order.status"}}</label><br/>
 	</div>

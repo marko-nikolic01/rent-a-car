@@ -44,7 +44,7 @@ public class OrderDAO {
 	public void linkVehicles(Collection<Vehicle> objects) {
 		for (Order order : orders) {
 			for (Vehicle vehicle : objects) {
-				if (order.getRentACarObject().getId() == vehicle.getId()) {
+				if (order.getVehicle().getId() == vehicle.getId()) {
 					order.setVehicle(vehicle);
 					break;
 				}
