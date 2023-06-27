@@ -3,6 +3,7 @@ package beans;
 import java.util.ArrayList;
 import java.util.List;
 
+import utilities.Location;
 import utilities.WorkingHours;
 
 public class RentACarObject {

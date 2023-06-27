@@ -50,27 +50,27 @@ Vue.component("home", {
 					<option value="HYBRID">Hybrid</option>
 					<option value="ELECTRIC">Electric</option>
 				</select>
-			<label>Is open now:</label><input type="checkbox" value="Bike" v-model="filter.open"/>
+			<label>Is open now:</label><input type="checkbox" v-model="filter.open"/>
 			<button v-on:click="filterObjects">Search</button>
 			<button v-on:click="cancelSearch">Cancel search</button>
 			
 			</br>
 			
 			<table class="center">
-					<tr>
-    					<td><label class="signUpLabel">Sort by:</label></td>
-        				<td>
-        					<select v-model="sortCriteria" v-on:change="sort" name="cars" id="cars" class="signUpInput">
-  								<option value="-">-</option>
-  								<option value="NameAscending">Name (ascending)</option>
-  								<option value="NameDescending">Name (descending)</option>
-  								<option value="LocationAscending">Location (ascending)</option>
-  								<option value="LocationDescending">Location (descending)</option>
-  								<option value="RatingAscending">Rating (ascending)</option>
-  								<option value="RatingDescending">Rating (descending)</option>
-							</select>
-						</td>
-    				</tr>
+				<tr>
+					<td><label class="signUpLabel">Sort by:</label></td>
+    				<td>
+    					<select v-model="sortCriteria" v-on:change="sort" name="cars" id="cars" class="signUpInput">
+							<option value="-">-</option>
+							<option value="NameAscending">NameAscending</option>
+							<option value="NameDescending">NameDescending</option>
+							<option value="LocationAscending">LocationAscending</option>
+							<option value="LocationDescending">LocationDescending</option>
+							<option value="RatingAscending">RatingAscending</option>
+							<option value="RatingDescending">RatingDescending</option>
+						</select>
+					</td>
+				</tr>
 			</table>
 				
 			<div v-for="object in sortedObjects" class='container'>
@@ -116,21 +116,21 @@ Vue.component("home", {
 			    break;
 			  case 'NameDescending':
 			    this.bubbleSort(this.compareByName);
-			    this.sortedObjects = structuredClone(this.sortedObjects.reverse());
+			    this.sortedObjects = structuredClone(this.filteredObjects.reverse());
 			    break;
 			  case 'LocationAscending':
 			    this.bubbleSort(this.compareByLocation);
 			    break;
 			  case 'LocationDescending':
 			    this.bubbleSort(this.compareByLocation);
-			    this.sortedObjects = structuredClone(this.sortedObjects.reverse());
+			    this.sortedObjects = structuredClone(this.filteredObjects.reverse());
 			    break;
 			  case 'RatingAscending':
 			    this.bubbleSort(this.compareByRating);
 			    break;
 			  case 'RatingDescending':
 			    this.bubbleSort(this.compareByRating);
-			    this.sortedObjects = structuredClone(this.sortedObjects.reverse());
+			    this.sortedObjects = structuredClone(this.filteredObjects.reverse());
 			    break;
 			  case '-':
 				  this.sortedObjects = structuredClone(this.filteredObjects);
@@ -147,7 +147,7 @@ Vue.component("home", {
 		            }
 	        	}
 	    	}
-	    	this.sortedObjects = structuredClone(this.sortedObjects);
+	    	this.filteredObjects = structuredClone(this.filteredObjects);
 		},
 		compareByName : function(object1, object2){
 			if(object1.name.toLowerCase() < object2.name.toLowerCase()){

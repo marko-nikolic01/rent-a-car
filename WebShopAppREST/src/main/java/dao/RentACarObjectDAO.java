@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.StringTokenizer;
 
-import beans.Location;
 import beans.RentACarObject;
 import beans.User;
 import beans.Vehicle;
+import utilities.Location;
 import utilities.WorkingHours;
 
 public class RentACarObjectDAO {
