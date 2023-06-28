@@ -36,6 +36,7 @@ Vue.component("managerMyObject", {
     <li style="float:right"><a>Profile</a></li>
     <li v-on:click="home" style="float:left"><a>Home</a></li>
     <li style="float:left"><a class="selectedTab">My object</a></li>
+    <li v-on:click="orders" style="float:left"><a>Orders</a></li>
   </ul>
   
   <h4 class="headingCenter">Rent-A-Car object info</h4> 
@@ -109,6 +110,9 @@ Vue.component("managerMyObject", {
 		},
 		editVehicle: function(vehicle) {
 			router.push('/manager/editVehicle/' + vehicle.id);
+		},
+		orders: function() {
+			router.push('/manager/orders/');	
 		}
     }
 });

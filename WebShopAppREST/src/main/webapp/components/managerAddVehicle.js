@@ -55,7 +55,8 @@ Vue.component("managerAddVehicle", {
     <li v-on:click="signOut" style="float:right"><a>Sign out</a></li>
     <li style="float:right"><a>Profile</a></li>
     <li v-on:click="home" style="float:left"><a>Home</a></li>
-    <li style="float:left"><a class="selectedTab">My object</a></li>
+    <li v-on:click="goBack" v-if="signedInUser.rentACarObject.id != -1" style="float:left"><a>My object</a></li>
+    <li v-on:click="orders" style="float:left" v-if="signedInUser.rentACarObject.id != -1"><a>Orders</a></li>
   </ul>
   
   <h4 class="headingCenter">Add vehicle</h4> 
@@ -120,7 +121,7 @@ Vue.component("managerAddVehicle", {
     
     <tr>
     	<td><button class="button" v-on:click="goBack">Back</button></td>
-		<td><input v-on:click="addVehicle" type="submit" class="button" value="Add"/></td>
+		<td><button v-on:click="addVehicle" class="button" value="Add">Add</button></td>
     </tr>
   </table>
 	<table class="center">
@@ -160,6 +161,9 @@ Vue.component("managerAddVehicle", {
 					return;
 				}
 				this.valid = true;
+		},
+		orders: function() {
+			router.push('/manager/orders/');	
 		}
     }
 });

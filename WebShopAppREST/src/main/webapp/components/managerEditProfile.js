@@ -37,7 +37,8 @@ Vue.component("managerEditProfile", {
 		<li v-on:click="signOut" style="float: right;"><a>Sign out</a></li>
 		<li style="float: right;"><a class="selectedTab">Profile</a></li>
 		<li v-on:click="home" style="float:left"><a>Home</a></li>
-    	<li v-on:click="myObject" style="float:left"><a>My object</a></li>
+	    <li v-on:click="myObject" v-if="signedInUser.rentACarObject.id != -1" style="float:left"><a>My object</a></li>
+	    <li v-on:click="orders" style="float:left" v-if="signedInUser.rentACarObject.id != -1"><a>Orders</a></li>
 	</ul>
 	<form class="center">
 			<h4 class="headingCenter">Account info</h4>
@@ -170,6 +171,12 @@ Vue.component("managerEditProfile", {
     	},
     	home : function() {
 			router.push('/manager/home/');
-    	}
+    	},
+    	managerHasObject: function() {
+			return this.signedInUser.rentACarObject.id != -1;
+		},
+		orders: function() {
+			router.push('/manager/orders/');	
+		}
     }
 });

@@ -25,7 +25,8 @@ Vue.component("managerUserProfile", {
     <li v-on:click="signOut" style="float:right"><a>Sign out</a></li>
     <li style="float:right"><a class="selectedTab">Profile</a></li>
     <li v-on:click="home" style="float:left"><a>Home</a></li>
-    <li v-on:click="myObject" v-if="doesManagerHaveObject" style="float:left"><a>My object</a></li>
+    <li v-on:click="myObject" v-if="signedInUser.rentACarObject.id != -1" style="float:left"><a>My object</a></li>
+    <li v-on:click="orders" style="float:left" v-if="signedInUser.rentACarObject.id != -1"><a>Orders</a></li>
   </ul>
   
   <h4 class="headingCenter">Account info</h4>
@@ -67,9 +68,11 @@ Vue.component("managerUserProfile", {
         axios.get("rest/users/signedInUser").then(response => {
 			this.signedInUser = response.data
 			if(this.signedInUser.rentACarObject.id == -1) {
+				console.log("nema");
 				this.doesManagerHaveObject = false;
 			}
 			else {
+				console.log("ima");
 				this.doesManagerHaveObject = true;
 			}
 		});
@@ -86,6 +89,9 @@ Vue.component("managerUserProfile", {
     	},
     	home : function() {
 			router.push('/manager/home/');
-    	}
+    	},
+		orders: function() {
+			router.push('/manager/orders/');	
+		}
     }
 });

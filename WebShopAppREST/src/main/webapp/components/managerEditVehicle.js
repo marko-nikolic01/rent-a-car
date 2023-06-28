@@ -46,7 +46,8 @@ Vue.component("managerEditVehicle", {
     <li v-on:click="signOut" style="float:right"><a>Sign out</a></li>
     <li style="float:right"><a>Profile</a></li>
     <li v-on:click="home" style="float:left"><a>Home</a></li>
-    <li style="float:left"><a class="selectedTab">My object</a></li>
+    <li v-on:click="myObject" v-if="signedInUser.rentACarObject.id != -1" style="float:left"><a>My object</a></li>
+    <li v-on:click="orders" style="float:left" v-if="signedInUser.rentACarObject.id != -1"><a>Orders</a></li>
   </ul>
   
   <h4 class="headingCenter">Add vehicle</h4> 
@@ -172,6 +173,9 @@ Vue.component("managerEditVehicle", {
 			if (this.valid && !this.same) {
 				axios.put("rest/vehicles/update", this.vehicle).then(response => (this.goBack()));
 			}
+		},
+		orders: function() {
+			router.push('/manager/orders/');	
 		}
     }
 });
