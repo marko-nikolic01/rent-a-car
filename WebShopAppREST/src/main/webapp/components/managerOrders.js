@@ -94,27 +94,34 @@ Vue.component("managerOrders", {
 			switch (this.sortCriteria) {
 			  case 'RentACarObjectAscending':
 			    this.bubbleSort(this.compareRentACarObject);
+			    console.log("1");
 			    break;
 			  case 'RentACarObjectDescending':
 			    this.bubbleSort(this.compareRentACarObject);
 			    this.managerOrders = structuredClone(this.managerOrders.reverse());
+			    console.log("2");
 			    break;
 			  case 'PriceAscending':
-			    this.bubbleSort(this.compareByLocation);
+			    this.bubbleSort(this.comparePrice);
+			    console.log("3");
 			    break;
 			  case 'PriceDescending':
-			    this.bubbleSort(this.compareByLocation);
+			    this.bubbleSort(this.comparePrice);
 			    this.managerOrders = structuredClone(this.managerOrders.reverse());
+			    console.log("4");
 			    break;
 			  case 'DateAscending':
 			    this.bubbleSort(this.compareDateTime);
+			    console.log("5");
 			    break;
 			  case 'DateDescending':
 			    this.bubbleSort(this.compareDateTime);
 			    this.managerOrders = structuredClone(this.managerOrders.reverse());
+			    console.log("6");
 			    break;
 			  case '-':
 				  this.managerOrders = structuredClone(this.managerOrders);
+				  console.log("7");
 				  break;
 			}
 		},
@@ -144,18 +151,22 @@ Vue.component("managerOrders", {
 		},
 		comparePrice : function(order1, order2){
 			if(order1.price < order2.price){
+				console.log(order1.price + "<" + order2.price);
 				return false;
 			}
+			console.log(order1.price + ">=" + order2.price);
 			return true;
 		},
 		compareDateTime : function(order1, order2){
-			let dateString1 = order1.orderDateTime.substring(0, 18);
+			let dateString1 = order1.orderDateTime.substring(0, 19);
 			let date1 = new Date(dateString1);
-			let dateString2 = order2.orderDateTime.substring(0, 18);
+			let dateString2 = order2.orderDateTime.substring(0, 19);
 			let date2 = new Date(dateString2);
 			if(date1 < date2){
+				console.log(date1 + " < " + date2);
 				return false;
 			}
+			console.log(date1 + " >= " + date2);
 			return true;
 		}
     }
