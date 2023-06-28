@@ -22,7 +22,7 @@ Vue.component("managerOrders", {
 			sortedOrders: [],
 			filter: {
 				minPrice: 0,
-				maxPrice: 99999999,
+				maxPrice: 0,
 				minDate: '',
 				maxDate: ''
 			}
@@ -86,6 +86,7 @@ Vue.component("managerOrders", {
 				this.managerOrders = response.data;
 				this.filteredOrders = structuredClone(this.managerOrders);
 				this.sortedOrders = structuredClone(this.managerOrders);
+				this.updateMaxPrice();
 			});
 		});
 		
@@ -178,8 +179,7 @@ Vue.component("managerOrders", {
 				minDate = '1900-01-01';
 			}
 			if (maxDate == '') {
-				let date = new Date();
-				maxDate = date.toISOString().split('T')[0];
+				maxDate = '9999-12-12';
 			}
 			
 			let filtered = [];
@@ -207,6 +207,15 @@ Vue.component("managerOrders", {
 				minDate: '',
 				maxDate: ''
 			}
+			this.updateMaxPrice();
 		},
+		updateMaxPrice: function() {
+			this.filter.maxPrice = this.managerOrders[0].price;
+			for (let order of this.managerOrders) {
+				if (order.price > this.filter.maxPrice) {
+					this.filter.maxPrice = order.price;
+				}
+			}
+		}
     }
 });

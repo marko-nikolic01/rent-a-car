@@ -19,7 +19,7 @@ Vue.component("customerUserProfile", {
 			filter: {
 				objectName: '',
 				minPrice: 0,
-				maxPrice: 99999999,
+				maxPrice: 0,
 				minDate: '',
 				maxDate: ''
 			},
@@ -74,7 +74,7 @@ Vue.component("customerUserProfile", {
   <label>Min. date:</label><input type="date" v-model="filter.minDate"/>
   <label>Max. date:</label><input type="date" v-model="filter.maxDate"/>
   <button v-on:click="filterObjects">Search</button>
-  <button>Cancel search</button>
+  <button v-on:click="cancelSearch">Cancel search</button>
   
   <table class="center">
 		<tr>
@@ -107,7 +107,8 @@ Vue.component("customerUserProfile", {
     mounted () {
         axios.get("rest/users/signedInUser").then(response => {this.signedInUser = response.data;
 																  this.filteredObjects = structuredClone(this.signedInUser.orders);
-																  this.sortedObjects = structuredClone(this.signedInUser.orders);});
+																  this.sortedObjects = structuredClone(this.signedInUser.orders);
+																  this.updateMaxPrice();});
     },
     methods: {
     	editProfile : function() {
@@ -131,6 +132,7 @@ Vue.component("customerUserProfile", {
 				minDate: '',
 				maxDate: ''
 			}
+			this.updateMaxPrice();
 		},
 		sort : function() {			
 			switch (this.sortCriteria) {
@@ -233,8 +235,7 @@ Vue.component("customerUserProfile", {
 				minDate = '1900-01-01';
 			}
 			if (maxDate == '') {
-				let date = new Date();
-				maxDate = date.toISOString().split('T')[0];
+				maxDate = '9999-12-12';
 			}
 			
 			let filtered = [];
@@ -249,6 +250,14 @@ Vue.component("customerUserProfile", {
 				}
 			}
 			return filtered;
+		},
+		updateMaxPrice: function() {
+			this.filter.maxPrice = this.signedInUser.orders[0].price;
+			for (let order of this.signedInUser.orders) {
+				if (order.price > this.filter.maxPrice) {
+					this.filter.maxPrice = order.price;
+				}
+			}
 		}
     }
 });
