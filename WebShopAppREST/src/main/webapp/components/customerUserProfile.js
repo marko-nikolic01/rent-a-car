@@ -64,8 +64,8 @@ Vue.component("customerUserProfile", {
 		<label class="containerLabel">Rent a car object: {{order.rentACarObject.name}}</label><br/>
 		<label class="containerLabel">Order date and time: {{order.orderDateTime}}</label><br/>
 		<label class="containerLabel">Order duration (days): {{order.durationDays}}</label><br/>
-		<label class="containerLabel">Price: {{"order.price"}}</label><br/>
-		<label class="containerLabel">Status: {{"order.status"}}</label><br/>
+		<label class="containerLabel">Price: {{order.price}}</label><br/>
+		<label class="containerLabel">Status: {{order.status}}</label><br/>
 	</div>
 </div>
 	    `,
