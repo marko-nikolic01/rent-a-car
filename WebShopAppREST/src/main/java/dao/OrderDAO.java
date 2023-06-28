@@ -56,6 +56,16 @@ public class OrderDAO {
 		return orders;
 	}
 	
+	public Collection<Order> getByRentACarObjectId(int id) {
+		Collection<Order> ordersByRentACarObject = new ArrayList<Order>();
+		for (Order order : orders) {
+			if (order.getRentACarObject().getId() == id) {
+				ordersByRentACarObject.add(order);
+			}
+		}
+		return ordersByRentACarObject;
+	}
+	
 	public Order save(Order order) {
 		order.setOrderCode(generateOrderCode());
 		orders.add(order);
