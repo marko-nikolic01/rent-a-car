@@ -22,7 +22,8 @@ Vue.component("customerUserProfile", {
 				maxPrice: 99999999,
 				minDate: '',
 				maxDate: ''
-			}
+			},
+			sortCriteria: "-"
 	    }
 	},
 	    template: `
@@ -75,6 +76,23 @@ Vue.component("customerUserProfile", {
   <button v-on:click="filterObjects">Search</button>
   <button>Cancel search</button>
   
+  <table class="center">
+		<tr>
+			<td><label class="signUpLabel">Sort by:</label></td>
+			<td>
+				<select v-model="sortCriteria" v-on:change="sort" name="cars" id="cars" class="signUpInput">
+					<option value="-">-</option>
+					<option value="RentACarObjectAscending">Rent a car object (ascending)</option>
+					<option value="RentACarObjectDescending">Rent a car object (descending)</option>
+					<option value="PriceAscending">Price (ascending)</option>
+					<option value="PriceDescending">Price (descending)</option>
+					<option value="DateAscending">Date (ascending)</option>
+					<option value="DateDescending">Date (descending)</option>
+				</select>
+			</td>
+		</tr>
+	</table>
+  
   	<div v-for="order in sortedObjects" class='container' style="height: 120px;">
 		<img v-bind:src="order.vehicle.photoURL" height="120" width="150" class="containerImage">
 		<label class="containerLabel">Vehicle: {{order.vehicle.brand}} {{order.vehicle.model}}</label><br/>
@@ -101,11 +119,90 @@ Vue.component("customerUserProfile", {
     	home : function() {
 			router.push('/customer/home/');
     	},
+    	cancelSearch: function() {
+			this.filteredObjects = structuredClone(this.signedInUser.orders);
+			this.sortedObjects = structuredClone(this.signedInUser.orders);
+			this.sortCriteria = "-";
+			
+			this.filter = {
+				objectName: '',
+				minPrice: 0,
+				maxPrice: 99999999,
+				minDate: '',
+				maxDate: ''
+			}
+		},
+		sort : function() {			
+			switch (this.sortCriteria) {
+			  case 'RentACarObjectAscending':
+			    this.bubbleSort(this.compareRentACarObject);
+			    break;
+			  case 'RentACarObjectDescending':
+			    this.bubbleSort(this.compareRentACarObject);
+			    this.sortedObjects = structuredClone(this.sortedObjects.reverse());
+			    break;
+			  case 'PriceAscending':
+			    this.bubbleSort(this.comparePrice);
+			    break;
+			  case 'PriceDescending':
+			    this.bubbleSort(this.comparePrice);
+			    this.sortedObjects = structuredClone(this.sortedObjects.reverse());
+			    break;
+			  case 'DateAscending':
+			    this.bubbleSort(this.compareDateTime);
+			    break;
+			  case 'DateDescending':
+			    this.bubbleSort(this.compareDateTime);
+			    this.sortedObjects = structuredClone(this.sortedObjects.reverse());
+			    break;
+			  case '-':
+				  this.sortedObjects = structuredClone(this.filteredObjects);
+				  break;
+			}
+		},
+		bubbleSort : function(comparissonFunction) {
+	    	for (var i = 0; i < this.sortedObjects.length; i++) {
+		        for (var j = 0; j < (this.sortedObjects.length - i - 1); j++) {
+		            if (comparissonFunction(this.sortedObjects[j], this.sortedObjects[j + 1])) {
+		                var temp = this.sortedObjects[j];
+		                this.sortedObjects[j] = this.sortedObjects[j + 1];
+		                this.sortedObjects[j + 1] = temp;
+		            }
+	        	}
+	    	}
+	    	this.sortedObjects = structuredClone(this.sortedObjects);
+		},
+		compareByName : function(object1, object2){
+			if(object1.name.toLowerCase() < object2.name.toLowerCase()){
+				return false;
+			}
+			return true;
+		},
+		compareRentACarObject : function(order1, order2){
+			if(order1.rentACarObject.name.toLowerCase() < order2.rentACarObject.name.toLowerCase()){
+				return false;
+			}
+			return true;
+		},
+		comparePrice : function(order1, order2){
+			if(order1.price < order2.price){
+				return false;
+			}
+			return true;
+		},
+		compareDateTime : function(order1, order2){
+			let dateString1 = order1.orderDateTime.substring(0, 19);
+			let date1 = new Date(dateString1);
+			let dateString2 = order2.orderDateTime.substring(0, 19);
+			let date2 = new Date(dateString2);
+			if(date1 < date2){
+				return false;
+			}
+			return true;
+		},
     	filterObjects: function() {
 			this.filteredObjects = structuredClone(this.signedInUser.orders);
 			this.sortCriteria = "-";
-			
-			console.log("uspelo");
 			
 			this.filteredObjects = this.filterByObjectName(this.filteredObjects, this.filter.objectName);
 			this.filteredObjects = this.filterByPriceRange(this.filteredObjects, this.filter.minPrice, this.filter.maxPrice);
