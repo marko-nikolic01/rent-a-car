@@ -161,7 +161,7 @@ public class OrderDAO {
 			content += Double.toString(order.getPrice()) + ';';
 			content += order.getCustomerName() + ';';
 			content += Integer.toString(order.getCustomerId()) + ';';
-			content += order.getStatus().toString() + ';';
+			content += order.getStatus().toString() + '\n';
 		}
 
 		try {

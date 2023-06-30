@@ -77,5 +77,23 @@ public class OrderService {
 		return dao.getByRentACarObjectId(id);
 	}
 	
-	
+	@PUT
+	@Path("/return/{code}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Order returnOrder(@PathParam("code") String code) {
+		OrderDAO orderDAO = (OrderDAO) servletContext.getAttribute("orderDAO");
+		VehicleDAO vehicleDAO = (VehicleDAO) servletContext.getAttribute("vehicleDAO");
+		
+		Order order = orderDAO.getByCode(code);
+		if(order.getStatus() != OrderStatus.TAKEN) 
+			return null;
+		Vehicle vehicle = order.getVehicle();
+		
+		order.setStatus(OrderStatus.RETURNED);
+		vehicle.setStatus(RentalStatus.AVAILABLE);
+		orderDAO.toCSV();
+		vehicleDAO.toCSV();
+		return order;
+	}
 }
