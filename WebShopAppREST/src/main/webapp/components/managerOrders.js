@@ -69,7 +69,8 @@ Vue.component("managerOrders", {
 		<label class="containerLabel">Price: {{order.price}}</label><br/>
 		<label class="containerLabel">Status: {{order.status}}</label><br/>
 		<label class="containerLabel">Customer name: {{order.customerName}}</label><br/>
-		<button class="button" v-if="order.status == 'TAKEN'" v-on:click="returnOrder(order)">Return order</button>
+		<button class="button" v-if="order.status == 'ACCEPTED'" v-on:click="markAsTaken(order)">Mark as taken</button>
+		<button class="button" v-if="order.status == 'TAKEN'" v-on:click="markAsReturned(order)">Mark as returned</button>
 	</div>
 
 </div>
@@ -218,7 +219,7 @@ Vue.component("managerOrders", {
 				}
 			}
 		},
-		returnOrder: function(order) {
+		markAsReturned: function(order) {
 			if(order.status == 'TAKEN') {
 				axios.put('rest/orders/return/' + order.orderCode).then(response => {
 					order.status = 'RETURNED';
