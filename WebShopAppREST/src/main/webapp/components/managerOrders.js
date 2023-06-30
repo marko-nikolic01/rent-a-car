@@ -25,7 +25,8 @@ Vue.component("managerOrders", {
 				maxPrice: 0,
 				minDate: '',
 				maxDate: ''
-			}
+			},
+			now: ''
 	    }
 	},
 	    template: `
@@ -69,7 +70,7 @@ Vue.component("managerOrders", {
 		<label class="containerLabel">Price: {{order.price}}</label><br/>
 		<label class="containerLabel">Status: {{order.status}}</label><br/>
 		<label class="containerLabel">Customer name: {{order.customerName}}</label><br/>
-		<button class="button" v-if="order.status == 'ACCEPTED'" v-on:click="markAsTaken(order)">Mark as taken</button>
+		<button class="button" v-if="order.status == 'ACCEPTED' && !isFutureDate(order.orderDateTime)" v-on:click="markAsTaken(order)">Mark as taken</button>
 		<button class="button" v-if="order.status == 'TAKEN'" v-on:click="markAsReturned(order)">Mark as returned</button>
 	</div>
 
@@ -78,6 +79,7 @@ Vue.component("managerOrders", {
     mounted () {
         axios.get("rest/users/signedInUser").then(response => {
 			this.signedInUser = response.data
+			this.now = Date.now();
 			if(this.signedInUser.rentACarObject.id == -1) {
 				this.doesManagerHaveObject = false;
 			}
@@ -225,6 +227,21 @@ Vue.component("managerOrders", {
 					order.status = 'RETURNED';
 				});
 			}
+		},
+		markAsTaken: function(order) {
+			if(order.status == 'ACCEPTED' && !this.isFutureDate(order.orderDateTime)) {
+				axios.put('rest/orders/take/' + order.orderCode).then(response => {
+					order.status = 'TAKEN';
+				});
+			}
+		},
+		isFutureDate : function(date){
+			let dateString = date.substring(0, 19);
+			let orderDate = new Date(dateString);
+			if(orderDate > this.now){
+				return true;
+			}
+			return false;
 		}
     }
 });
