@@ -66,6 +66,15 @@ public class OrderDAO {
 		return ordersByRentACarObject;
 	}
 	
+	public Order getByCode(String code) {
+		for (Order order : orders) {
+			if (code.equals(order.getOrderCode())) {
+				return order;
+			}
+		}
+		return null;
+	}
+	
 	public Order save(Order order) {
 		order.setOrderCode(generateOrderCode());
 		orders.add(order);

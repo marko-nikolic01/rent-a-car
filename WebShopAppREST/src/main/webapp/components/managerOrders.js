@@ -33,10 +33,10 @@ Vue.component("managerOrders", {
   
   <ul>
     <li v-on:click="signOut" style="float:right"><a>Sign out</a></li>
-    <li style="float:right"><a class="selectedTab">Profile</a></li>
+    <li style="float:right"><a>Profile</a></li>
     <li v-on:click="home" style="float:left"><a>Home</a></li>
     <li v-on:click="myObject" style="float:left"><a>My object</a></li>
-    <li style="float:left"><a>Orders</a></li>
+    <li style="float:left"><a class="selectedTab">Orders</a></li>
   </ul>			
   
   <h4 class="headingCenter">Orders</h4>
@@ -60,7 +60,7 @@ Vue.component("managerOrders", {
 				</td>
 			</tr>
 		</table>
-  	<div v-for="order in sortedOrders" class='container' style="height: 120px;">
+  	<div v-for="order in sortedOrders" class='container' style="height: 150px;">
 		<img v-bind:src="order.vehicle.photoURL" height="120" width="150" class="containerImage">
 		<label class="containerLabel">Vehicle: {{order.vehicle.brand}} {{order.vehicle.model}}</label><br/>
 		<label class="containerLabel">Rent a car object: {{order.rentACarObject.name}}</label><br/>
@@ -69,6 +69,7 @@ Vue.component("managerOrders", {
 		<label class="containerLabel">Price: {{order.price}}</label><br/>
 		<label class="containerLabel">Status: {{order.status}}</label><br/>
 		<label class="containerLabel">Customer name: {{order.customerName}}</label><br/>
+		<button class="button" v-if="order.status == 'TAKEN'" v-on:click="returnOrder(order)">Return order</button>
 	</div>
 
 </div>
@@ -215,6 +216,13 @@ Vue.component("managerOrders", {
 				if (order.price > this.filter.maxPrice) {
 					this.filter.maxPrice = order.price;
 				}
+			}
+		},
+		returnOrder: function(order) {
+			if(order.status == 'TAKEN') {
+				axios.put('rest/orders/return/' + order.orderCode).then(response => {
+					order.status = 'RETURNED';
+				});
 			}
 		}
     }

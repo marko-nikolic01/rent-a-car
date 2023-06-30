@@ -25,6 +25,8 @@ import dao.UserDAO;
 import dao.VehicleDAO;
 import dto.SignInCredentialsDTO;
 import dto.UserUsernameDTO;
+import utilities.OrderStatus;
+import utilities.RentalStatus;
 
 @Path("/orders")
 public class OrderService {
@@ -74,4 +76,6 @@ public class OrderService {
 		OrderDAO dao = (OrderDAO) servletContext.getAttribute("orderDAO");
 		return dao.getByRentACarObjectId(id);
 	}
+	
+	
 }
