@@ -1,5 +1,6 @@
 package services;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
@@ -92,6 +93,26 @@ public class OrderService {
 		
 		order.setStatus(OrderStatus.RETURNED);
 		vehicle.setStatus(RentalStatus.AVAILABLE);
+		orderDAO.toCSV();
+		vehicleDAO.toCSV();
+		return order;
+	}
+	
+	@PUT
+	@Path("/take/{code}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Order takeOrder(@PathParam("code") String code) {
+		OrderDAO orderDAO = (OrderDAO) servletContext.getAttribute("orderDAO");
+		VehicleDAO vehicleDAO = (VehicleDAO) servletContext.getAttribute("vehicleDAO");
+		
+		Order order = orderDAO.getByCode(code);
+		if((order.getStatus() != OrderStatus.ACCEPTED) || order.getOrderDateTime().isAfter(LocalDateTime.now())) 
+			return null;
+		Vehicle vehicle = order.getVehicle();
+		
+		order.setStatus(OrderStatus.TAKEN);
+		vehicle.setStatus(RentalStatus.RENTED);
 		orderDAO.toCSV();
 		vehicleDAO.toCSV();
 		return order;
