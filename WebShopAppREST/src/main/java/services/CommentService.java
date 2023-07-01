@@ -105,4 +105,12 @@ public class CommentService {
 		return dao.save(comment);
 	}
 	
+	@PUT
+	@Path("/approve/{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public void approveComment(@PathParam("id") int id) {
+		
+	}
+	
 }

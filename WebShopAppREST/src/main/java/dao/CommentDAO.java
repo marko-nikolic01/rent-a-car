@@ -45,6 +45,15 @@ public class CommentDAO {
 		return comments;
 	}
 	
+	public Comment getById(int id) {
+		for (Comment comment : comments) {
+			if (comment.getId() == id) {
+				return comment;
+			}
+		}
+		return null;
+	}
+	
 	public Collection<Comment> getByObject(int id) {
 		Collection<Comment> commentsByObject = new ArrayList<>();
 		for (Comment comment : comments) {
