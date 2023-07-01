@@ -4,26 +4,23 @@ import utilities.CommentStatus;
 
 public class Comment {
 	int id;
-	User user;
-	RentACarObject rentACarObject;
+	Order order;
 	String text;
 	double rating;
 	CommentStatus status;
 	
 	public Comment() {
 		id = -1;
-		user = new User();
-		rentACarObject = new RentACarObject();
+		order = new Order();
 		text = "";
 		rating = 0;
 		status = CommentStatus.PROCESSING;
 	}
 
-	public Comment(int id, User user, RentACarObject rentACarObject, String text, double rating, CommentStatus status) {
+	public Comment(int id, Order order, String text, double rating, CommentStatus status) {
 		super();
 		this.id = id;
-		this.user = user;
-		this.rentACarObject = rentACarObject;
+		this.order = order;
 		this.text = text;
 		this.rating = rating;
 		this.status = status;
@@ -37,20 +34,12 @@ public class Comment {
 		this.id = id;
 	}
 
-	public User getUser() {
-		return user;
+	public Order getOrder() {
+		return order;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public RentACarObject getRentACarObject() {
-		return rentACarObject;
-	}
-
-	public void setRentACarObject(RentACarObject rentACarObject) {
-		this.rentACarObject = rentACarObject;
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 
 	public String getText() {
