@@ -256,7 +256,12 @@ Vue.component("customerUserProfile", {
 			return filtered;
 		},
 		updateMaxPrice: function() {
-			this.filter.maxPrice = this.signedInUser.orders[0].price;
+			if (orders.length == 0) {
+				this.filter.maxPrice = 0;
+			}
+			else {
+				this.filter.maxPrice = this.signedInUser.orders[0].price;			
+			}
 			for (let order of this.signedInUser.orders) {
 				if (order.price > this.filter.maxPrice) {
 					this.filter.maxPrice = order.price;

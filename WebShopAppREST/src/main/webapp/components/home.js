@@ -257,10 +257,10 @@ Vue.component("home", {
 			if (openStatus === true) {
 				let filtered = [];
 				for (let object of objects) {
-				if (object.open === true) {
-					filtered.push(object);
-				}
-				return filtered
+					if (object.open === true) {
+						filtered.push(object);
+					}
+					return filtered;
 				}
 			}
 			return objects;

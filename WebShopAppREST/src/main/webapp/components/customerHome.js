@@ -23,7 +23,7 @@ Vue.component("customerHome", {
     			<li v-on:click="userProfile" style="float:right"><a>Profile</a></li>
     			<li style="float:left"><a class="selectedTab">Home</a></li>
   			</ul>
-			<h4 class="headingCenter">Rent a car objects</h4><label>Name:</label><input type="text" v-model="filter.name"/>
+			<h4 class="headingCenter">Rent a car objects</h4>
 			
 			<label>Name:</label><input type="text" v-model="filter.name"/>
 			<label>Vehicle type:</label>
