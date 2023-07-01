@@ -15,7 +15,16 @@ public class Order {
 	private String customerName;
 	private int customerId;
 	private OrderStatus status;
+	private boolean isRated;
 	
+	public boolean isRated() {
+		return isRated;
+	}
+
+	public void setRated(boolean isRated) {
+		this.isRated = isRated;
+	}
+
 	public Order() {
 		orderCode = "";
 		vehicle = new Vehicle();
@@ -26,10 +35,11 @@ public class Order {
 		customerName = "";
 		customerId = 0;
 		status = OrderStatus.PROCESSING;
+		isRated = false;
 	}
 	
 	public Order(String orderCode, Vehicle vehicle, RentACarObject rentACarObject, LocalDateTime orderDateTime,
-			int durationDays, double price, String customerName, int customerId, OrderStatus status) {
+			int durationDays, double price, String customerName, int customerId, OrderStatus status, boolean isRated) {
 		super();
 		this.orderCode = orderCode;
 		this.vehicle = vehicle;
@@ -40,6 +50,7 @@ public class Order {
 		this.customerName = customerName;
 		this.customerId = customerId;
 		this.status = status;
+		this.isRated = isRated;
 	}
 	
 	public String getCustomerName() {
