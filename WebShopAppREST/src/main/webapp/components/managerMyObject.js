@@ -11,6 +11,7 @@ Vue.component("managerMyObject", {
 				gender: '',
 				role: 'CUSTOMER',
 				rentACarObject: {
+					id: -1,
 					name: '',
 					workingHours: '',
 					location: {
@@ -26,6 +27,7 @@ Vue.component("managerMyObject", {
 				isDeleted: false,
 				vehicles: []
 			},
+			comments: []
 	    }
 	},
 	    template: `
@@ -83,11 +85,28 @@ Vue.component("managerMyObject", {
 	<label class='containerLabel'>Status: {{vehicle.status}}</label></br>
 	<button class="button" v-on:click="deleteVehicle(vehicle)">Delete</button>
 	<button class="button" v-on:click="editVehicle(vehicle)">Edit</button>
-	</div>
+  </div>
+  
+  
+  <h4 class="headingCenter">Comments</h4>
+  
+  <div v-for="comment in comments" class='container' style="height: 120px; margin-left: 20%; margin-right: 20%">
+	<img src="https://i.pinimg.com/originals/09/04/9a/09049aa9d6e8cb79674ab772702b8c9b.jpg" height="120" width="100" class="containerImage">
+	<label class='containerLabel'>Text: {{comment.text}}</label></br>
+	<label class='containerLabel'>Rating: {{comment.rating}}</label></br>
+	<label class='containerLabel'>Customer: {{comment.order.customerName}}</label></br>
+	<label class='containerLabel'>Status: {{comment.status}}</label></br>
+	<button v-on:click="reject(comment)" class="button" v-if="comment.status=='PROCESSING'">Reject</button>
+	<button v-on:click="approve(comment)" class="button" v-if="comment.status=='PROCESSING'">Approve</button>
+  </div>
 </div>
 	    `,
     mounted () {
-        axios.get("rest/users/signedInUser").then(response => (this.signedInUser = response.data));
+        axios.get("rest/users/signedInUser").then(response => {
+			this.signedInUser = response.data;
+			
+			axios.get("rest/comments/" + this.signedInUser.rentACarObject.id).then(response => this.comments = response.data);	
+		});
     },
     methods: {
     	editProfile : function() {
@@ -113,6 +132,14 @@ Vue.component("managerMyObject", {
 		},
 		orders: function() {
 			router.push('/manager/orders/');	
+		},
+		approve: function(comment) {
+			axios.put("rest/comments/approve/" + comment.id);
+			comment.status = "APPROVED";
+		},
+		reject: function(comment) {
+			axios.put("rest/comments/reject/" + comment.id);
+			comment.status = "REJECTED";
 		}
     }
 });

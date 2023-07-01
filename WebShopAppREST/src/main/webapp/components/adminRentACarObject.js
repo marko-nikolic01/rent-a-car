@@ -2,20 +2,21 @@ Vue.component("adminRentACarObject", {
 	data: function () {
 	    return {
 			rentACarObject: {
-					id: -1,
-					name: '',
-					workingHours: '',
-					location: {
-						address: {
-							city: '',
-							country: ''
-						}
-					},
-					open: '',
-					logoURL: '',
-					rating: 0,
-					vehicles: []
-				}
+				id: -1,
+				name: '',
+				workingHours: '',
+				location: {
+					address: {
+						city: '',
+						country: ''
+					}
+				},
+				open: '',
+				logoURL: '',
+				rating: 0,
+				vehicles: []
+			},
+			comments: []
 	    }
 	},
 	    template: `
@@ -73,11 +74,22 @@ Vue.component("adminRentACarObject", {
 	<label class='containerLabel'>Description: {{vehicle.description}}</label></br>
 	<label class='containerLabel'>Status: {{vehicle.status}}</label></br>
 	</div>
+	
+	<h4 class="headingCenter">Comments</h4>
+  
+  <div v-for="comment in comments" class='container' style="height: 120px; margin-left: 20%; margin-right: 20%">
+	<img src="https://i.pinimg.com/originals/09/04/9a/09049aa9d6e8cb79674ab772702b8c9b.jpg" height="120" width="100" class="containerImage">
+	<label class='containerLabel'>Text: {{comment.text}}</label></br>
+	<label class='containerLabel'>Rating: {{comment.rating}}</label></br>
+	<label class='containerLabel'>Customer: {{comment.order.customerName}}</label></br>
+	<label class='containerLabel'>Status: {{comment.status}}</label></br>
+  </div>
 </div>
 	    `,
     mounted () {
         axios.get("rest/rentACarObjects/" + this.$route.params.id).then(response => {
 			this.rentACarObject = response.data;
+			axios.get("rest/comments/" + this.rentACarObject.id).then(response => this.comments = response.data);	
 		});
     },
     methods: {

@@ -256,7 +256,7 @@ Vue.component("customerUserProfile", {
 			return filtered;
 		},
 		updateMaxPrice: function() {
-			if (orders.length == 0) {
+			if (this.orders.length == 0) {
 				this.filter.maxPrice = 0;
 			}
 			else {

@@ -1,13 +1,10 @@
 package services;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -20,7 +17,6 @@ import javax.ws.rs.core.MediaType;
 import beans.Comment;
 import beans.Order;
 import beans.RentACarObject;
-import beans.User;
 import beans.Vehicle;
 import dao.CommentDAO;
 import dao.OrderDAO;
@@ -28,11 +24,8 @@ import dao.RentACarObjectDAO;
 import dao.UserDAO;
 import dao.VehicleDAO;
 import dto.NewCommentDTO;
-import dto.SignInCredentialsDTO;
-import dto.UserUsernameDTO;
 import utilities.CommentStatus;
 import utilities.OrderStatus;
-import utilities.RentalStatus;
 
 @Path("/comments")
 public class CommentService {
