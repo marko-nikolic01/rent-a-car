@@ -122,4 +122,19 @@ public class CommentService {
 		return comment;
 	}
 	
+	@PUT
+	@Path("/reject/{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Comment rejectComment(@PathParam("id") int id) {
+		CommentDAO dao = (CommentDAO) servletContext.getAttribute("commentDAO");
+		
+		Comment comment = dao.getById(id);
+		if(comment.getStatus() != CommentStatus.PROCESSING)
+			return null;
+		
+		comment.setStatus(CommentStatus.REJECTED);
+		dao.toCSV();
+		return comment;
+	}
 }
