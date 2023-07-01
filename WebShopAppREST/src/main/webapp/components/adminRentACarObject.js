@@ -1,4 +1,4 @@
-Vue.component("customerRentACarObject", { 
+Vue.component("adminRentACarObject", { 
 	data: function () {
 	    return {
 			rentACarObject: {
@@ -25,6 +25,9 @@ Vue.component("customerRentACarObject", {
     <li v-on:click="signOut" style="float:right"><a>Sign out</a></li>
     <li v-on:click="userProfile" style="float:right"><a>Profile</a></li>
     <li v-on:click="home" style="float:left"><a class="selectedTab">Home</a></li>
+    <li v-on:click="createManagers" style="float:left"><a>Create managers</a></li>
+    <li v-on:click="createRentACarObject" style="float:left"><a>Create rent a car objects</a></li>
+    <li v-on:click="manageUsers" style="float:left"><a>Manage users</a></li>
   </ul>
   
   <h4 class="headingCenter">Rent-A-Car object info</h4> 
@@ -81,11 +84,23 @@ Vue.component("customerRentACarObject", {
     	signOut : function() {
 			router.push('/');
     	},
-    	home : function() {
-			router.push('/customer/home/');
-    	},
     	userProfile : function() {
-			router.push('/customer/userProfile/');
+			router.push('/admin/userProfile/');
     	},
+    	signOut : function() {
+			router.push('/');
+    	},
+    	home : function() {
+			router.push('/admin/home/');
+    	},
+    	createManagers : function() {
+			router.push('/admin/createManager/');
+    	},
+    	createRentACarObject : function() {
+			router.push('/admin/createRentACarObject/');
+    	},
+    	manageUsers : function() {
+			router.push('/admin/manageUsers/');
+    	}
     }
 });

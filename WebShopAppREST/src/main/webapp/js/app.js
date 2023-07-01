@@ -9,6 +9,7 @@ const CustomerRentACarObject = { template: '<customerRentACarObject></customerRe
 const AdminUserProfile = { template: '<adminUserProfile></adminUserProfile>' }
 const AdminEditProfile = { template: '<adminEditProfile></adminEditProfile>' }
 const AdminHome = { template: '<adminHome></adminHome>' }
+const AdminRentACarObject = { template: '<adminRentACarObject></adminRentACarObject>' }
 const AdminCreateManager = { template: '<adminCreateManager></adminCreateManager>' }
 const AdminCreateRentACarObject = { template: '<adminCreateRentACarObject></adminCreateRentACarObject>' }
 const AdminManageUsers = { template: '<adminManageUsers></adminManageUsers>' }
@@ -34,6 +35,7 @@ const router = new VueRouter({
 		{ path: '/admin/userProfile/', component: AdminUserProfile},
 		{ path: '/admin/editProfile/', component: AdminEditProfile},
 		{ path: '/admin/home/', component: AdminHome},
+		{ path: '/admin/rentACarObject/:id', component: AdminRentACarObject},
 		{ path: '/admin/createManager/', component: AdminCreateManager},
 		{ path: '/admin/createRentACarObject/', component: AdminCreateRentACarObject},
 		{ path: '/admin/manageUsers/', component: AdminManageUsers},
