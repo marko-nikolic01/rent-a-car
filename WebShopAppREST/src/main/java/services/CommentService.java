@@ -28,6 +28,7 @@ import dao.UserDAO;
 import dao.VehicleDAO;
 import dto.SignInCredentialsDTO;
 import dto.UserUsernameDTO;
+import utilities.CommentStatus;
 import utilities.OrderStatus;
 import utilities.RentalStatus;
 
@@ -109,8 +110,16 @@ public class CommentService {
 	@Path("/approve/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public void approveComment(@PathParam("id") int id) {
+	public Comment approveComment(@PathParam("id") int id) {
+		CommentDAO dao = (CommentDAO) servletContext.getAttribute("commentDAO");
 		
+		Comment comment = dao.getById(id);
+		if(comment.getStatus() != CommentStatus.PROCESSING)
+			return null;
+		
+		comment.setStatus(CommentStatus.APPROVED);
+		dao.toCSV();
+		return comment;
 	}
 	
 }
