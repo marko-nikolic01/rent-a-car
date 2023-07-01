@@ -95,4 +95,14 @@ public class CommentService {
 		return dao.getApprovedByObject(id);
 	}
 	
+	@POST
+	@Path("/")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Comment createComment(Comment comment) {
+		if(comment.getText() == "" || comment.getRating() < 1 || comment.getRating() > 5)
+			return null;
+		CommentDAO dao = (CommentDAO) servletContext.getAttribute("commentDAO");
+		return dao.save(comment);
+	}
+	
 }
