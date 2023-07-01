@@ -113,6 +113,7 @@ public class OrderDAO {
 			String customerName = null;
 			int customerId = 0;
 			OrderStatus status = OrderStatus.PROCESSING;
+			boolean isRated = false;
 
 			StringTokenizer st;
 			while ((line = reader.readLine()) != null) {
@@ -131,9 +132,10 @@ public class OrderDAO {
 					customerName = st.nextToken().trim();
 					customerId = Integer.parseInt(st.nextToken().trim());
 					status = OrderStatus.valueOf(st.nextToken().trim());
+					isRated = Boolean.parseBoolean(st.nextToken().trim());
 				}
 				
-				Order order = new Order(orderCode, vehicle, rentACarObject, orderDateTime, duration, price, customerName, customerId, status);
+				Order order = new Order(orderCode, vehicle, rentACarObject, orderDateTime, duration, price, customerName, customerId, status, isRated);
 				orders.add(order);
 				rentACarObject = new RentACarObject();
 				vehicle = new Vehicle();
@@ -161,9 +163,9 @@ public class OrderDAO {
 			content += Double.toString(order.getPrice()) + ';';
 			content += order.getCustomerName() + ';';
 			content += Integer.toString(order.getCustomerId()) + ';';
-			content += order.getStatus().toString() + '\n';
+			content += order.getStatus().toString() + ';';
+			content += Boolean.toString(order.isRated()) + '\n';
 		}
-
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(path));
 			writer.write(content);
