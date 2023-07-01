@@ -27,6 +27,7 @@ import dao.OrderDAO;
 import dao.RentACarObjectDAO;
 import dao.UserDAO;
 import dao.VehicleDAO;
+import dto.NewCommentDTO;
 import dto.SignInCredentialsDTO;
 import dto.UserUsernameDTO;
 import utilities.CommentStatus;
@@ -100,13 +101,21 @@ public class CommentService {
 	@POST
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Comment createComment(Comment comment) {
+	public Comment createComment(NewCommentDTO newComment) {
 		OrderDAO orderDAO = (OrderDAO) servletContext.getAttribute("orderDAO");
-		comment.setOrder(orderDAO.getByCode(comment.getOrder().getOrderCode()));
+		
+		Comment comment = new Comment();
+		Order order = orderDAO.getByCode(newComment.getOrderCode());
+		comment.setOrder(order);
+		comment.setText(newComment.getText());
+		comment.setRating(newComment.getRating());
+		comment.setStatus(CommentStatus.PROCESSING);
+		
 		if(comment.getText() == "" || comment.getRating() < 1 || 
 				comment.getRating() > 5 || comment.getOrder().isRated() ||
 				comment.getOrder().getStatus() != OrderStatus.RETURNED)
 			return null;
+		
 		comment.getOrder().setRated(true);
 		orderDAO.toCSV();
 		CommentDAO commentDAO = (CommentDAO) servletContext.getAttribute("commentDAO");

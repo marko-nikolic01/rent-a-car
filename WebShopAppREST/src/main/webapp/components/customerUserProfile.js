@@ -101,6 +101,7 @@ Vue.component("customerUserProfile", {
 		<label class="containerLabel">Order duration (days): {{order.durationDays}}</label><br/>
 		<label class="containerLabel">Price: {{order.price}}</label><br/>
 		<label class="containerLabel">Status: {{order.status}}</label><br/>
+		<button v-if="!order.rated && order.status == 'RETURNED'" class="button" v-on:click="comment(order)">Comment</button>
 	</div>
 </div>
 	    `,
@@ -120,6 +121,9 @@ Vue.component("customerUserProfile", {
     	home : function() {
 			router.push('/customer/home/');
     	},
+    	comment: function(order) {
+			router.push('/customer/comment/' + order.orderCode);
+		},
     	cancelSearch: function() {
 			this.filteredObjects = structuredClone(this.signedInUser.orders);
 			this.sortedObjects = structuredClone(this.signedInUser.orders);
