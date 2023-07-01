@@ -44,6 +44,20 @@ public class CommentDAO {
 	public Collection<Comment> getAll() {
 		return comments;
 	}
+	
+	public Comment save(Comment comment) {
+		comment.setId(nextId());
+		comments.add(comment);
+		toCSV();
+		return comment;
+	}
+	
+	private int nextId() {
+		if (comments.size() < 1) {
+			return 1;
+		}
+		return comments.stream().mapToInt(c -> c.getId()).max().getAsInt() + 1;
+	}
 
 	private void load() {
 		BufferedReader reader = null;
