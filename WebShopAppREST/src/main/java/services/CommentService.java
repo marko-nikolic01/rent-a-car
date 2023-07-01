@@ -100,10 +100,16 @@ public class CommentService {
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Comment createComment(Comment comment) {
-		if(comment.getText() == "" || comment.getRating() < 1 || comment.getRating() > 5)
+		OrderDAO orderDAO = (OrderDAO) servletContext.getAttribute("orderDAO");
+		comment.setOrder(orderDAO.getByCode(comment.getOrder().getOrderCode()));
+		if(comment.getText() == "" || comment.getRating() < 1 || 
+				comment.getRating() > 5 || comment.getOrder().isRated() ||
+				comment.getOrder().getStatus() != OrderStatus.RETURNED)
 			return null;
-		CommentDAO dao = (CommentDAO) servletContext.getAttribute("commentDAO");
-		return dao.save(comment);
+		comment.getOrder().setRated(true);
+		orderDAO.toCSV();
+		CommentDAO commentDAO = (CommentDAO) servletContext.getAttribute("commentDAO");
+		return commentDAO.save(comment);
 	}
 	
 	@PUT
