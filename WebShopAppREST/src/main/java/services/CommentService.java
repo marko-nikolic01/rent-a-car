@@ -1,6 +1,7 @@
 package services;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
@@ -125,6 +126,7 @@ public class CommentService {
 		
 		comment.setStatus(CommentStatus.APPROVED);
 		dao.toCSV();
+		calculateAverageRating(comment.getOrder().getRentACarObject());
 		return comment;
 	}
 	
@@ -142,5 +144,17 @@ public class CommentService {
 		comment.setStatus(CommentStatus.REJECTED);
 		dao.toCSV();
 		return comment;
+	}
+	
+	public void calculateAverageRating(RentACarObject object) {
+		RentACarObjectDAO rentACarObjectDAO = (RentACarObjectDAO) servletContext.getAttribute("rentACarObjectDAO");
+		CommentDAO commentDAO = (CommentDAO) servletContext.getAttribute("commentDAO");
+		Collection<Comment> comments = commentDAO.getApprovedByObject(object.getId());
+		double sum = 0;
+		for(Comment comment : comments) {
+			sum += comment.getRating();
+		}
+		object.setRating(sum / comments.size());
+		rentACarObjectDAO.toCSV();
 	}
 }
