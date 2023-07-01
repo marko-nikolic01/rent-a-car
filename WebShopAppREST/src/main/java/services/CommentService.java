@@ -78,4 +78,21 @@ public class CommentService {
 		CommentDAO dao = (CommentDAO) servletContext.getAttribute("commentDAO");
 		return dao.getAll();
 	}
+	
+	@GET
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Comment> getCommentsByObject(@PathParam("id") int id) {
+		CommentDAO dao = (CommentDAO) servletContext.getAttribute("commentDAO");
+		return dao.getByObject(id);
+	}
+	
+	@GET
+	@Path("/approved/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Comment> getApprovedCommentsByObject(@PathParam("id") int id) {
+		CommentDAO dao = (CommentDAO) servletContext.getAttribute("commentDAO");
+		return dao.getApprovedByObject(id);
+	}
+	
 }

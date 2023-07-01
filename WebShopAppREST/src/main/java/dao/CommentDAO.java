@@ -45,6 +45,26 @@ public class CommentDAO {
 		return comments;
 	}
 	
+	public Collection<Comment> getByObject(int id) {
+		Collection<Comment> commentsByObject = new ArrayList<>();
+		for (Comment comment : comments) {
+			if (comment.getOrder().getRentACarObject().getId() == id) {
+				commentsByObject.add(comment);
+			}
+		}
+		return commentsByObject;
+	}
+	
+	public Collection<Comment> getApprovedByObject(int id) {
+		Collection<Comment> commentsByObject = new ArrayList<>();
+		for (Comment comment : comments) {
+			if ((comment.getOrder().getRentACarObject().getId() == id) && (comment.getStatus() == CommentStatus.APPROVED)) {
+				commentsByObject.add(comment);
+			}
+		}
+		return commentsByObject;
+	}
+	
 	public Comment save(Comment comment) {
 		comment.setId(nextId());
 		comments.add(comment);
