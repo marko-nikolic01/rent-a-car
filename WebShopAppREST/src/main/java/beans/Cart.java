@@ -38,6 +38,18 @@ public class Cart {
 		this.price = price;
 	}
 	
+	public void add(Order order) {
+		orders.add(order);
+		double value = (1 - user.getType().getDiscount() / 100) * order.getPrice();
+		price += value;
+	}
+	
+	public void remove(Order order) {
+		orders.remove(order);
+		double value = (1 - user.getType().getDiscount() / 100) * order.getPrice();
+		price -= value;
+	}
+	
 	public void clear() {
 		this.orders.clear();
 	}
