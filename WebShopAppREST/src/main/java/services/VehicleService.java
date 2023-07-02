@@ -21,6 +21,7 @@ import beans.Vehicle;
 import dao.RentACarObjectDAO;
 import dao.UserDAO;
 import dao.VehicleDAO;
+import dto.DateRangeDTO;
 import dto.SignInCredentialsDTO;
 import dto.UserUsernameDTO;
 

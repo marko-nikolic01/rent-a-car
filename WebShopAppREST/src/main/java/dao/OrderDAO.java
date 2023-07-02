@@ -16,6 +16,7 @@ import beans.Order;
 import beans.RentACarObject;
 import beans.User;
 import beans.Vehicle;
+import dto.DateRangeDTO;
 import utilities.AlphaNumericCodeGenerator;
 import utilities.OrderStatus;
 
@@ -93,8 +94,22 @@ public class OrderDAO {
 					unique = false;
 				}
 			}
-		}while(!unique);
+		} while(!unique);
 		return code;
+	}
+	
+	public Collection<Order> getByVehicle(Vehicle vehicle) {
+		return getByVehicleId(vehicle.getId());
+	}
+	
+	public Collection<Order> getByVehicleId(int vehicleId) {
+		Collection<Order> filtered = new ArrayList<>();
+		for (Order order : orders) {
+			if (order.getVehicle().getId() == vehicleId) {
+				filtered.add(order);
+			}
+		}
+		return filtered;
 	}
 	
 	private void load() {

@@ -1,5 +1,6 @@
 package beans;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -112,4 +113,11 @@ public class Order {
 		this.status = status;
 	}
 	
+	public LocalDate getStartDate() {
+		return orderDateTime.toLocalDate();
+	}
+	
+	public LocalDate getEndDate() {
+		return orderDateTime.toLocalDate().plusDays(durationDays);
+	}
 }

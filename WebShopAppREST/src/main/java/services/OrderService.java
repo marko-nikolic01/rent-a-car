@@ -1,14 +1,13 @@
 package services;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -17,15 +16,13 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.Order;
-import beans.RentACarObject;
 import beans.User;
 import beans.Vehicle;
 import dao.OrderDAO;
 import dao.RentACarObjectDAO;
 import dao.UserDAO;
 import dao.VehicleDAO;
-import dto.SignInCredentialsDTO;
-import dto.UserUsernameDTO;
+import dto.DateRangeDTO;
 import utilities.OrderStatus;
 import utilities.RentalStatus;
 
@@ -35,7 +32,7 @@ public class OrderService {
 	ServletContext servletContext;
 
 	public OrderService() {
-
+		
 	}
 
 	@PostConstruct
@@ -116,5 +113,40 @@ public class OrderService {
 		orderDAO.toCSV();
 		vehicleDAO.toCSV();
 		return order;
+	}
+	
+	@GET
+	@Path("/isVehicleAvailableInDateRange/{vehicleId}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public boolean isVehicleAvailableInDateRagne(@PathParam("vehicleId") int vehicleId, DateRangeDTO dateRange) {
+		OrderDAO orderDAO = (OrderDAO) servletContext.getAttribute("orderDAO");
+		
+		if (!isStartDateBeforeEndDate(dateRange.getStartDate(), dateRange.getEndDate())) {
+			return false;
+		}
+		
+		for (Order order : orderDAO.getByVehicleId(vehicleId)) {
+			if (isOrderInDateRange(order, dateRange)) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	public boolean isOrderInDateRange(Order order, DateRangeDTO dateRange) {
+		return isOrderInDateRange(order, dateRange.getStartDate(), dateRange.getEndDate());
+	}
+	
+	public boolean isOrderInDateRange(Order order, LocalDate startDate, LocalDate endDate) {
+		return isDateInDateRange(order.getStartDate(), startDate, endDate) || isDateInDateRange(order.getEndDate(), startDate, endDate);
+	}
+	
+	private boolean isDateInDateRange(LocalDate date, LocalDate startDate, LocalDate endDate) {
+		return (date.isAfter(startDate) || date.isEqual(startDate)) && (date.isBefore(endDate) || date.isEqual(endDate));
+	}
+	
+	private boolean isStartDateBeforeEndDate(LocalDate startDate, LocalDate endDate) {
+		return startDate.isBefore(endDate) || startDate.isEqual(endDate);
 	}
 }

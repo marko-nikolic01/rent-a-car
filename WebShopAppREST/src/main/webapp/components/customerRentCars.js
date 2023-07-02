@@ -22,7 +22,7 @@ Vue.component("customerRentCars", {
 			}
 	    }
 	},
-	    template: `
+	template: `
 <div>
 
 	<ul>
@@ -54,11 +54,6 @@ Vue.component("customerRentCars", {
 	    `,
     mounted () {
         axios.get("rest/users/signedInUser").then(response => {this.signedInUser = response.data;});
-        axios.get("rest/vehicles/available").then(response => {
-			this.vehicles = response.data;
-			this.filteredObjects = structuredClone(this.vehicles);
-			this.sortedObjects = structuredClone(this.vehicles);
-		})
     },
     methods: {
     	editProfile : function() {
@@ -77,16 +72,12 @@ Vue.component("customerRentCars", {
 			router.push('/customer/comment/' + order.orderCode);
 		},
     	cancelSearch: function() {
-			this.filteredObjects = structuredClone(this.signedInUser.orders);
-			this.sortedObjects = structuredClone(this.signedInUser.orders);
-			this.sortCriteria = "-";
+			this.filteredObjects = structuredClone(this.vehicles);
+			this.sortedObjects = structuredClone(this.vehicles);
 			
 			this.filter = {
-				objectName: '',
-				minPrice: 0,
-				maxPrice: 99999999,
-				minDate: '',
-				maxDate: ''
+				startDate: '',
+				endDate: ''
 			}
 		},
     	filterObjects: function() {
@@ -97,13 +88,8 @@ Vue.component("customerRentCars", {
 			this.sortedObjects = structuredClone(this.filteredObjects);
 		},
 		filterByDateRange: function(objects, minDate, maxDate) {
-			if (minDate == '') {
-				minDate = '1900-01-01';
-				return;
-			}
-			if (maxDate == '') {
-				maxDate = '9999-12-12';
-				return;
+			if (minDate == '' || maxDate == '') {
+				return objects;
 			}
 			
 			let filtered = [];
