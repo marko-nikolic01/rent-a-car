@@ -93,6 +93,7 @@ public class UserService {
 	public User signIn(SignInCredentialsDTO credentials) {
 		UserDAO dao = (UserDAO) servletContext.getAttribute("userDAO");
 		return dao.signInBySignInCredentials(credentials);
+		long days = DAY
 	}
 	
 	@GET
