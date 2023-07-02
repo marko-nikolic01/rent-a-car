@@ -39,7 +39,7 @@ Vue.component("customerRentCars", {
 	<button v-on:click="filterObjects">Search</button>
 	<button v-on:click="cancelSearch">Cancel search</button>
 
-	<div v-for="vehicle in sortedObjects" class='container' style="height: 150px;">
+	<div v-for="vehicle in sortedObjects" class='container' style="height: 180px;">
 		<img v-bind:src="vehicle.photoURL" height="150" width="200" class="containerImage">
 		<label class="containerLabel">Vehicle: {{vehicle.brand}} {{vehicle.model}}</label><br/>
 		<label class="containerLabel">Price: {{vehicle.price}}</label><br/>
@@ -49,6 +49,7 @@ Vue.component("customerRentCars", {
 		<label class="containerLabel">No. doors: {{vehicle.doors}}</label><br/>
 		<label class="containerLabel">No. passengers: {{vehicle.numberOfPassengers}}</label><br/>
 		<label class="containerLabel">Description: {{vehicle.description}}</label><br/>
+		<button v-on:click="addToCart(vehicle)" class="button">Add to cart</button>
 	</div>
 </div>
 	    `,
@@ -76,6 +77,9 @@ Vue.component("customerRentCars", {
 				startDate: '',
 				endDate: ''
 			}
+		},
+		addToCart: function(vehicle) {
+			console.log(vehicle.id);
 		},
     	filterObjects: function() {			
 			this.filterByDateRange(this.dateRange.startDate, this.dateRange.endDate);

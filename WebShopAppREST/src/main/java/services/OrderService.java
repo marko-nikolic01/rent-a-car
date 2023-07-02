@@ -1,5 +1,6 @@
 package services;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -8,6 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -16,6 +18,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.Order;
+import beans.RentACarObject;
 import beans.User;
 import beans.Vehicle;
 import dao.OrderDAO;
@@ -23,6 +26,8 @@ import dao.RentACarObjectDAO;
 import dao.UserDAO;
 import dao.VehicleDAO;
 import dto.DateRangeDTO;
+import dto.NewOrderDTO;
+import utilities.AlphaNumericCodeGenerator;
 import utilities.OrderStatus;
 import utilities.RentalStatus;
 
@@ -115,38 +120,33 @@ public class OrderService {
 		return order;
 	}
 	
-	@GET
-	@Path("/isVehicleAvailableInDateRange/{vehicleId}")
-	@Produces(MediaType.TEXT_PLAIN)
-	public boolean isVehicleAvailableInDateRagne(@PathParam("vehicleId") int vehicleId, DateRangeDTO dateRange) {
-		OrderDAO orderDAO = (OrderDAO) servletContext.getAttribute("orderDAO");
+	@POST
+	@Path("/addOrderToCart")
+	public Order createOrder(NewOrderDTO dto) {
+		UserDAO userDAO = (UserDAO) servletContext.getAttribute("userDAO");
+		VehicleDAO vehicleDAO = (VehicleDAO) servletContext.getAttribute("vehicleDAO");
+		RentACarObjectDAO rentACarObjectDAO = (RentACarObjectDAO) servletContext.getAttribute("rentACarObjectDAO");
 		
-		if (!isStartDateBeforeEndDate(dateRange.getStartDate(), dateRange.getEndDate())) {
-			return false;
-		}
+		User user = userDAO.getById(dto.getCustomerId());
+		Vehicle vehicle = vehicleDAO.getById(dto.getVehicleId());
+		RentACarObject object = rentACarObjectDAO.getById(vehicle.getRentACarObjectId());
 		
-		for (Order order : orderDAO.getByVehicleId(vehicleId)) {
-			if (isOrderInDateRange(order, dateRange)) {
-				return false;
-			}
-		}
+		AlphaNumericCodeGenerator generator = new AlphaNumericCodeGenerator();
 		
-		return true;
-	}
-	
-	public boolean isOrderInDateRange(Order order, DateRangeDTO dateRange) {
-		return isOrderInDateRange(order, dateRange.getStartDate(), dateRange.getEndDate());
-	}
-	
-	public boolean isOrderInDateRange(Order order, LocalDate startDate, LocalDate endDate) {
-		return isDateInDateRange(order.getStartDate(), startDate, endDate) || isDateInDateRange(order.getEndDate(), startDate, endDate);
-	}
-	
-	private boolean isDateInDateRange(LocalDate date, LocalDate startDate, LocalDate endDate) {
-		return (date.isAfter(startDate) || date.isEqual(startDate)) && (date.isBefore(endDate) || date.isEqual(endDate));
-	}
-	
-	private boolean isStartDateBeforeEndDate(LocalDate startDate, LocalDate endDate) {
-		return startDate.isBefore(endDate) || startDate.isEqual(endDate);
+		Order order = new Order();
+		order.setCustomerId(user.getId());
+		order.setCustomerName(user.getFirstName() + " " + user.getLastName());
+		order.setVehicle(vehicle);
+		order.setRentACarObject(object);
+		order.setOrderCode(generator.generate(10));
+		order.setOrderDateTime(dto.getStartDate().atStartOfDay());
+		order.setDurationDays((int)Duration.between(dto.getStartDate().atStartOfDay(), dto.getEndDate().atStartOfDay()).toDays());
+		order.setPrice(order.getDurationDays() * vehicle.getPrice());
+		order.setStatus(OrderStatus.PROCESSING);
+		order.setRated(false);
+		
+		user.getCart().getOrders().add(order);
+		
+		return order;
 	}
 }
