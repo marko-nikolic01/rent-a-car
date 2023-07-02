@@ -16,7 +16,7 @@ Vue.component("customerRentCars", {
 			vehicles: [],
 			filteredObjects: [],
 			sortedObjects: [],
-			filter: {
+			dateRange: {
 				startDate: '',
 				endDate: ''
 			}
@@ -34,8 +34,8 @@ Vue.component("customerRentCars", {
 
 	<h4 class="headingCenter">Rent cars</h4>
 	
-	<label>Start date:</label><input type="date" v-model="filter.startDate"/>
-	<label>End date:</label><input type="date" v-model="filter.endDate"/>
+	<label>Start date:</label><input type="date" v-model="dateRange.startDate"/>
+	<label>End date:</label><input type="date" v-model="dateRange.endDate"/>
 	<button v-on:click="filterObjects">Search</button>
 	<button v-on:click="cancelSearch">Cancel search</button>
 
@@ -68,42 +68,35 @@ Vue.component("customerRentCars", {
     	home : function() {
 			router.push('/customer/home/');
     	},
-		rentCars: function() {
-			router.push('/customer/comment/' + order.orderCode);
-		},
     	cancelSearch: function() {
 			this.filteredObjects = structuredClone(this.vehicles);
 			this.sortedObjects = structuredClone(this.vehicles);
 			
-			this.filter = {
+			this.dateRange = {
 				startDate: '',
 				endDate: ''
 			}
 		},
-    	filterObjects: function() {
-			this.filteredObjects = structuredClone(this.signedInUser.orders);
-			
-			this.filteredObjects = this.filterByDateRange(this.filteredObjects, this.filter.minDate, this.filter.maxDate);
+    	filterObjects: function() {			
+			this.filteredObjects = this.filterByDateRange(this.dateRange.startDate, this.dateRange.endDate);
 			
 			this.sortedObjects = structuredClone(this.filteredObjects);
 		},
-		filterByDateRange: function(objects, minDate, maxDate) {
-			if (minDate == '' || maxDate == '') {
-				return objects;
-			}
+		filterByDateRange: function(minDate, maxDate) {
+			let vehicles = [];
 			
-			let filtered = [];
-			for (let object of objects) {
-				let dateString = object.orderDateTime.substring(0, 10);
-				let date = new Date(dateString);
-				let lowerDate = new Date(minDate);
-				let upperDate = new Date(maxDate);
-				
-				if (date >= lowerDate && date <= upperDate) {
-					filtered.push(object);
-				}
+			let range = {startDate: minDate, endDate: maxDate};
+			console.log(range);
+			
+			if (!(minDate == '' || maxDate == '')) {
+				axios.get("rest/vehicles/availableInDateRange", {params: this.dateRange}).then(response => {
+					vehicles = response.data;
+					return vehicles;
+				});
 			}
-			return filtered;
+			else {
+				return [];
+			}
 		}
     }
 });

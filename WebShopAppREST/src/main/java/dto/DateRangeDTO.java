@@ -6,7 +6,10 @@ public class DateRangeDTO {
 	private LocalDate startDate;
 	private LocalDate endDate;
 	
-	public DateRangeDTO() {}
+	public DateRangeDTO() {
+		startDate = LocalDate.now();
+		endDate = LocalDate.now();
+	}
 		
 	public DateRangeDTO(LocalDate startDate, LocalDate endDate) {
 		super();
