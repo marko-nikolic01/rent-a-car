@@ -45,6 +45,16 @@ public class VehicleDAO {
 		return vehicles;
 	}
 	
+	public Collection<Vehicle> getAvailable() {
+		Collection<Vehicle> filtered = new ArrayList<>();
+		for (Vehicle vehicle : vehicles) {
+			if (vehicle.getStatus().equals(RentalStatus.AVAILABLE)) {
+				filtered.add(vehicle);
+			}
+		}
+		return filtered;
+	}
+	
 	public Vehicle save(Vehicle vehicle) {
 		vehicle.setId(nextId());
 		vehicles.add(vehicle);

@@ -28,6 +28,7 @@ Vue.component("customerComment", {
     <li v-on:click="signOut" style="float:right"><a>Sign out</a></li>
     <li v-on:click="profile" style="float:right"><a class="selectedTab">Profile</a></li>
     <li v-on:click="home" style="float:left"><a>Home</a></li>
+	<li v-on:click="rentCars" style="float:left"><a>Rent cars</a></li>
   </ul>
   
   <h4 class="headingCenter">Comment</h4>
@@ -67,6 +68,9 @@ Vue.component("customerComment", {
     	},
     	profile: function() {
 			router.push("/customer/userProfile/");
+		},
+		rentCars: function() {
+			router.push("/customer/rentCars/");			
 		},
     	executeComment : function() {
 			this.validate();

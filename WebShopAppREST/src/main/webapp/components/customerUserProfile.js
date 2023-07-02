@@ -33,6 +33,7 @@ Vue.component("customerUserProfile", {
     <li v-on:click="signOut" style="float:right"><a>Sign out</a></li>
     <li style="float:right"><a class="selectedTab">Profile</a></li>
     <li v-on:click="home" style="float:left"><a>Home</a></li>
+	<li v-on:click="rentCars" style="float:left"><a>Rent cars</a></li>
   </ul>
   
   <h4 class="headingCenter">Account info</h4>
@@ -123,6 +124,9 @@ Vue.component("customerUserProfile", {
     	},
     	comment: function(order) {
 			router.push('/customer/comment/' + order.orderCode);
+		},
+		rentCars: function() {
+			router.push("/customer/rentCars/");			
 		},
     	cancelSearch: function() {
 			this.filteredObjects = structuredClone(this.signedInUser.orders);

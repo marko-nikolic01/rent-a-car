@@ -6,6 +6,7 @@ const CustomerEditProfile = { template: '<customerEditProfile></customerEditProf
 const CustomerHome = { template: '<customerHome></customerHome>' }
 const CustomerComment = { template: '<customerComment></customerComment>' }
 const CustomerRentACarObject = { template: '<customerRentACarObject></customerRentACarObject>' }
+const CustomerRentCars = { template: '<customerRentCars></customerRentCars>' }
 const AdminUserProfile = { template: '<adminUserProfile></adminUserProfile>' }
 const AdminEditProfile = { template: '<adminEditProfile></adminEditProfile>' }
 const AdminHome = { template: '<adminHome></adminHome>' }
@@ -32,6 +33,7 @@ const router = new VueRouter({
 		{ path: '/customer/home/', component: CustomerHome},
 		{ path: '/customer/rentACarObject/:id', component: CustomerRentACarObject},
 		{ path: '/customer/comment/:orderCode', component: CustomerComment},
+		{ path: '/customer/rentCars/', component: CustomerRentCars},
 		{ path: '/admin/userProfile/', component: AdminUserProfile},
 		{ path: '/admin/editProfile/', component: AdminEditProfile},
 		{ path: '/admin/home/', component: AdminHome},

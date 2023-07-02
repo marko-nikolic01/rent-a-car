@@ -38,9 +38,7 @@ public class Vehicle {
 		status = RentalStatus.AVAILABLE;
 		rentACarObjectId = -1;
 		isDeleted = false;
-	}
-	
-	
+	}	
 
 	public Vehicle(int id, String brand, String model, double price, VehicleType type, Transmission transmission, Fuel fuel,
 			double fuelConsumption, int doors, int numberOfPassengers, String description, String photoURL,
@@ -62,8 +60,6 @@ public class Vehicle {
 		this.rentACarObjectId = rentACarObjectId;
 		this.isDeleted = isDeleted;
 	}
-
-
 
 	public int getId() {
 		return id;

@@ -33,6 +33,7 @@ Vue.component("customerEditProfile", {
 		<li v-on:click="signOut" style="float: right;"><a>Sign out</a></li>
 		<li style="float: right;"><a class="selectedTab">Profile</a></li>
 		<li v-on:click="home" style="float:left"><a>Home</a></li>
+		<li v-on:click="rentCars" style="float:left"><a>Rent cars</a></li>
 	</ul>
 	<form class="center">
 			<h4 class="headingCenter">Account info</h4>
@@ -155,6 +156,9 @@ Vue.component("customerEditProfile", {
     	},
     	home : function() {
 			router.push('/customer/home/');
-    	}
+    	},
+		rentCars: function() {
+			router.push("/customer/rentCars/");			
+		},
     }
 });
