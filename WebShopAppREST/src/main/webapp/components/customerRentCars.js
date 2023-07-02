@@ -78,20 +78,18 @@ Vue.component("customerRentCars", {
 			}
 		},
     	filterObjects: function() {			
-			this.filteredObjects = this.filterByDateRange(this.dateRange.startDate, this.dateRange.endDate);
+			this.filterByDateRange(this.dateRange.startDate, this.dateRange.endDate);
+			console.log(this.filteredObjects);
 			
 			this.sortedObjects = structuredClone(this.filteredObjects);
 		},
-		filterByDateRange: function(minDate, maxDate) {
-			let vehicles = [];
-			
+		filterByDateRange: function(minDate, maxDate) {			
 			let range = {startDate: minDate, endDate: maxDate};
-			console.log(range);
 			
 			if (!(minDate == '' || maxDate == '')) {
-				axios.get("rest/vehicles/availableInDateRange", {params: this.dateRange}).then(response => {
-					vehicles = response.data;
-					return vehicles;
+				axios.post("rest/vehicles/availableInDateRange", range).then(response => {
+					this.filteredObjects = response.data;
+					this.sortedObjects = structuredClone(this.filteredObjects);
 				});
 			}
 			else {

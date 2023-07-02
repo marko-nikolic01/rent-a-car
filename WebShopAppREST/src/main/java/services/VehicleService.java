@@ -123,7 +123,7 @@ public class VehicleService {
 		return dao.update(updatedVehicle);
 	}
 	
-	@GET
+	@POST
 	@Path("/availableInDateRange")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
