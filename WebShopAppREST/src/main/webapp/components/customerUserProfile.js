@@ -10,6 +10,7 @@ Vue.component("customerUserProfile", {
 				birthday: '',
 				gender: '',
 				role: 'CUSTOMER',
+				type: '',
 				orders: [],
 				isDeleted: false
 			},
@@ -62,6 +63,10 @@ Vue.component("customerUserProfile", {
      <tr>
       <td><label class="signUpLabel">Role:</label></td>
       <td><label>{{signedInUser.role}}</label></td>
+    </tr>
+    <tr>
+      <td><label class="signUpLabel">Type:</label></td>
+      <td><label>{{signedInUser.type.name}}</label></td>
     </tr>
     <tr>
       <button class="button" v-on:click="editProfile">Edit</button>

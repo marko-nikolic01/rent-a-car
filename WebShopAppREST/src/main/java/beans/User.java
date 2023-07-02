@@ -17,6 +17,9 @@ public class User {
 	private Role role;
 	private RentACarObject rentACarObject;
 	private ArrayList<Order> orders = new ArrayList<>();
+	private double points;
+	private CustomerType type;
+	private Cart cart;
 	private boolean isDeleted;
 
 	public User() {
@@ -30,11 +33,14 @@ public class User {
 		gender = Gender.MALE;
 		role = Role.CUSTOMER;
 		rentACarObject = new RentACarObject();
+		points = 0;
+		type = new CustomerType("Normal", 0, 0);
+		cart = new Cart(this);
 		isDeleted = false;
 	}
 
 	public User(int id, String username, String password, String firstName, String lastName, LocalDate birthday,
-			Gender gender, Role role, RentACarObject rentACarObject, boolean isDeleted) {
+			Gender gender, Role role, RentACarObject rentACarObject, double points, boolean isDeleted) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -45,6 +51,9 @@ public class User {
 		this.gender = gender;
 		this.role = role;
 		this.rentACarObject = rentACarObject;
+		this.points = points;
+		setType();
+		cart = new Cart(this);
 		this.isDeleted = isDeleted;
 	}
 
@@ -144,6 +153,38 @@ public class User {
 	public void setOrders(ArrayList<Order> orders) {
 		this.orders = orders;
 	}
+
+	public double getPoints() {
+		return points;
+	}
+
+	public void setPoints(double points) {
+		this.points = points;
+	}
+
+	public CustomerType getType() {
+		return type;
+	}
+
+	public void setType() {
+		if(this.points >= 3000)
+			this.type = new CustomerType("Gold", 10, 3000);
+		else if(this.points >= 2000)
+			this.type = new CustomerType("Silver", 5, 2000);
+		else if(this.points >= 1000)
+			this.type = new CustomerType("Bronze", 2, 1000);
+		else
+			this.type = new CustomerType("Normal", 0, 0);
+	}
+
+	public Cart getCart() {
+		return cart;
+	}
+
+	public void setCart(Cart cart) {
+		this.cart = cart;
+	}
+	
 	
 	
 }

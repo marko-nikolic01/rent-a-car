@@ -164,6 +164,7 @@ public class UserDAO {
 
 			String line;
 			int id = 0;
+			double points = 0;
 			String username = null, password = null, firstName = null, lastName = null;
 			LocalDate birthday = null;
 			Gender gender = null;
@@ -188,10 +189,11 @@ public class UserDAO {
 					gender = Gender.valueOf(st.nextToken().trim());
 					role = Role.valueOf(st.nextToken().trim());
 					rentACarObject.setId(Integer.parseInt(st.nextToken()));
+					points = Double.parseDouble(st.nextToken().trim());
 					isDeleted = Boolean.parseBoolean(st.nextToken().trim());
 				}
 
-				users.add(new User(id, username, password, firstName, lastName, birthday, gender, role, rentACarObject, isDeleted));
+				users.add(new User(id, username, password, firstName, lastName, birthday, gender, role, rentACarObject, points, isDeleted));
 				rentACarObject = new RentACarObject();
 			}
 		} catch (Exception e) {
