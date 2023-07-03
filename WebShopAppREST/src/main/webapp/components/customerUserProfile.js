@@ -66,6 +66,10 @@ Vue.component("customerUserProfile", {
       <td><label>{{signedInUser.role}}</label></td>
     </tr>
     <tr>
+      <td><label class="signUpLabel">Points:</label></td>
+      <td><label>{{signedInUser.points}}</label></td>
+    </tr>
+    <tr>
       <td><label class="signUpLabel">Type:</label></td>
       <td><label>{{signedInUser.type.name}}</label></td>
     </tr>
