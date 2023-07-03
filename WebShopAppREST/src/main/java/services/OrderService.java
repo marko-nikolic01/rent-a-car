@@ -121,6 +121,7 @@ public class OrderService {
 	@POST
 	@Path("/addOrderToCart")
 	public Order createOrder(NewOrderDTO dto) {
+		OrderDAO orderDAO = (OrderDAO) servletContext.getAttribute("orderDAO");
 		UserDAO userDAO = (UserDAO) servletContext.getAttribute("userDAO");
 		VehicleDAO vehicleDAO = (VehicleDAO) servletContext.getAttribute("vehicleDAO");
 		RentACarObjectDAO rentACarObjectDAO = (RentACarObjectDAO) servletContext.getAttribute("rentACarObjectDAO");
@@ -144,6 +145,11 @@ public class OrderService {
 		order.setRated(false);
 		
 		user.getCart().getOrders().add(order);
+		orderDAO.getAll().add(order);
+		
+		for (Order o : user.getCart().getOrders()) {
+			System.out.println(o.getOrderCode());
+		}
 		
 		return order;
 	}

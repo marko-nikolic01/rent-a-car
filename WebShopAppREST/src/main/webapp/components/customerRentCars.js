@@ -79,11 +79,18 @@ Vue.component("customerRentCars", {
 			}
 		},
 		addToCart: function(vehicle) {
-			console.log(vehicle.id);
+			let newOrder = {
+				vehicleId: vehicle.id,
+				startDate: this.dateRange.startDate,
+				endDate: this.dateRange.endDate,
+				customerId: this.signedInUser.id
+			}
+			axios.post("rest/orders/addOrderToCart", newOrder).then(response => {
+				this.filterByDateRange(this.dateRange.startDate, this.dateRange.endDate);
+			});
 		},
     	filterObjects: function() {			
 			this.filterByDateRange(this.dateRange.startDate, this.dateRange.endDate);
-			console.log(this.filteredObjects);
 			
 			this.sortedObjects = structuredClone(this.filteredObjects);
 		},
