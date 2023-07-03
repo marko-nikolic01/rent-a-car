@@ -148,4 +148,19 @@ public class OrderService {
 		
 		return order;
 	}
+	
+	@PUT
+	@Path("/removeOrderFromCart/{code}")
+	public Order removeOrder(@PathParam("code") String code) {
+		UserDAO userDAO = (UserDAO) servletContext.getAttribute("userDAO");
+		
+		User user = userDAO.getSignedInUser();
+		for(Order order : user.getCart().getOrders()) {
+			if(code.equals(order.getOrderCode())) {
+				user.getCart().remove(order);
+				return order;
+			}
+		}
+		return null;
+	}
 }
