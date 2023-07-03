@@ -118,6 +118,6 @@ public class Order {
 	}
 	
 	public LocalDate getEndDate() {
-		return orderDateTime.toLocalDate().plusDays(durationDays);
+		return orderDateTime.toLocalDate().plusDays(durationDays - 1);
 	}
 }

@@ -139,7 +139,7 @@ public class OrderService {
 		order.setRentACarObject(object);
 		order.setOrderCode(generator.generate(10));
 		order.setOrderDateTime(dto.getStartDate().atStartOfDay());
-		order.setDurationDays((int)Duration.between(dto.getStartDate().atStartOfDay(), dto.getEndDate().atStartOfDay()).toDays());
+		order.setDurationDays((int)Duration.between(dto.getStartDate().atStartOfDay(), dto.getEndDate().atStartOfDay()).toDays() + 1);
 		order.setPrice(order.getDurationDays() * vehicle.getPrice());
 		order.setStatus(OrderStatus.PROCESSING);
 		order.setRated(false);
@@ -147,20 +147,5 @@ public class OrderService {
 		user.getCart().add(order);
 		
 		return order;
-	}
-	
-	@PUT
-	@Path("/removeOrderFromCart/{code}")
-	public Order removeOrder(@PathParam("code") String code) {
-		UserDAO userDAO = (UserDAO) servletContext.getAttribute("userDAO");
-		
-		User user = userDAO.getSignedInUser();
-		for(Order order : user.getCart().getOrders()) {
-			if(code.equals(order.getOrderCode())) {
-				user.getCart().remove(order);
-				return order;
-			}
-		}
-		return null;
 	}
 }

@@ -34,7 +34,7 @@ Vue.component("customerEditProfile", {
 		<li style="float: right;"><a class="selectedTab">Profile</a></li>
 		<li v-on:click="home" style="float:left"><a>Home</a></li>
 		<li v-on:click="rentCars" style="float:left"><a>Rent cars</a></li>
-		<li v-on:click="rentCars" style="float:left"><a><img src="images/shopping-cartt.png" height="15" width="15"> Cart</a></li>
+		<li v-on:click="cart" style="float:left"><a><img src="images/shopping-cartt.png" height="15" width="15"> Cart</a></li>
 	</ul>
 	<form class="center">
 			<h4 class="headingCenter">Account info</h4>
@@ -161,5 +161,8 @@ Vue.component("customerEditProfile", {
 		rentCars: function() {
 			router.push("/customer/rentCars/");			
 		},
+		cart: function() {
+			router.push("/customer/cart/");
+		}
     }
 });

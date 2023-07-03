@@ -30,6 +30,7 @@ Vue.component("customerRentCars", {
 		<li v-on:click="profile" style="float:right"><a>Profile</a></li>
 		<li v-on:click="home" style="float:left"><a>Home</a></li>
 		<li style="float:left"><a class="selectedTab">Rent cars</a></li>
+		<li v-on:click="cart" style="float:left"><a><img src="images/shopping-cartt.png" height="15" width="15"> Cart</a></li>
 	</ul>
 
 	<h4 class="headingCenter">Rent cars</h4>
@@ -69,6 +70,9 @@ Vue.component("customerRentCars", {
     	home : function() {
 			router.push('/customer/home/');
     	},
+		cart: function() {
+			router.push("/customer/cart/");
+		},
     	cancelSearch: function() {
 			this.filteredObjects = structuredClone(this.vehicles);
 			this.sortedObjects = structuredClone(this.vehicles);
