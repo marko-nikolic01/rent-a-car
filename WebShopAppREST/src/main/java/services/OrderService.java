@@ -144,12 +144,11 @@ public class OrderService {
 		order.setStatus(OrderStatus.PROCESSING);
 		order.setRated(false);
 		
-		user.getCart().getOrders().add(order);
-		orderDAO.getAll().add(order);
-		
-		for (Order o : user.getCart().getOrders()) {
-			System.out.println(o.getOrderCode());
-		}
+		user.getCart().add(order);
+//		
+//		for (Order o : user.getCart().getOrders()) {
+//			System.out.println(o.getOrderCode());
+//		}
 		
 		return order;
 	}

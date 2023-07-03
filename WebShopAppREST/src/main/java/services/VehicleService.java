@@ -23,6 +23,7 @@ import beans.RentACarObject;
 import beans.Vehicle;
 import dao.OrderDAO;
 import dao.RentACarObjectDAO;
+import dao.UserDAO;
 import dao.VehicleDAO;
 import dto.DateRangeDTO;
 
@@ -145,12 +146,21 @@ public class VehicleService {
 	@Produces(MediaType.TEXT_PLAIN)
 	public boolean isVehicleAvailableInDateRange(@PathParam("vehicleId") int vehicleId, DateRangeDTO dateRange) {
 		OrderDAO orderDAO = (OrderDAO) servletContext.getAttribute("orderDAO");
+		UserDAO userDAO = (UserDAO) servletContext.getAttribute("userDAO");
 		
 		if (!isStartDateBeforeEndDate(dateRange.getStartDate(), dateRange.getEndDate())) {
 			return false;
 		}
 		
-		for (Order order : orderDAO.getByVehicleId(vehicleId)) {
+		Collection<Order> orders = orderDAO.getByVehicleId(vehicleId);
+		
+		for (Order order : userDAO.getSignedInUser().getCart().getOrders()) {
+			if (order.getVehicle().getId() == vehicleId) {
+				orders.add(order);
+			}
+		}
+		
+		for (Order order : orders) {
 			if (isOrderInDateRange(order, dateRange)) {
 				return false;
 			}
