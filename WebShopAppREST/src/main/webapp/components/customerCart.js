@@ -38,13 +38,12 @@ Vue.component("customerCart", {
 		<label class="containerLabel">Vehicle: {{order.vehicle.brand}} {{order.vehicle.model}}</label><br/>
 		<label class="containerLabel">Price: {{order.vehicle.price}}</label><br/>
 		<label class="containerLabel">Date range: {{order.startDate}} - {{order.endDate}} ({{order.durationDays}} days)</label><br/>
-		<button class="button">Remove</button>
+		<button v-on:click="remove(order)" class="button">Remove</button>
 	</div>
 </div>
 	    `,
     mounted () {
         axios.get("rest/users/signedInUser").then(response => {this.signedInUser = response.data;});
-        this.comment.orderCode =  this.$route.params.orderCode;
     },
     methods: {
     	editProfile : function() {
@@ -62,20 +61,10 @@ Vue.component("customerCart", {
 		rentCars: function() {
 			router.push("/customer/rentCars/");			
 		},
-    	executeComment : function() {
-			this.validate();
-			if (!this.valid) {
-				console.log("not valid");
-				return;
-			}
-			axios.post('rest/comments/', this.comment).then(response => (this.profile()));
-    	},
-    	validate: function() {
-			if (this.comment.text === "") {
-				this.valid = false;
-				return;
-			}
-			this.valid = true;
-		}
+		remove: function(order) {
+			axios.put("rest/orders/removeOrderFromCart/" + order.orderCode).then(response => {
+				axios.get("rest/users/signedInUser").then(response => {this.signedInUser = response.data;});
+			});		
+		},
     }
 });
