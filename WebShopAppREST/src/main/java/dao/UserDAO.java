@@ -219,6 +219,7 @@ public class UserDAO {
 			content += user.getGender().toString() + ';';
 			content += user.getRole().toString() + ';';
 			content += Integer.toString(user.getRentACarObject().getId()) + ';';
+			content += Double.toString(user.getPoints()) + ';';
 			content += Boolean.toString(user.isDeleted()) + '\n';
 		}
 

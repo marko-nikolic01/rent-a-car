@@ -11,7 +11,10 @@ Vue.component("customerCart", {
 				gender: '',
 				role: 'CUSTOMER',
 				orders: [],
-				isDeleted: false
+				isDeleted: false,
+				cart: {
+					price: 0
+				}
 			}
 	    }
 	},
@@ -30,6 +33,9 @@ Vue.component("customerCart", {
 	<table class="center">
 		<tr>
 			<td><label class="signUpLabel">Total price: {{signedInUser.cart.price}}</label></td>
+		</tr>
+		<tr>
+			<td><button v-on:click="checkout" class="button">Checkout</button></td>
 		</tr>
 	</table>
 
@@ -60,6 +66,11 @@ Vue.component("customerCart", {
 		},
 		rentCars: function() {
 			router.push("/customer/rentCars/");			
+		},
+		checkout: function() {
+			axios.post("rest/orders/checkout").then(response => {
+				axios.get("rest/users/signedInUser").then(response => {this.signedInUser = response.data;});
+			});
 		},
 		remove: function(order) {
 			axios.put("rest/orders/removeOrderFromCart/" + order.orderCode).then(response => {

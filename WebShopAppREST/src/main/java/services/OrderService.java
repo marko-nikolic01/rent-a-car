@@ -163,4 +163,26 @@ public class OrderService {
 		}
 		return null;
 	}
+	
+	@POST
+	@Path("/checkout")
+	public Collection<Order> saveOrdersFromCart() {
+		UserDAO userDAO = (UserDAO) servletContext.getAttribute("userDAO");
+		OrderDAO orderDAO = (OrderDAO) servletContext.getAttribute("orderDAO");
+		
+		User signedInUser = userDAO.getSignedInUser();
+		
+		Collection<Order> orders = signedInUser.getCart().getOrders();
+		
+		for (Order order : orders) {
+			orderDAO.save(order);
+			signedInUser.getOrders().add(order);
+		}
+		
+		signedInUser.setPoints(signedInUser.getPoints() + signedInUser.getCart().getPrice()/1000 * 133);
+		userDAO.toCSV();
+		signedInUser.getCart().clear();
+		
+		return orders;
+	}
 }

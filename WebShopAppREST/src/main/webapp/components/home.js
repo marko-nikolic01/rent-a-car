@@ -196,7 +196,7 @@ Vue.component("home", {
 			}
 			let filtered = [];
 			for (let object of objects) {
-				for (vehicle of object.vehicles) {
+				for (let vehicle of object.vehicles) {
 					if (vehicle.type == vehicleType) {
 						filtered.push(object);
 						break;
@@ -229,7 +229,7 @@ Vue.component("home", {
 			}
 			let filtered = [];
 			for (let object of objects) {
-				for (vehicle of object.vehicles) {
+				for (let vehicle of object.vehicles) {
 					if (vehicle.transmission == transmission) {
 						filtered.push(object);
 						break;
@@ -244,7 +244,7 @@ Vue.component("home", {
 			}
 			let filtered = [];
 			for (let object of objects) {
-				for (vehicle of object.vehicles) {
+				for (let vehicle of object.vehicles) {
 					if (vehicle.fuel == fuel) {
 						filtered.push(object);
 						break;
@@ -254,14 +254,15 @@ Vue.component("home", {
 			return filtered;
 		},
 		filterByOpenStatus: function(objects, openStatus) {
-			if (openStatus === true) {
+			if (openStatus == true) {
 				let filtered = [];
 				for (let object of objects) {
-					if (object.open === true) {
+					console.log(object.open + ' ' + openStatus);
+					if (object.open == true) {
 						filtered.push(object);
 					}
-					return filtered;
 				}
+				return filtered;
 			}
 			return objects;
 		}

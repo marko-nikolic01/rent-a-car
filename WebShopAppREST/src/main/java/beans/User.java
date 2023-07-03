@@ -160,6 +160,7 @@ public class User {
 
 	public void setPoints(double points) {
 		this.points = points;
+		setType();
 	}
 
 	public CustomerType getType() {
@@ -184,7 +185,4 @@ public class User {
 	public void setCart(Cart cart) {
 		this.cart = cart;
 	}
-	
-	
-	
 }
