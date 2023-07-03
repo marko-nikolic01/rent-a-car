@@ -1,4 +1,4 @@
-Vue.component("customerComment", { 
+Vue.component("customerCart", { 
 	data: function () {
 	    return {
 			signedInUser: {
@@ -12,45 +12,34 @@ Vue.component("customerComment", {
 				role: 'CUSTOMER',
 				orders: [],
 				isDeleted: false
-			},
-			comment: {
-				orderCode: "",
-				text: "",
-				rating: 1
-			},
-			valid: true
+			}
 	    }
 	},
 	    template: `
 <div>
+	<ul>
+	    <li v-on:click="signOut" style="float:right"><a>Sign out</a></li>
+	    <li v-on:click="profile" style="float:right"><a>Profile</a></li>
+	    <li v-on:click="home" style="float:left"><a>Home</a></li>
+		<li v-on:click="rentCars" style="float:left"><a>Rent cars</a></li>
+		<li style="float:left"><a class="selectedTab"><img src="images/shopping-cartt.png" height="15" width="15"> Cart</a></li>
+	</ul>
   
-  <ul>
-    <li v-on:click="signOut" style="float:right"><a>Sign out</a></li>
-    <li v-on:click="profile" style="float:right"><a class="selectedTab">Profile</a></li>
-    <li v-on:click="home" style="float:left"><a>Home</a></li>
-	<li v-on:click="rentCars" style="float:left"><a>Rent cars</a></li>
-	<li v-on:click="cart" style="float:left"><a><img src="images/shopping-cartt.png" height="15" width="15"> Cart</a></li>
-  </ul>
-  
-  <h4 class="headingCenter">Comment</h4>
-  
-  <table class="center">
-    <tr>
-      <td><label class="signUpLabel">Comment:</label></td>
-      <td><input type="text" v-model="comment.text"/></td>
-    </tr>
-     <tr>
-      <td><label class="signUpLabel">Rating:</label></td>
-      <td><input type="range" v-model="comment.rating" min=1 max=5 step=1/></td>
-      <td><label>{{comment.rating}}</label></td>
-    </tr>
-    <tr>
-      <button class="button" v-on:click="executeComment">Comment</button>
-    </tr>
-  </table>
+	<h4 class="headingCenter">Cart</h4>
+	
 	<table class="center">
-		<tr><td><label v-if="!valid" class="labelError">Comment cannot be empty!</label></td></tr>
+		<tr>
+			<td><label class="signUpLabel">Total price: {{signedInUser.cart.price}}</label></td>
+		</tr>
 	</table>
+
+	<div v-for="order in signedInUser.cart.orders" class='container' style="height: 150px;">
+		<img v-bind:src="order.vehicle.photoURL" height="150" width="200" class="containerImage">
+		<label class="containerLabel">Vehicle: {{order.vehicle.brand}} {{order.vehicle.model}}</label><br/>
+		<label class="containerLabel">Price: {{order.vehicle.price}}</label><br/>
+		<label class="containerLabel">Date range: {{order.startDate}} - {{order.endDate}} ({{order.durationDays}} days)</label><br/>
+		<button class="button">Remove</button>
+	</div>
 </div>
 	    `,
     mounted () {
@@ -72,9 +61,6 @@ Vue.component("customerComment", {
 		},
 		rentCars: function() {
 			router.push("/customer/rentCars/");			
-		},
-		cart: function() {
-			router.push("/customer/cart/");
 		},
     	executeComment : function() {
 			this.validate();

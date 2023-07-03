@@ -23,6 +23,7 @@ Vue.component("customerHome", {
     			<li v-on:click="userProfile" style="float:right"><a>Profile</a></li>
     			<li style="float:left"><a class="selectedTab">Home</a></li>
 				<li v-on:click="rentCars" style="float:left"><a>Rent cars</a></li>
+				<li v-on:click="cart" style="float:left"><a><img src="images/shopping-cartt.png" height="15" width="15"> Cart</a></li>
   			</ul>
 			<h4 class="headingCenter">Rent a car objects</h4>
 			
@@ -102,6 +103,9 @@ Vue.component("customerHome", {
     	},
 		rentCars: function() {
 			router.push("/customer/rentCars/");			
+		},
+		cart: function() {
+			router.push("/customer/cart/");
 		},
     	cancelSearch: function() {
 			this.filteredObjects = structuredClone(this.rentACarObjects);

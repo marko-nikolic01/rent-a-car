@@ -139,16 +139,12 @@ public class OrderService {
 		order.setRentACarObject(object);
 		order.setOrderCode(generator.generate(10));
 		order.setOrderDateTime(dto.getStartDate().atStartOfDay());
-		order.setDurationDays((int)Duration.between(dto.getStartDate().atStartOfDay(), dto.getEndDate().atStartOfDay()).toDays());
+		order.setDurationDays((int)Duration.between(dto.getStartDate().atStartOfDay(), dto.getEndDate().atStartOfDay()).toDays() + 1);
 		order.setPrice(order.getDurationDays() * vehicle.getPrice());
 		order.setStatus(OrderStatus.PROCESSING);
 		order.setRated(false);
 		
 		user.getCart().add(order);
-//		
-//		for (Order o : user.getCart().getOrders()) {
-//			System.out.println(o.getOrderCode());
-//		}
 		
 		return order;
 	}

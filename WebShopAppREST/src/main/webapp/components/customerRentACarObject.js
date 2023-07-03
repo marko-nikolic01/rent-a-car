@@ -27,6 +27,7 @@ Vue.component("customerRentACarObject", {
     <li v-on:click="userProfile" style="float:right"><a>Profile</a></li>
     <li v-on:click="home" style="float:left"><a class="selectedTab">Home</a></li>
 	<li v-on:click="rentCars" style="float:left"><a>Rent cars</a></li>
+	<li v-on:click="cart" style="float:left"><a><img src="images/shopping-cartt.png" height="15" width="15"> Cart</a></li>
   </ul>
   
   <h4 class="headingCenter">Rent-A-Car object info</h4> 
@@ -102,6 +103,9 @@ Vue.component("customerRentACarObject", {
     	},
 		rentCars: function() {
 			router.push("/customer/rentCars/");			
+		},
+		cart: function() {
+			router.push("/customer/cart/");
 		}
     }
 });
