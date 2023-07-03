@@ -8,14 +8,14 @@ public class Cart {
 	private double price;
 	
 	public Cart() {
-		user = new User();
-		price = 0;
+		this.user = new User();
+		this.price = 0;
 	}
 
 	public Cart(User user) {
 		super();
 		this.user = user;
-		price = 0;
+		this.price = 0;
 	}
 
 	public void setUser(User user) {
@@ -23,7 +23,7 @@ public class Cart {
 	}
 
 	public ArrayList<Order> getOrders() {
-		return orders;
+		return this.orders;
 	}
 
 	public void setOrders(ArrayList<Order> orders) {
@@ -39,18 +39,19 @@ public class Cart {
 	}
 	
 	public void add(Order order) {
-		orders.add(order);
+		this.orders.add(order);
 		double value = (1 - user.getType().getDiscount() / 100) * order.getPrice();
-		price += value;
+		this.price += value;
 	}
 	
 	public void remove(Order order) {
-		orders.remove(order);
+		this.orders.remove(order);
 		double value = (1 - user.getType().getDiscount() / 100) * order.getPrice();
-		price -= value;
+		this.price -= value;
 	}
 	
 	public void clear() {
 		this.orders.clear();
+		this.price = 0;
 	}
 }
