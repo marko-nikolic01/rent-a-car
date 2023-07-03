@@ -34,6 +34,7 @@ Vue.component("customerEditProfile", {
 		<li style="float: right;"><a class="selectedTab">Profile</a></li>
 		<li v-on:click="home" style="float:left"><a>Home</a></li>
 		<li v-on:click="rentCars" style="float:left"><a>Rent cars</a></li>
+		<li v-on:click="rentCars" style="float:left"><a><img src="images/shopping-cartt.png" height="15" width="15"> Cart</a></li>
 	</ul>
 	<form class="center">
 			<h4 class="headingCenter">Account info</h4>
