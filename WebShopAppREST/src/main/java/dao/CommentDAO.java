@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -14,10 +13,7 @@ import java.util.StringTokenizer;
 
 import beans.Comment;
 import beans.Order;
-import beans.RentACarObject;
-import beans.Vehicle;
 import utilities.CommentStatus;
-import utilities.OrderStatus;
 
 public class CommentDAO {
 	private String path = "comments.csv";

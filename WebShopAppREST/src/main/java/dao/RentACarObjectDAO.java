@@ -11,7 +11,6 @@ import java.util.Collection;
 import java.util.StringTokenizer;
 
 import beans.RentACarObject;
-import beans.User;
 import beans.Vehicle;
 import utilities.Location;
 import utilities.WorkingHours;

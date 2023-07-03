@@ -6,18 +6,14 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.StringTokenizer;
 
 import beans.RentACarObject;
-import beans.User;
 import beans.Vehicle;
 import utilities.Fuel;
-import utilities.Gender;
 import utilities.RentalStatus;
-import utilities.Role;
 import utilities.Transmission;
 import utilities.VehicleType;
 

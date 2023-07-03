@@ -14,9 +14,7 @@ import java.util.StringTokenizer;
 
 import beans.Order;
 import beans.RentACarObject;
-import beans.User;
 import beans.Vehicle;
-import dto.DateRangeDTO;
 import utilities.AlphaNumericCodeGenerator;
 import utilities.OrderStatus;
 

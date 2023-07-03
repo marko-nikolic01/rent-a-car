@@ -1,7 +1,6 @@
 package services;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -25,7 +24,6 @@ import dao.OrderDAO;
 import dao.RentACarObjectDAO;
 import dao.UserDAO;
 import dao.VehicleDAO;
-import dto.DateRangeDTO;
 import dto.NewOrderDTO;
 import utilities.AlphaNumericCodeGenerator;
 import utilities.OrderStatus;
