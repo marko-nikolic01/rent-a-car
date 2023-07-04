@@ -92,7 +92,13 @@ public class UserService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public User signIn(SignInCredentialsDTO credentials) {
 		UserDAO dao = (UserDAO) servletContext.getAttribute("userDAO");
+		emptyCart();
 		return dao.signInBySignInCredentials(credentials);
+	}
+	
+	public void emptyCart() {
+		UserDAO dao = (UserDAO) servletContext.getAttribute("userDAO");
+		dao.getSignedInUser().getCart().clear();
 	}
 	
 	@GET
