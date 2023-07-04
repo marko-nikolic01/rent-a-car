@@ -37,6 +37,7 @@ public class Order {
 		customerName = "";
 		customerId = 0;
 		status = OrderStatus.PROCESSING;
+		rejectionExplanation = " ";
 		isRated = false;
 	}
 	

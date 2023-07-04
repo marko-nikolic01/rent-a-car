@@ -19,7 +19,7 @@ Vue.component("managerRejectOrder", {
 	<li v-on:click="orders" style="float:left"><a class="selectedTab">Orders</a></li>
   </ul>
   
-  <h4 class="headingCenter">Comment</h4>
+  <h4 class="headingCenter">Rejection</h4>
   
   <table class="center">
     <tr>
@@ -60,7 +60,7 @@ Vue.component("managerRejectOrder", {
 				console.log("not valid");
 				return;
 			}
-			axios.post('rest/comments/', this.comment).then(response => (this.profile()));
+			axios.put('rest/orders/reject', this.rejection).then(response => (this.orders()));
     	},
     	validate: function() {
 			if (this.rejection.explanation === "") {

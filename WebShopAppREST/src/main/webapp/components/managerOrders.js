@@ -73,6 +73,7 @@ Vue.component("managerOrders", {
 		<button class="button" v-if="order.status == 'ACCEPTED' && !isFutureDate(order.orderDateTime)" v-on:click="markAsTaken(order)">Mark as taken</button>
 		<button class="button" v-if="order.status == 'TAKEN'" v-on:click="markAsReturned(order)">Mark as returned</button>
 		<button class="button" v-if="order.status == 'PROCESSING'" v-on:click="accept(order)">Accept</button>
+		<button class="button" v-if="order.status == 'PROCESSING'" v-on:click="reject(order)">Reject</button>
 	</div>
 
 </div>
@@ -250,6 +251,9 @@ Vue.component("managerOrders", {
 					order.status = 'ACCEPTED';
 				});
 			}
+		},
+		reject: function(order) {
+			router.push("/manager/rejectOrder/" + order.orderCode);
 		}
     }
 });
