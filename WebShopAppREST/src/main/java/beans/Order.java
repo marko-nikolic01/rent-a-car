@@ -16,6 +16,7 @@ public class Order {
 	private String customerName;
 	private int customerId;
 	private OrderStatus status;
+	private String rejectionExplanation;
 	private boolean isRated;
 	
 	public boolean isRated() {
@@ -40,7 +41,7 @@ public class Order {
 	}
 	
 	public Order(String orderCode, Vehicle vehicle, RentACarObject rentACarObject, LocalDateTime orderDateTime,
-			int durationDays, double price, String customerName, int customerId, OrderStatus status, boolean isRated) {
+			int durationDays, double price, String customerName, int customerId, OrderStatus status, String rejectionExplanation, boolean isRated) {
 		super();
 		this.orderCode = orderCode;
 		this.vehicle = vehicle;
@@ -51,6 +52,7 @@ public class Order {
 		this.customerName = customerName;
 		this.customerId = customerId;
 		this.status = status;
+		this.rejectionExplanation = rejectionExplanation;
 		this.isRated = isRated;
 	}
 	
@@ -120,4 +122,13 @@ public class Order {
 	public LocalDate getEndDate() {
 		return orderDateTime.toLocalDate().plusDays(durationDays - 1);
 	}
+
+	public String getRejectionExplanation() {
+		return rejectionExplanation;
+	}
+
+	public void setRejectionExplanation(String rejectionExplanation) {
+		this.rejectionExplanation = rejectionExplanation;
+	}
+	
 }

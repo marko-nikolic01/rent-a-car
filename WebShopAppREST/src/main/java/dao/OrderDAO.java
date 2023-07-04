@@ -123,7 +123,7 @@ public class OrderDAO {
 			LocalDateTime orderDateTime = LocalDateTime.now();
 			int duration = 0;
 			double price = 0;
-			String customerName = null;
+			String customerName = null, rejectionExplanation = null;
 			int customerId = 0;
 			OrderStatus status = OrderStatus.PROCESSING;
 			boolean isRated = false;
@@ -145,10 +145,11 @@ public class OrderDAO {
 					customerName = st.nextToken().trim();
 					customerId = Integer.parseInt(st.nextToken().trim());
 					status = OrderStatus.valueOf(st.nextToken().trim());
+					rejectionExplanation = st.nextToken().trim();
 					isRated = Boolean.parseBoolean(st.nextToken().trim());
 				}
 				
-				Order order = new Order(orderCode, vehicle, rentACarObject, orderDateTime, duration, price, customerName, customerId, status, isRated);
+				Order order = new Order(orderCode, vehicle, rentACarObject, orderDateTime, duration, price, customerName, customerId, status, rejectionExplanation, isRated);
 				orders.add(order);
 				rentACarObject = new RentACarObject();
 				vehicle = new Vehicle();
@@ -177,6 +178,7 @@ public class OrderDAO {
 			content += order.getCustomerName() + ';';
 			content += Integer.toString(order.getCustomerId()) + ';';
 			content += order.getStatus().toString() + ';';
+			content += order.getRejectionExplanation() + ';';
 			content += Boolean.toString(order.isRated()) + '\n';
 		}
 		try {
