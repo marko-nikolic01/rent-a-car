@@ -26,6 +26,7 @@ Vue.component("managerOrders", {
 				minDate: '',
 				maxDate: ''
 			},
+			users: [],
 			now: ''
 	    }
 	},
@@ -76,7 +77,20 @@ Vue.component("managerOrders", {
 		<button class="button" v-if="order.status == 'PROCESSING'" v-on:click="accept(order)">Accept</button>
 		<button class="button" v-if="order.status == 'PROCESSING'" v-on:click="reject(order)">Reject</button>
 	</div>
-
+	
+	
+    <h4 class="headingCenter">Users</h4>
+	<div v-for="user in users" class='container' style="height: 120px;">
+		<img src="https://i.pinimg.com/originals/09/04/9a/09049aa9d6e8cb79674ab772702b8c9b.jpg" height="120" width="100" class="containerImage">
+		<label class="containerLabel">Username: {{user.username}}</label><br/>
+		<label class="containerLabel">Name: {{user.firstName}} {{user.lastName}}</label><br/>
+		<label class="containerLabel">Date of birth: {{user.birthday}}</label><br/>
+		<label class="containerLabel">Gender: {{user.gender}}</label><br/>
+		<label class="containerLabel">Role: {{user.role}}</label><br/>
+		<label class="containerLabel" v-if="user.role=='CUSTOMER'">Points: {{user.points}} ({{user.type.name}})</label><br/>
+		<label v-if="user.deleted" class="containerConditionalLabelFalse">This user is deleted</label><br/>
+		<label v-if="!user.deleted" class="containerConditionalLabelTrue"></label><br/>
+	</div>
 </div>
 	    `,
     mounted () {
@@ -94,6 +108,10 @@ Vue.component("managerOrders", {
 				this.filteredOrders = structuredClone(this.managerOrders);
 				this.sortedOrders = structuredClone(this.managerOrders);
 				this.updateMaxPrice();
+			});
+			
+			axios.get('rest/orders/usersWhoOrderedFromObject/' + this.signedInUser.rentACarObject.id).then(response => {
+				this.users = response.data;
 			});
 		});
 		

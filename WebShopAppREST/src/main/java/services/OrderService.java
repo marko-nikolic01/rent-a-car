@@ -2,6 +2,7 @@ package services;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
@@ -250,5 +251,25 @@ public class OrderService {
 		signedInUser.getCart().clear();
 		
 		return orders;
+	}
+	
+	@GET
+	@Path("/usersWhoOrderedFromObject/{objectId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<User> getUsersWhoOrderedFromObject(@PathParam("objectId") int objectId) {
+		UserDAO userDAO = (UserDAO) servletContext.getAttribute("userDAO");
+		OrderDAO orderDAO = (OrderDAO) servletContext.getAttribute("orderDAO");
+		
+		Collection<Order> orders = orderDAO.getByRentACarObjectId(objectId);
+		Collection<User> users = new ArrayList<>();
+		
+		for (Order order : orders) {
+			User user = userDAO.getById(order.getCustomerId());
+			if (!users.contains(user)) {
+				users.add(user);
+			}
+		}
+		
+		return users;
 	}
 }
