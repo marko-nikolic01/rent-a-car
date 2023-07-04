@@ -27,8 +27,21 @@ Vue.component("adminManageUsers", {
   			
 			<h2 class="headingCenter">Manage users</h2>
 			
-			<label>First name:</label><input type="text" v-model="filter.firstName"/>
-			<label>Last name:</label><input type="text" v-model="filter.lastName"/>
+			<table class="center">
+				<tr>
+					<td><label class="signUpLabel">First name:</label></td>
+					<td><input class="signUpInput" type="text" v-model="filter.firstName"/></td>
+				</tr>
+				<tr>
+					<td><label class="signUpLabel">Last name:</label></td>
+					<td><input class="signUpInput" type="text" v-model="filter.lastName"/></td>
+				</tr>
+				<tr>
+					<td><label class="signUpLabel">Username:</label></td>
+					<td><input class="signUpInput" type="text" v-model="filter.username"/></td>
+				</tr>
+			</table>
+			
 			<label>Username:</label><input type="text" v-model="filter.username"/>
 			<label>User role:</label>
 				<select v-model="filter.role">
