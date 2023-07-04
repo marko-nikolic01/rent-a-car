@@ -42,12 +42,28 @@ Vue.component("managerOrders", {
   </ul>			
   
   <h4 class="headingCenter">Orders</h4>
-		  <label>Min. price:</label><input type="number" v-model="filter.minPrice"/>
-		  <label>Max. price:</label><input type="number" v-model="filter.maxPrice"/>
-		  <label>Min. date:</label><input type="date" v-model="filter.minDate"/>
-		  <label>Max. date:</label><input type="date" v-model="filter.maxDate"/>
-		  <button v-on:click="filterObjects">Search</button>
-		  <button v-on:click="cancelSearch">Cancel search</button>
+	  <table class="center">
+	  		<tr>
+	    		<td><label class="signUpLabel">Min. price:</label></td>
+	        	<td><input type="number" v-model="filter.minPrice" class="signUpInput"/></td>
+	    	</tr>
+	    	<tr>
+	    		<td><label class="signUpLabel">Max. price:</label></td>
+	        	<td><input type="number" v-model="filter.maxPrice" class="signUpInput"/></td>
+	    	</tr>
+	    	<tr>
+	    		<td><label class="signUpLabel">Min. date:</label></td>
+	        	<td><input type="date" v-model="filter.minDate" class="signUpInput"/></td>
+	    	</tr>
+	    	<tr>
+	    		<td><label class="signUpLabel">Max. date:</label></td>
+	        	<td><input type="date" v-model="filter.maxDate" class="signUpInput"/></td>
+	    	</tr>
+	    	<tr>
+	    		<td><button v-on:click="filterObjects" class="button">Search</button></td>
+	        	<td><button v-on:click="cancelSearch" class="button">Cancel search</button></td>
+	    	</tr>
+		</table>
   		<table class="center">
 			<tr>
 				<td><label class="signUpLabel">Sort by:</label></td>

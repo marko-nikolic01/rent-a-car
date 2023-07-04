@@ -81,9 +81,6 @@ Vue.component("home", {
         			<td><button v-on:click="cancelSearch" class="button">Cancel search</button></td>
     			</tr>
 			</table>
-			
-			
-			
 			</br>
 			
 			<table class="center">

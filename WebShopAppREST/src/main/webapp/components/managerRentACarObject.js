@@ -1,4 +1,4 @@
-Vue.component("customerRentACarObject", { 
+Vue.component("managerRentACarObject", { 
 	data: function () {
 	    return {
 			rentACarObject: {
@@ -16,7 +16,8 @@ Vue.component("customerRentACarObject", {
 				rating: 0,
 				vehicles: []
 			},
-			comments: []
+			comments: [],
+			doesManagerHaveObject: false
 	    }
 	},
 	    template: `
@@ -26,8 +27,8 @@ Vue.component("customerRentACarObject", {
     <li v-on:click="signOut" style="float:right"><a>Sign out</a></li>
     <li v-on:click="userProfile" style="float:right"><a>Profile</a></li>
     <li v-on:click="home" style="float:left"><a class="selectedTab">Home</a></li>
-	<li v-on:click="rentCars" style="float:left"><a>Rent cars</a></li>
-	<li v-on:click="cart" style="float:left"><a><img src="images/shopping-cartt.png" height="15" width="15"> Cart</a></li>
+	<li v-on:click="myObject" v-if="doesManagerHaveObject" style="float:left"><a>My object</a></li>
+	<li v-on:click="orders" style="float:left" v-if="doesManagerHaveObject"><a>Orders</a></li>
   </ul>
   
   <h4 class="headingCenter">Rent-A-Car object info</h4> 
@@ -87,22 +88,31 @@ Vue.component("customerRentACarObject", {
 			
 			axios.get("rest/comments/approved/" + this.rentACarObject.id).then(response => this.comments = response.data);	
 		});
+		axios.get("rest/users/signedInUser").then(response => {
+			this.manager = response.data;
+			if(this.manager.rentACarObject.id == -1) {
+				this.doesManagerHaveObject = false;
+			}
+			else {
+				this.doesManagerHaveObject = true;
+			}
+		});
     },
     methods: {
     	signOut : function() {
 			router.push('/');
     	},
     	home : function() {
-			router.push('/customer/home/');
+			router.push('/manager/home/');
     	},
     	userProfile : function() {
-			router.push('/customer/userProfile/');
+			router.push('/manager/userProfile/');
     	},
-		rentCars: function() {
-			router.push("/customer/rentCars/");			
-		},
-		cart: function() {
-			router.push("/customer/cart/");
+    	myObject : function() {
+			router.push('/manager/myObject');
+    	},
+		orders: function() {
+			router.push('/manager/orders/');	
 		}
     }
 });

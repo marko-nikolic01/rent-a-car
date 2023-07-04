@@ -69,6 +69,8 @@ Vue.component("adminManageUsers", {
 							<option value="LastNameDescending">Last name (descending)</option>
 							<option value="UsernameAscending">Username (ascending)</option>
 							<option value="UsernameDescending">Username (descending)</option>
+							<option value="PointsAscending">Points (ascending)</option>
+							<option value="PointsDescending">Points (descending)</option>
 						</select>
 					</td>
 				</tr>
@@ -143,6 +145,13 @@ Vue.component("adminManageUsers", {
 			    this.bubbleSort(this.compareByUsername);
 			    this.sortedUsers = structuredClone(this.sortedUsers.reverse());
 			    break;
+			  case 'PointsAscending':
+			    this.bubbleSort(this.compareByPoints);
+			    break;
+			  case 'PointsDescending':
+			    this.bubbleSort(this.compareByPoints);
+			    this.sortedUsers = structuredClone(this.sortedUsers.reverse());
+			    break;
 			  case '-':
 				  this.sortedUsers = structuredClone(this.filteredUsers);
 				  break;
@@ -174,6 +183,12 @@ Vue.component("adminManageUsers", {
 		},
 		compareByUsername: function(object1, object2){
 			if(object1.username.toLowerCase() < object2.username.toLowerCase()){
+				return false;
+			}
+			return true;
+		},
+		compareByPoints: function(object1, object2){
+			if(object1.points < object2.points){
 				return false;
 			}
 			return true;

@@ -58,12 +58,9 @@ Vue.component("adminRentACarObject", {
       <td><label class="signUpLabel">Rating:</label></td>
       <td><label>{{rentACarObject.rating}}</label></td>
     </tr>
-     <tr>
-      <td><label class="signUpLabel">Vehicles:</label></td>
-      <td><label class="signUpLabel"></label></td>
-    </tr>
   </table>
   
+  <h4 class="headingCenter">Vehicles</h4>
   <div v-for="vehicle in rentACarObject.vehicles" class='container' style="height: 220px; margin-left: 20%; margin-right: 20%">
   	<img v-bind:src="vehicle.photoURL" height="200" class="containerImage">
 	<label class='containerLabel'>Name: {{vehicle.brand}} {{vehicle.model}}</label></br>
