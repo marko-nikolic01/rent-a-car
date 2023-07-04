@@ -43,7 +43,7 @@ Vue.component("adminManageUsers", {
 				<tr>
 					<td><label class="signUpLabel">User role:</label></td>
 					<td>
-						<select v-model="filter.role">
+						<select class="signUpInput" v-model="filter.role">
 							<option value="-">-</option>
 							<option value="CUSTOMER">Customer</option>
 							<option value="MANAGER">Manager</option>
