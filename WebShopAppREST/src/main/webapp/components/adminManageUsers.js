@@ -40,18 +40,22 @@ Vue.component("adminManageUsers", {
 					<td><label class="signUpLabel">Username:</label></td>
 					<td><input class="signUpInput" type="text" v-model="filter.username"/></td>
 				</tr>
+				<tr>
+					<td><label class="signUpLabel">User role:</label></td>
+					<td>
+						<select v-model="filter.role">
+							<option value="-">-</option>
+							<option value="CUSTOMER">Customer</option>
+							<option value="MANAGER">Manager</option>
+							<option value="ADMINISTRATOR">Administrator</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td><button class="button" v-on:click="filterUsers">Search</button></td>
+					<td><button class="button" v-on:click="cancelSearch">Cancel search</button></td>
+				</tr>
 			</table>
-			
-			<label>Username:</label><input type="text" v-model="filter.username"/>
-			<label>User role:</label>
-				<select v-model="filter.role">
-					<option value="-">-</option>
-					<option value="CUSTOMER">Customer</option>
-					<option value="MANAGER">Manager</option>
-					<option value="ADMINISTRATOR">Administrator</option>
-				</select>
-			<button v-on:click="filterUsers">Search</button>
-			<button v-on:click="cancelSearch">Cancel search</button>
 			
 			<table class="center">
 				<tr>
@@ -77,6 +81,7 @@ Vue.component("adminManageUsers", {
 				<label class="containerLabel">Date of birth: {{user.birthday}}</label><br/>
 				<label class="containerLabel">Gender: {{user.gender}}</label><br/>
 				<label class="containerLabel">Role: {{user.role}}</label><br/>
+				<label class="containerLabel" v-if="user.role=='CUSTOMER'">Points: {{user.points}} ({{user.type.name}})</label><br/>
 				<label v-if="user.deleted" class="containerConditionalLabelFalse">This user is deleted</label><br/>
 				<label v-if="!user.deleted" class="containerConditionalLabelTrue"></label><br/>
 			</div>
