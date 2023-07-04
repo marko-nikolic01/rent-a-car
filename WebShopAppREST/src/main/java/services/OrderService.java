@@ -26,6 +26,7 @@ import dao.RentACarObjectDAO;
 import dao.UserDAO;
 import dao.VehicleDAO;
 import dto.NewOrderDTO;
+import dto.OrderRejectionDTO;
 import utilities.AlphaNumericCodeGenerator;
 import utilities.OrderStatus;
 import utilities.RentalStatus;
@@ -136,6 +137,30 @@ public class OrderService {
 	}
 	
 	@PUT
+	@Path("/reject")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Order rejectOrder(OrderRejectionDTO rejection) {
+		OrderDAO orderDAO = (OrderDAO) servletContext.getAttribute("orderDAO");
+		UserDAO userDAO = (UserDAO) servletContext.getAttribute("userDAO");
+		
+		Order order = orderDAO.getByCode(rejection.getOrderCode());
+		if((order.getStatus() != OrderStatus.PROCESSING)) 
+			return null;
+		
+		order.setStatus(OrderStatus.REJECTED);
+		order.setRejectionExplanation(rejection.getExplanation());
+		orderDAO.toCSV();
+		
+		User user = userDAO.getById(order.getCustomerId());
+		double orderPrice = order.getPrice() * (100 - user.getType().getDiscount()) / 100;
+		user.setPoints(user.getPoints() - orderPrice/1000 * 133);
+		userDAO.toCSV();
+		
+		return order;
+	}
+	
+	@PUT
 	@Path("/cancel/{orderCode}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Order cancelOrder(@PathParam("orderCode") String orderCode) {
@@ -153,28 +178,8 @@ public class OrderService {
 		orderDAO.toCSV();
 
 		User user = userDAO.getSignedInUser();
-		user.setPoints(user.getPoints() - order.getPrice()/1000 * 133 * 4);
-		
-		String userType = user.getType().getName();
-		double orderPrice = order.getPrice();
-		
-		switch (userType) {
-		case "Gold":
-			orderPrice = orderPrice * 100 / 90;
-			break;
-		case "Silver":
-			orderPrice = orderPrice * 100 / 95;
-			break;
-		case "Bronze":
-			orderPrice = orderPrice * 10 / 98;
-			break;
-
-		default:
-			break;
-		}
-		
-		double newPoints = user.getPoints() - orderPrice/1000 * 133 * 4;
-		user.setPoints(newPoints);
+		double orderPrice = order.getPrice() * (100 - user.getType().getDiscount()) / 100;
+		user.setPoints(user.getPoints() - orderPrice/1000 * 133 * 4);
 		userDAO.toCSV();
 		
 		return order;
