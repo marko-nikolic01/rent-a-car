@@ -26,33 +26,63 @@ Vue.component("home", {
 			
 			<h4 class="headingCenter">Rent a car objects</h4>
 			
-			<label>Name:</label><input type="text" v-model="filter.name"/>
-			<label>Vehicle type:</label>
-				<select v-model="filter.vehicleType">
-					<option value="-">-</option>
-					<option value="CAR">Car</option>
-					<option value="VAN">Van</option>
-					<option value="MOBILE_HOME">Mobile home</option>
-				</select>
-			<label>Location:</label><input type="text" v-model="filter.location"/>
-			<label>Rating (1 to 5):</label><input type="range" v-model="filter.rating" min="1" max="5"/>
-			<label>Transmission type:</label>
-				<select v-model="filter.transmission">
-					<option value="-">-</option>
-					<option value="MANUAL">Manual</option>
-					<option value="AUTOMATIC">Automatic</option>
-				</select>
-			<label>Fuel type:</label>
-				<select v-model="filter.fuel">
-					<option value="-">-</option>
-					<option value="PETROL">Petrol</option>
-					<option value="DIESEL">Diesel</option>
-					<option value="HYBRID">Hybrid</option>
-					<option value="ELECTRIC">Electric</option>
-				</select>
-			<label>Is open now:</label><input type="checkbox" v-model="filter.open"/>
-			<button v-on:click="filterObjects">Search</button>
-			<button v-on:click="cancelSearch">Cancel search</button>
+			<table class="center">
+				<tr>
+    				<td><label class="signUpLabel">Name:</label></td>
+        			<td><input v-model="filter.name" type="text" class="signUpInput"/></td>
+    			</tr>
+    			<tr>
+    				<td><label class="signUpLabel">Vehicle type:</label></td>
+        			<td>
+						<select v-model="filter.vehicleType" class="signUpInput">
+  							<option value="-">-</option>
+							<option value="CAR">Car</option>
+							<option value="VAN">Van</option>
+							<option value="MOBILE_HOME">Mobile home</option>
+						</select>
+					</td>
+   				</tr>
+    			<tr>
+    				<td><label class="signUpLabel">Location:</label></td>
+        			<td><input v-model="filter.location" type="password" class="signUpInput"/></td>
+    			</tr>
+    			<tr>
+    				<td><label class="signUpLabel">Rating (1 to 5):</label></td>
+        			<td><input type="range" v-model="filter.rating" min="1" max="5" class="signUpInput"/></td>
+    			</tr>
+    			<tr>
+    				<td><label class="signUpLabel">Transmission type:</label></td>
+        			<td>
+						<select v-model="filter.transmission" class="signUpInput">
+  							<option value="-">-</option>
+							<option value="MANUAL">Manual</option>
+							<option value="AUTOMATIC">Automatic</option>
+						</select>
+					</td>
+   				</tr>
+   				<tr>
+    				<td><label class="signUpLabel">Fuel type:</label></td>
+        			<td>
+						<select v-model="filter.fuel" class="signUpInput">
+  							<option value="-">-</option>
+							<option value="PETROL">Petrol</option>
+							<option value="DIESEL">Diesel</option>
+							<option value="HYBRID">Hybrid</option>
+							<option value="ELECTRIC">Electric</option>
+						</select>
+					</td>
+   				</tr>
+   				<tr>
+    				<td><label class="signUpLabel">Is open now:</label></td>
+        			<td><input type="checkbox" v-model="filter.open" class="signUpInput"/></td>
+    			</tr>
+    			<tr>
+    				<td><button v-on:click="filterObjects" class="button">Search</button></td>
+        			<td><button v-on:click="cancelSearch" class="button">Cancel search</button></td>
+    			</tr>
+			</table>
+			
+			
 			
 			</br>
 			
