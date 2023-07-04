@@ -118,6 +118,22 @@ public class OrderService {
 		return order;
 	}
 	
+	@PUT
+	@Path("/accept/{code}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Order acceptOrder(@PathParam("code") String code) {
+		OrderDAO orderDAO = (OrderDAO) servletContext.getAttribute("orderDAO");
+		
+		Order order = orderDAO.getByCode(code);
+		if((order.getStatus() != OrderStatus.PROCESSING)) 
+			return null;
+		
+		order.setStatus(OrderStatus.ACCEPTED);
+		orderDAO.toCSV();
+		return order;
+	}
+	
 	@POST
 	@Path("/addOrderToCart")
 	public Order createOrder(NewOrderDTO dto) {
