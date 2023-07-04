@@ -1,6 +1,7 @@
 const Home = { template: '<home></home>' }
 const SignUp = { template: '<signUp></signUp>' }
 const SignIn = { template: '<signIn></signIn>' }
+const RentACarObject = { template: '<rentACarObject></rentACarObject>' }
 const CustomerUserProfile = { template: '<customerUserProfile></customerUserProfile>' }
 const CustomerEditProfile = { template: '<customerEditProfile></customerEditProfile>' }
 const CustomerHome = { template: '<customerHome></customerHome>' }
@@ -31,6 +32,7 @@ const router = new VueRouter({
 		{ path: '/', name: 'home', component: Home},
 		{ path: '/signUp/', component: SignUp},
 		{ path: '/signIn/', component: SignIn},
+		{ path: '/rentACarObject/:id', component: RentACarObject},
 		{ path: '/customer/userProfile/', component: CustomerUserProfile},
 		{ path: '/customer/editProfile/', component: CustomerEditProfile},
 		{ path: '/customer/home/', component: CustomerHome},

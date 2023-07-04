@@ -42,9 +42,13 @@ Vue.component("adminRentACarObject", {
       <td><label class="signUpLabel">Working hours:</label></td>
       <td><label>{{rentACarObject.workingHours.startTime}} - {{rentACarObject.workingHours.endTime}}</label></td>
     </tr>
-     <tr>
+    <tr v-if="rentACarObject.working">
       <td><label class="signUpLabel">Status:</label></td>
-      <td><label>{{rentACarObject.working}}</label></td>
+      <td><label>Working</label></td>
+    </tr>
+    <tr v-if="!rentACarObject.working">
+      <td><label class="signUpLabel">Status:</label></td>
+      <td><label>Not working</label></td>
     </tr>
      <tr>
       <td><label class="signUpLabel">Location:</label></td>

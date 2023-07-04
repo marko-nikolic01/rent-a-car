@@ -35,7 +35,7 @@ Vue.component("managerOrders", {
   
   <ul>
     <li v-on:click="signOut" style="float:right"><a>Sign out</a></li>
-    <li style="float:right"><a>Profile</a></li>
+    <li v-on:click="userProfile" style="float:right"><a>Profile</a></li>
     <li v-on:click="home" style="float:left"><a>Home</a></li>
     <li v-on:click="myObject" style="float:left"><a>My object</a></li>
     <li style="float:left"><a class="selectedTab">Orders</a></li>
@@ -133,8 +133,8 @@ Vue.component("managerOrders", {
 		
     },
     methods: {
-    	editProfile : function() {
-			router.push("/manager/editProfile/");
+    	userProfile : function() {
+			router.push("/manager/userProfile/");
     	},
     	signOut : function() {
 			router.push('/');

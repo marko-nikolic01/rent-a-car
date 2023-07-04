@@ -1,4 +1,4 @@
-Vue.component("customerRentACarObject", { 
+Vue.component("rentACarObject", { 
 	data: function () {
 	    return {
 			rentACarObject: {
@@ -23,11 +23,9 @@ Vue.component("customerRentACarObject", {
 <div>
   
   <ul>
-    <li v-on:click="signOut" style="float:right"><a>Sign out</a></li>
-    <li v-on:click="userProfile" style="float:right"><a>Profile</a></li>
     <li v-on:click="home" style="float:left"><a class="selectedTab">Home</a></li>
-	<li v-on:click="rentCars" style="float:left"><a>Rent cars</a></li>
-	<li v-on:click="cart" style="float:left"><a><img src="images/shopping-cartt.png" height="15" width="15"> Cart</a></li>
+  	<li v-on:click="signUp" style="float:right"><a>Sign up</a></li>
+  	<li v-on:click="signIn" style="float:right"><a>Sign in</a></li>
   </ul>
   
   <h4 class="headingCenter">Rent-A-Car object info</h4> 
@@ -82,31 +80,25 @@ Vue.component("customerRentACarObject", {
 	<label class='containerLabel'>Text: {{comment.text}}</label></br>
 	<label class='containerLabel'>Rating: {{comment.rating}}</label></br>
 	<label class='containerLabel'>Customer: {{comment.order.customerName}}</label></br>
+	<label class='containerLabel'>Status: {{comment.status}}</label></br>
   </div>
 </div>
 	    `,
     mounted () {
         axios.get("rest/rentACarObjects/" + this.$route.params.id).then(response => {
 			this.rentACarObject = response.data;
-			
-			axios.get("rest/comments/approved/" + this.rentACarObject.id).then(response => this.comments = response.data);	
+			axios.get("rest/comments/" + this.rentACarObject.id).then(response => this.comments = response.data);	
 		});
     },
     methods: {
-    	signOut : function() {
-			router.push('/');
+    	signUp : function() {
+			router.push('/signUp/');
+    	},
+    	signIn : function() {
+			router.push('/signIn/');
     	},
     	home : function() {
-			router.push('/customer/home/');
-    	},
-    	userProfile : function() {
-			router.push('/customer/userProfile/');
-    	},
-		rentCars: function() {
-			router.push("/customer/rentCars/");			
-		},
-		cart: function() {
-			router.push("/customer/cart/");
-		}
+			router.push('/');
+    	}
     }
 });
