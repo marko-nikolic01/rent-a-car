@@ -16,6 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.CustomerType;
 import beans.Order;
 import beans.RentACarObject;
 import beans.User;
@@ -126,7 +127,7 @@ public class OrderService {
 		OrderDAO orderDAO = (OrderDAO) servletContext.getAttribute("orderDAO");
 		
 		Order order = orderDAO.getByCode(code);
-		if((order.getStatus() != OrderStatus.PROCESSING)) 
+		if ((order.getStatus() != OrderStatus.PROCESSING)) 
 			return null;
 		
 		order.setStatus(OrderStatus.ACCEPTED);
@@ -134,10 +135,54 @@ public class OrderService {
 		return order;
 	}
 	
+	@PUT
+	@Path("/cancel/{orderCode}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Order cancelOrder(@PathParam("orderCode") String orderCode) {
+		OrderDAO orderDAO = (OrderDAO) servletContext.getAttribute("orderDAO");
+		UserDAO userDAO = (UserDAO) servletContext.getAttribute("userDAO");
+		
+		Order order = orderDAO.getByCode(orderCode);
+		
+		if (order == null ||
+				!order.getStatus().equals(OrderStatus.PROCESSING)) {
+			return null;
+		}
+		
+		order.setStatus(OrderStatus.CANCELLED);
+		orderDAO.toCSV();
+
+		User user = userDAO.getSignedInUser();
+		user.setPoints(user.getPoints() - order.getPrice()/1000 * 133 * 4);
+		
+		String userType = user.getType().getName();
+		double orderPrice = order.getPrice();
+		
+		switch (userType) {
+		case "Gold":
+			orderPrice = orderPrice * 100 / 90;
+			break;
+		case "Silver":
+			orderPrice = orderPrice * 100 / 95;
+			break;
+		case "Bronze":
+			orderPrice = orderPrice * 10 / 98;
+			break;
+
+		default:
+			break;
+		}
+		
+		double newPoints = user.getPoints() - orderPrice/1000 * 133 * 4;
+		user.setPoints(newPoints);
+		userDAO.toCSV();
+		
+		return order;
+	}
+	
 	@POST
 	@Path("/addOrderToCart")
 	public Order createOrder(NewOrderDTO dto) {
-		OrderDAO orderDAO = (OrderDAO) servletContext.getAttribute("orderDAO");
 		UserDAO userDAO = (UserDAO) servletContext.getAttribute("userDAO");
 		VehicleDAO vehicleDAO = (VehicleDAO) servletContext.getAttribute("vehicleDAO");
 		RentACarObjectDAO rentACarObjectDAO = (RentACarObjectDAO) servletContext.getAttribute("rentACarObjectDAO");

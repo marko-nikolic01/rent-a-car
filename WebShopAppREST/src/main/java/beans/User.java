@@ -159,6 +159,9 @@ public class User {
 	}
 
 	public void setPoints(double points) {
+		if (points < 0) {
+			points = 0;
+		}
 		this.points = points;
 		setType();
 	}

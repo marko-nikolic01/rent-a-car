@@ -104,7 +104,7 @@ Vue.component("customerUserProfile", {
 		</tr>
 	</table>
   
-  	<div v-for="order in sortedObjects" class='container' style="height: 120px;">
+  	<div v-for="order in sortedObjects" class='container' style="height: 150px;">
 		<img v-bind:src="order.vehicle.photoURL" height="120" width="150" class="containerImage">
 		<label class="containerLabel">Vehicle: {{order.vehicle.brand}} {{order.vehicle.model}}</label><br/>
 		<label class="containerLabel">Rent a car object: {{order.rentACarObject.name}}</label><br/>
@@ -112,7 +112,8 @@ Vue.component("customerUserProfile", {
 		<label class="containerLabel">Order duration (days): {{order.durationDays}}</label><br/>
 		<label class="containerLabel">Price: {{order.price}}</label><br/>
 		<label class="containerLabel">Status: {{order.status}}</label><br/>
-		<button v-if="!order.rated && order.status == 'RETURNED'" class="button" v-on:click="comment(order)">Comment</button>
+		<button v-if="!order.rated && order.status == 'RETURNED'" class="button" v-on:click="comment(order)">Comment</button><br/>
+		<button v-if="order.status == 'PROCESSING'" class="button" v-on:click="cancel(order)">Cancel</button>
 	</div>
 </div>
 	    `,
@@ -140,6 +141,10 @@ Vue.component("customerUserProfile", {
 		},
 		cart: function() {
 			router.push("/customer/cart/");
+		},
+		cancel: function(order) {
+			axios.put("rest/orders/cancel/" + order.orderCode);
+			order.status = 'CANCELLED';
 		},
     	cancelSearch: function() {
 			this.filteredObjects = structuredClone(this.signedInUser.orders);
