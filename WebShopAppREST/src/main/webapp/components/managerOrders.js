@@ -72,6 +72,7 @@ Vue.component("managerOrders", {
 		<label class="containerLabel">Customer name: {{order.customerName}}</label><br/>
 		<button class="button" v-if="order.status == 'ACCEPTED' && !isFutureDate(order.orderDateTime)" v-on:click="markAsTaken(order)">Mark as taken</button>
 		<button class="button" v-if="order.status == 'TAKEN'" v-on:click="markAsReturned(order)">Mark as returned</button>
+		<button class="button" v-if="order.status == 'PROCESSING'" v-on:click="accept(order)">Accept</button>
 	</div>
 
 </div>
@@ -242,6 +243,13 @@ Vue.component("managerOrders", {
 				return true;
 			}
 			return false;
+		},
+		accept: function(order) {
+			if(order.status == 'PROCESSING') {
+				axios.put('rest/orders/accept/' + order.orderCode).then(response => {
+					order.status = 'ACCEPTED';
+				});
+			}
 		}
     }
 });

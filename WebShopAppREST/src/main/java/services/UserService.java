@@ -98,7 +98,9 @@ public class UserService {
 	
 	public void emptyCart() {
 		UserDAO dao = (UserDAO) servletContext.getAttribute("userDAO");
-		dao.getSignedInUser().getCart().clear();
+		User user = dao.getSignedInUser();
+		if(user != null)
+			user.getCart().clear();
 	}
 	
 	@GET
