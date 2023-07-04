@@ -112,6 +112,7 @@ Vue.component("customerUserProfile", {
 		<label class="containerLabel">Order duration (days): {{order.durationDays}}</label><br/>
 		<label class="containerLabel">Price: {{order.price}}</label><br/>
 		<label class="containerLabel">Status: {{order.status}}</label><br/>
+		<label v-if="order.status == 'REJECTED'" class="containerLabel">Rejection explanation: {{order.rejectionExplanation}}</label>
 		<button v-if="!order.rated && order.status == 'RETURNED'" class="button" v-on:click="comment(order)">Comment</button><br/>
 		<button v-if="order.status == 'PROCESSING'" class="button" v-on:click="cancel(order)">Cancel</button>
 	</div>

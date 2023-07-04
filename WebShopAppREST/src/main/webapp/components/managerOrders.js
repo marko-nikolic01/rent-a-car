@@ -62,14 +62,15 @@ Vue.component("managerOrders", {
 			</tr>
 		</table>
   	<div v-for="order in sortedOrders" class='container' style="height: 150px;">
-		<img v-bind:src="order.vehicle.photoURL" height="120" width="150" class="containerImage">
+		<img v-bind:src="order.vehicle.photoURL" height="130" width="160" class="containerImage">
 		<label class="containerLabel">Vehicle: {{order.vehicle.brand}} {{order.vehicle.model}}</label><br/>
 		<label class="containerLabel">Rent a car object: {{order.rentACarObject.name}}</label><br/>
+		<label class="containerLabel">Customer name: {{order.customerName}}</label><br/>
 		<label class="containerLabel">Order date and time: {{order.orderDateTime}}</label><br/>
 		<label class="containerLabel">Order duration (days): {{order.durationDays}}</label><br/>
 		<label class="containerLabel">Price: {{order.price}}</label><br/>
 		<label class="containerLabel">Status: {{order.status}}</label><br/>
-		<label class="containerLabel">Customer name: {{order.customerName}}</label><br/>
+		<label v-if="order.status == 'REJECTED'" class="containerLabel">Rejection explanation: {{order.rejectionExplanation}}</label>
 		<button class="button" v-if="order.status == 'ACCEPTED' && !isFutureDate(order.orderDateTime)" v-on:click="markAsTaken(order)">Mark as taken</button>
 		<button class="button" v-if="order.status == 'TAKEN'" v-on:click="markAsReturned(order)">Mark as returned</button>
 		<button class="button" v-if="order.status == 'PROCESSING'" v-on:click="accept(order)">Accept</button>
