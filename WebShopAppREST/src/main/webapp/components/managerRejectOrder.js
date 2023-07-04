@@ -1,22 +1,9 @@
-Vue.component("customerComment", { 
+Vue.component("managerRejectOrder", { 
 	data: function () {
 	    return {
-			signedInUser: {
-				id: -1,
-				username: '',
-				password: '',
-				firstName: '',
-				lastName: '',
-				birthday: '',
-				gender: '',
-				role: 'CUSTOMER',
-				orders: [],
-				isDeleted: false
-			},
-			comment: {
-				orderCode: "",
-				text: "",
-				rating: 1
+			rejection: {
+				orderCode: '',
+				explanation: ''
 			},
 			valid: true
 	    }
@@ -26,57 +13,48 @@ Vue.component("customerComment", {
   
   <ul>
     <li v-on:click="signOut" style="float:right"><a>Sign out</a></li>
-    <li v-on:click="profile" style="float:right"><a class="selectedTab">Profile</a></li>
+    <li v-on:click="userProfile" style="float:right"><a>Profile</a></li>
     <li v-on:click="home" style="float:left"><a>Home</a></li>
-	<li v-on:click="rentCars" style="float:left"><a>Rent cars</a></li>
-	<li v-on:click="cart" style="float:left"><a><img src="images/shopping-cartt.png" height="15" width="15"> Cart</a></li>
+	<li v-on:click="myObject" style="float:left"><a>My object</a></li>
+	<li v-on:click="orders" style="float:left"><a class="selectedTab">Orders</a></li>
   </ul>
   
   <h4 class="headingCenter">Comment</h4>
   
   <table class="center">
     <tr>
-      <td><label class="signUpLabel">Comment:</label></td>
-      <td><input type="text" v-model="comment.text"/></td>
-    </tr>
-     <tr>
-      <td><label class="signUpLabel">Rating:</label></td>
-      <td><input type="range" v-model="comment.rating" min=1 max=5 step=1/></td>
-      <td><label>{{comment.rating}}</label></td>
+      <td><label class="signUpLabel">Explanation:</label></td>
+      <td><input type="text" v-model="rejection.explanation"/></td>
     </tr>
     <tr>
-      <button class="button" v-on:click="executeComment">Comment</button>
+      <button class="button" v-on:click="reject">Reject</button>
     </tr>
   </table>
 	<table class="center">
-		<tr><td><label v-if="!valid" class="labelError">Comment cannot be empty!</label></td></tr>
+		<tr><td><label v-if="!valid" class="labelError">Explanation cannot be empty!</label></td></tr>
 	</table>
 </div>
 	    `,
     mounted () {
-        axios.get("rest/users/signedInUser").then(response => {this.signedInUser = response.data;});
-        this.comment.orderCode =  this.$route.params.orderCode;
+        this.rejection.orderCode =  this.$route.params.orderCode;
     },
     methods: {
-    	editProfile : function() {
-			router.push("/customer/editProfile/");
-    	},
     	signOut : function() {
 			router.push('/');
     	},
-    	home : function() {
-			router.push('/customer/home/');
+    	myObject : function() {
+			router.push('/manager/myObject');
     	},
-    	profile: function() {
-			router.push("/customer/userProfile/");
+    	userProfile : function() {
+    		router.push("/manager/userProfile/");
+    	},
+		orders: function() {
+			router.push('/manager/orders/');	
 		},
-		rentCars: function() {
-			router.push("/customer/rentCars/");			
-		},
-		cart: function() {
-			router.push("/customer/cart/");
-		},
-    	executeComment : function() {
+		home : function() {
+			router.push('/manager/home/');
+    	},
+    	reject : function() {
 			this.validate();
 			if (!this.valid) {
 				console.log("not valid");
@@ -85,7 +63,7 @@ Vue.component("customerComment", {
 			axios.post('rest/comments/', this.comment).then(response => (this.profile()));
     	},
     	validate: function() {
-			if (this.comment.text === "") {
+			if (this.rejection.explanation === "") {
 				this.valid = false;
 				return;
 			}
