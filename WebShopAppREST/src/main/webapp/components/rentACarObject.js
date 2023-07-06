@@ -1,4 +1,4 @@
-Vue.component("adminRentACarObject", { 
+Vue.component("rentACarObject", { 
 	data: function () {
 	    return {
 			rentACarObject: {
@@ -23,12 +23,9 @@ Vue.component("adminRentACarObject", {
 <div>
   
   <ul>
-    <li v-on:click="signOut" style="float:right"><a>Sign out</a></li>
-    <li v-on:click="userProfile" style="float:right"><a>Profile</a></li>
     <li v-on:click="home" style="float:left"><a class="selectedTab">Home</a></li>
-    <li v-on:click="createManagers" style="float:left"><a>Create managers</a></li>
-    <li v-on:click="createRentACarObject" style="float:left"><a>Create rent a car objects</a></li>
-    <li v-on:click="manageUsers" style="float:left"><a>Manage users</a></li>
+  	<li v-on:click="signUp" style="float:right"><a>Sign up</a></li>
+  	<li v-on:click="signIn" style="float:right"><a>Sign in</a></li>
   </ul>
   
   <h4 class="headingCenter">Rent-A-Car object info</h4> 
@@ -52,8 +49,7 @@ Vue.component("adminRentACarObject", {
     </tr>
      <tr>
       <td><label class="signUpLabel">Location:</label></td>
-      <td><label>{{rentACarObject.location.address.city}}, <a v-on:click="openMap">{{rentACarObject.location.address.street}} {{rentACarObject.location.address.streetNumber}}</a></label></td>
-      <td><button class="button"></button>
+      <td><label>{{rentACarObject.location.address.city}}</label></td>
     </tr>
      <tr>
       <td><label class="signUpLabel">Logo:</label></td>
@@ -95,29 +91,14 @@ Vue.component("adminRentACarObject", {
 		});
     },
     methods: {
-    	signOut : function() {
-			router.push('/');
+    	signUp : function() {
+			router.push('/signUp/');
     	},
-    	userProfile : function() {
-			router.push('/admin/userProfile/');
-    	},
-    	signOut : function() {
-			router.push('/');
+    	signIn : function() {
+			router.push('/signIn/');
     	},
     	home : function() {
-			router.push('/admin/home/');
-    	},
-    	createManagers : function() {
-			router.push('/admin/createManager/');
-    	},
-    	createRentACarObject : function() {
-			router.push('/admin/createRentACarObject/');
-    	},
-    	manageUsers : function() {
-			router.push('/admin/manageUsers/');
-    	},
-    	openMap: function() {
-			window.open(baseRoute + '/openmap/' + this.rentACarObject.id);
-		}
+			router.push('/');
+    	}
     }
 });

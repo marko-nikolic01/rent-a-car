@@ -81,9 +81,6 @@ Vue.component("home", {
         			<td><button v-on:click="cancelSearch" class="button">Cancel search</button></td>
     			</tr>
 			</table>
-			
-			
-			
 			</br>
 			
 			<table class="center">
@@ -109,6 +106,7 @@ Vue.component("home", {
 				<label class="containerLabel">Location: {{object.location.address.street}} {{object.location.address.streetNumber}}, {{object.location.address.city}}</label><br/>
 				<label class="containerLabel">Rating: {{object.rating}}</label><br/>
 				<label v-bind:class="{'containerConditionalLabelTrue': object.workingHours.open,  'containerConditionalLabelFalse': !object.workingHours.open}">Working time: {{object.workingHours.startTime}}   -   {{object.workingHours.endTime}}</label><br/>
+				<button class="button" v-on:click="info(object)">Info</button>
 			</div>
 		</div>
 	    `,
@@ -123,6 +121,9 @@ Vue.component("home", {
     	},
     	signIn : function() {
 			router.push('/signIn/');
+    	},
+    	info : function(object) {
+    		router.push("/rentACarObject/" + object.id);
     	},
     	cancelSearch: function() {
 			this.filteredObjects = structuredClone(this.rentACarObjects);

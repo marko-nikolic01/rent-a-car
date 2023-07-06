@@ -1,6 +1,7 @@
 const Home = { template: '<home></home>' }
 const SignUp = { template: '<signUp></signUp>' }
 const SignIn = { template: '<signIn></signIn>' }
+const RentACarObject = { template: '<rentACarObject></rentACarObject>' }
 const CustomerUserProfile = { template: '<customerUserProfile></customerUserProfile>' }
 const CustomerEditProfile = { template: '<customerEditProfile></customerEditProfile>' }
 const CustomerHome = { template: '<customerHome></customerHome>' }
@@ -25,6 +26,7 @@ const ManagerOrders = { template: '<managerOrders></managerOrders>' }
 const ManagerRejectOrder = { template: '<managerRejectOrder></managerRejectOrder>' }
 const OpenMap = { template: '<openmap></openmap>' }
 const baseRoute = 'http://localhost:8080/WebShopAppREST/#'
+const ManagerRentACarObject = { template: '<managerRentACarObject></managerRentACarObject>' }
 
 const router = new VueRouter({
 	mode: 'hash',
@@ -32,6 +34,7 @@ const router = new VueRouter({
 		{ path: '/', name: 'home', component: Home},
 		{ path: '/signUp/', component: SignUp},
 		{ path: '/signIn/', component: SignIn},
+		{ path: '/rentACarObject/:id', component: RentACarObject},
 		{ path: '/customer/userProfile/', component: CustomerUserProfile},
 		{ path: '/customer/editProfile/', component: CustomerEditProfile},
 		{ path: '/customer/home/', component: CustomerHome},
@@ -54,7 +57,8 @@ const router = new VueRouter({
 		{ path: '/manager/editVehicle/:id', component: ManagerEditVehicle},
 		{ path: '/manager/orders/', component: ManagerOrders},
 		{ path: '/manager/rejectOrder/:orderCode', component: ManagerRejectOrder},
-		{ path: '/openmap/:id', component: OpenMap}
+		{ path: '/openmap/:id', component: OpenMap},
+		{ path: '/manager/rentACarObject/:id', component: ManagerRentACarObject},
 	  ]
 });
 

@@ -34,11 +34,20 @@ Vue.component("customerRentCars", {
 	</ul>
 
 	<h4 class="headingCenter">Rent cars</h4>
-	
-	<label>Start date:</label><input type="date" v-model="dateRange.startDate"/>
-	<label>End date:</label><input type="date" v-model="dateRange.endDate"/>
-	<button v-on:click="filterObjects">Search</button>
-	<button v-on:click="cancelSearch">Cancel search</button>
+	<table class="center">
+	  	<tr>
+	    	<td><label class="signUpLabel">Start date:</label></td>
+	       	<td><input type="date" v-model="dateRange.startDate" class="signUpInput"/></td>
+	    </tr>
+	    <tr>
+	    	<td><label class="signUpLabel">End date:</label></td>
+	       	<td><input type="date" v-model="dateRange.endDate" class="signUpInput"/></td>
+	    </tr>
+	    <tr>
+	    	<td><button v-on:click="filterObjects" class="button">Search</button></td>
+	        <td><button v-on:click="cancelSearch" class="button">Cancel search</button></td>
+	    </tr>
+	</table>
 
 	<div v-for="vehicle in sortedObjects" class='container' style="height: 180px;">
 		<img v-bind:src="vehicle.photoURL" height="150" width="200" class="containerImage">

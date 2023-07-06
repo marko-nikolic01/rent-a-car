@@ -41,9 +41,13 @@ Vue.component("customerRentACarObject", {
       <td><label class="signUpLabel">Working hours:</label></td>
       <td><label>{{rentACarObject.workingHours.startTime}} - {{rentACarObject.workingHours.endTime}}</label></td>
     </tr>
-     <tr>
+    <tr v-if="rentACarObject.working">
       <td><label class="signUpLabel">Status:</label></td>
-      <td><label>{{rentACarObject.working}}</label></td>
+      <td><label>Working</label></td>
+    </tr>
+    <tr v-if="!rentACarObject.working">
+      <td><label class="signUpLabel">Status:</label></td>
+      <td><label>Not working</label></td>
     </tr>
      <tr>
       <td><label class="signUpLabel">Location:</label></td>
@@ -57,12 +61,9 @@ Vue.component("customerRentACarObject", {
       <td><label class="signUpLabel">Rating:</label></td>
       <td><label>{{rentACarObject.rating}}</label></td>
     </tr>
-     <tr>
-      <td><label class="signUpLabel">Vehicles:</label></td>
-      <td><label class="signUpLabel"></label></td>
-    </tr>
   </table>
   
+  <h4 class="headingCenter">Vehicles</h4>
   <div v-for="vehicle in rentACarObject.vehicles" class='container' style="height: 220px; margin-left: 20%; margin-right: 20%">
   	<img v-bind:src="vehicle.photoURL" height="200" class="containerImage">
 	<label class='containerLabel'>Name: {{vehicle.brand}} {{vehicle.model}}</label></br>

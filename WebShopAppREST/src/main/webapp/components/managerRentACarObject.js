@@ -1,4 +1,4 @@
-Vue.component("adminRentACarObject", { 
+Vue.component("managerRentACarObject", { 
 	data: function () {
 	    return {
 			rentACarObject: {
@@ -16,7 +16,8 @@ Vue.component("adminRentACarObject", {
 				rating: 0,
 				vehicles: []
 			},
-			comments: []
+			comments: [],
+			doesManagerHaveObject: false
 	    }
 	},
 	    template: `
@@ -26,9 +27,8 @@ Vue.component("adminRentACarObject", {
     <li v-on:click="signOut" style="float:right"><a>Sign out</a></li>
     <li v-on:click="userProfile" style="float:right"><a>Profile</a></li>
     <li v-on:click="home" style="float:left"><a class="selectedTab">Home</a></li>
-    <li v-on:click="createManagers" style="float:left"><a>Create managers</a></li>
-    <li v-on:click="createRentACarObject" style="float:left"><a>Create rent a car objects</a></li>
-    <li v-on:click="manageUsers" style="float:left"><a>Manage users</a></li>
+	<li v-on:click="myObject" v-if="doesManagerHaveObject" style="float:left"><a>My object</a></li>
+	<li v-on:click="orders" style="float:left" v-if="doesManagerHaveObject"><a>Orders</a></li>
   </ul>
   
   <h4 class="headingCenter">Rent-A-Car object info</h4> 
@@ -52,8 +52,7 @@ Vue.component("adminRentACarObject", {
     </tr>
      <tr>
       <td><label class="signUpLabel">Location:</label></td>
-      <td><label>{{rentACarObject.location.address.city}}, <a v-on:click="openMap">{{rentACarObject.location.address.street}} {{rentACarObject.location.address.streetNumber}}</a></label></td>
-      <td><button class="button"></button>
+      <td><label>{{rentACarObject.location.address.city}}</label></td>
     </tr>
      <tr>
       <td><label class="signUpLabel">Logo:</label></td>
@@ -84,40 +83,40 @@ Vue.component("adminRentACarObject", {
 	<label class='containerLabel'>Text: {{comment.text}}</label></br>
 	<label class='containerLabel'>Rating: {{comment.rating}}</label></br>
 	<label class='containerLabel'>Customer: {{comment.order.customerName}}</label></br>
-	<label class='containerLabel'>Status: {{comment.status}}</label></br>
   </div>
 </div>
 	    `,
     mounted () {
         axios.get("rest/rentACarObjects/" + this.$route.params.id).then(response => {
 			this.rentACarObject = response.data;
-			axios.get("rest/comments/" + this.rentACarObject.id).then(response => this.comments = response.data);	
+			
+			axios.get("rest/comments/approved/" + this.rentACarObject.id).then(response => this.comments = response.data);	
+		});
+		axios.get("rest/users/signedInUser").then(response => {
+			this.manager = response.data;
+			if(this.manager.rentACarObject.id == -1) {
+				this.doesManagerHaveObject = false;
+			}
+			else {
+				this.doesManagerHaveObject = true;
+			}
 		});
     },
     methods: {
     	signOut : function() {
 			router.push('/');
     	},
-    	userProfile : function() {
-			router.push('/admin/userProfile/');
-    	},
-    	signOut : function() {
-			router.push('/');
-    	},
     	home : function() {
-			router.push('/admin/home/');
+			router.push('/manager/home/');
     	},
-    	createManagers : function() {
-			router.push('/admin/createManager/');
+    	userProfile : function() {
+			router.push('/manager/userProfile/');
     	},
-    	createRentACarObject : function() {
-			router.push('/admin/createRentACarObject/');
+    	myObject : function() {
+			router.push('/manager/myObject');
     	},
-    	manageUsers : function() {
-			router.push('/admin/manageUsers/');
-    	},
-    	openMap: function() {
-			window.open(baseRoute + '/openmap/' + this.rentACarObject.id);
+		orders: function() {
+			router.push('/manager/orders/');	
 		}
     }
 });
