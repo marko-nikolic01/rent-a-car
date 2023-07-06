@@ -92,14 +92,6 @@ Vue.component("adminCreateRentACarObject", {
 				</table>
 			<h4 class="headingCenter">Location info</h4>
 				<table class="center">
-					<tr>
-    					<td><label class="signUpLabel">Longitude:</label></td>
-        				<td><input v-model="rentACarObjectDTO.rentACarObject.location.longitude" type="number" class="signUpInput"/></td>
-    				</tr>
-    				<tr>
-    					<td><label class="signUpLabel">Latitude:</label></td>
-        				<td><input v-model="rentACarObjectDTO.rentACarObject.location.latitude" type="number" class="signUpInput"/></td>
-    				</tr>
     				<tr>
     					<td><label class="signUpLabel">City:</label></td>
         				<td><input v-model="rentACarObjectDTO.rentACarObject.location.address.city" type="text" class="signUpInput"/></td>
@@ -116,7 +108,21 @@ Vue.component("adminCreateRentACarObject", {
     					<td><label class="signUpLabel">ZIP Code:</label></td>
         				<td><input v-model="rentACarObjectDTO.rentACarObject.location.address.zipCode" type="number" class="signUpInput"/></td>
     				</tr>
+					<tr>
+    					<td><label class="signUpLabel">Longitude:</label></td>
+        				<td><input readonly v-model="rentACarObjectDTO.rentACarObject.location.longitude" type="number" class="signUpInput"/></td>
+    				</tr>
+    				<tr>
+    					<td><label class="signUpLabel">Latitude:</label></td>
+        				<td><input readonly v-model="rentACarObjectDTO.rentACarObject.location.latitude" type="number" class="signUpInput"/></td>
+    				</tr>
 				</table>
+				
+				
+				<div id='map2' style="height: 600px; width: 1000px; margin-left: auto; margin-right: auto;"></div>
+				
+				
+				
 			<h4 class="headingCenter">Manager</h4>
 				<table class="center" v-if="unemployedManagersExist">
 					<tr>
@@ -200,7 +206,6 @@ Vue.component("adminCreateRentACarObject", {
 		} 
 		minDate = yyyy + '-' + mm + '-' + dd;
         document.getElementById("birthdayDatePicker").setAttribute("min", minDate);
-        console.log("pre");
         axios.get("rest/users/unassignedManagers").then(response => {
 			this.managers = response.data;
 			if (this.managers.length == 0) {
@@ -210,6 +215,9 @@ Vue.component("adminCreateRentACarObject", {
 				this.unemployedManagersExist = true;
 			}
 		});
+		
+		
+		this.initializeMap();
     },
     methods: {
     	createRentACarObject : function() {
@@ -244,7 +252,6 @@ Vue.component("adminCreateRentACarObject", {
 				this.valid = false;
 				return;
 			}
-			console.log('1');
 			
 			if(this.unemployedManagersExist && (this.selectedManager.username === '')) {
 				this.valid = false;
@@ -261,7 +268,6 @@ Vue.component("adminCreateRentACarObject", {
 				this.valid = false;
 				return;
 			}
-			console.log('2');
 			
 			this.valid = true;
     	},
@@ -279,6 +285,86 @@ Vue.component("adminCreateRentACarObject", {
     	},
     	manageUsers : function() {
 			router.push('/admin/manageUsers/');
-    	}
+    	},
+    	initializeMap: function() {
+			let coordinate = ol.proj.fromLonLat([19.833549, 45.267136]);
+			
+			const map = new ol.Map({
+		        view: new ol.View({
+		            center: coordinate,
+		            zoom: 5
+		        }),
+		        layers: [
+		            new ol.layer.Tile({
+		                source: new ol.source.OSM()
+		            })
+		        ],
+		        target: 'map2'
+		    });
+		
+		    const openStreetMapStandard = new ol.layer.Tile({
+		        source: new ol.source.OSM(),
+		        visible: true,
+		        title: 'OSMStandard'
+		    });
+		
+		    const baseLayerGroup = new ol.layer.Group({
+		        layers: [
+		            openStreetMapStandard
+		        ]
+		    });
+		
+		    let marker = new ol.layer.Vector({
+		        source: new ol.source.Vector({
+		            features: [
+		                new ol.Feature({
+		                    geometry: new ol.geom.Point(
+		                        coordinate
+		                    )
+		                })
+		            ],
+		        }),
+		        visible: false,
+		        style: new ol.style.Style({
+		            image: new ol.style.Icon({
+		                anchor: [0.5, 1],
+		                src: 'https://docs.maptiler.com/openlayers/default-marker/marker-icon.png'
+		            })
+		        })
+		    })
+		
+		    map.addLayer(baseLayerGroup);
+		    map.addLayer(marker);
+		    
+		    let location = this.rentACarObjectDTO.rentACarObject.location;
+		    
+		    map.on('click', function(e) {
+		        map.removeLayer(marker);
+		        
+		        let coordinates = ol.proj.toLonLat(e.coordinate);
+		        
+		        location.longitude = coordinates[0];
+		        location.latitude = coordinates[1];
+		
+		        marker = new ol.layer.Vector({
+		            source: new ol.source.Vector({
+		                features: [
+		                    new ol.Feature({
+		                        geometry: new ol.geom.Point(e.coordinate)
+		                    })
+		                ],
+		            }),
+		            visible: true,
+		            style: new ol.style.Style({
+		                image: new ol.style.Icon({
+		                    anchor: [0.5, 1],
+		                    src: 'https://docs.maptiler.com/openlayers/default-marker/marker-icon.png'
+		                })
+		            })
+		        })
+		
+		        map.addLayer(marker);
+		    });
+		}
     }
 });

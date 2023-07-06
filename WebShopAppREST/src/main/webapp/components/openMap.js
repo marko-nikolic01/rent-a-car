@@ -18,7 +18,7 @@ Vue.component("openmap", {
         axios.get("rest/rentACarObjects/" + this.$route.params.id).then(response => {
 			this.rentACarObject = response.data;
 			let longitude = this.rentACarObject.location.longitude;
-			let latitude= this.rentACarObject.location.latitude;	
+			let latitude = this.rentACarObject.location.latitude;
 			this.initializeMap(longitude, latitude);
 		});
 		
