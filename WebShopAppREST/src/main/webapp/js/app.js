@@ -23,6 +23,8 @@ const ManagerAddVehicle = { template: '<managerAddVehicle></managerAddVehicle>' 
 const ManagerEditVehicle = { template: '<managerEditVehicle></managerEditVehicle>' }
 const ManagerOrders = { template: '<managerOrders></managerOrders>' }
 const ManagerRejectOrder = { template: '<managerRejectOrder></managerRejectOrder>' }
+const OpenMap = { template: '<openmap></openmap>' }
+const baseRoute = 'http://localhost:8080/WebShopAppREST/#'
 
 const router = new VueRouter({
 	mode: 'hash',
@@ -51,7 +53,8 @@ const router = new VueRouter({
 		{ path: '/manager/addVehicle/', component: ManagerAddVehicle},
 		{ path: '/manager/editVehicle/:id', component: ManagerEditVehicle},
 		{ path: '/manager/orders/', component: ManagerOrders},
-		{ path: '/manager/rejectOrder/:orderCode', component: ManagerRejectOrder}
+		{ path: '/manager/rejectOrder/:orderCode', component: ManagerRejectOrder},
+		{ path: '/openmap/:id', component: OpenMap}
 	  ]
 });
 

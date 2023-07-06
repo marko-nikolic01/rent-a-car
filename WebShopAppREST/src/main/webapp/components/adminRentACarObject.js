@@ -48,7 +48,8 @@ Vue.component("adminRentACarObject", {
     </tr>
      <tr>
       <td><label class="signUpLabel">Location:</label></td>
-      <td><label>{{rentACarObject.location.address.city}}</label></td>
+      <td><label>{{rentACarObject.location.address.city}}, <a v-on:click="openMap">{{rentACarObject.location.address.street}} {{rentACarObject.location.address.streetNumber}}</a></label></td>
+      <td><button class="button"></button>
     </tr>
      <tr>
       <td><label class="signUpLabel">Logo:</label></td>
@@ -113,6 +114,9 @@ Vue.component("adminRentACarObject", {
     	},
     	manageUsers : function() {
 			router.push('/admin/manageUsers/');
-    	}
+    	},
+    	openMap: function() {
+			window.open(baseRoute + '/openmap/' + this.rentACarObject.id);
+		}
     }
 });
