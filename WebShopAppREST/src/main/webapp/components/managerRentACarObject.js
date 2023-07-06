@@ -52,7 +52,12 @@ Vue.component("managerRentACarObject", {
     </tr>
      <tr>
       <td><label class="signUpLabel">Location:</label></td>
-      <td><label>{{rentACarObject.location.address.city}}</label></td>
+      <td><label>{{rentACarObject.location.address.city}} ({{rentACarObject.location.address.zipCode}}), {{rentACarObject.location.address.street}} {{rentACarObject.location.address.streetNumber}}</label></td>
+    </tr>
+     <tr>
+      <td><label class="signUpLabel"></label></td>
+      <td><label>{{rentACarObject.location.longitude}}, {{rentACarObject.location.latitude}} <button class="button" v-on:click="openMap">Open in map</button></label></td>
+      <td></td>
     </tr>
      <tr>
       <td><label class="signUpLabel">Logo:</label></td>
@@ -117,6 +122,9 @@ Vue.component("managerRentACarObject", {
     	},
 		orders: function() {
 			router.push('/manager/orders/');	
+		},
+    	openMap: function() {
+			window.open(baseRoute + '/openmap/' + this.rentACarObject.id);
 		}
     }
 });

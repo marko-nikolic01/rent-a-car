@@ -32,7 +32,7 @@ Vue.component("openmap", {
 			const map = new ol.Map({
 	        view: new ol.View({
 	            center: coordinate,
-	            zoom: 5
+	            zoom: 15
 	        }),
 	        layers: [
 	            new ol.layer.Tile({
