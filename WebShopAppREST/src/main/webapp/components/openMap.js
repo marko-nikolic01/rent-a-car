@@ -16,15 +16,22 @@ Vue.component("openmap", {
 		`,
     mounted () {
         axios.get("rest/rentACarObjects/" + this.$route.params.id).then(response => {
-			this.rentACarObject = response.data;	
+			this.rentACarObject = response.data;
+			let longitude = this.rentACarObject.location.longitude;
+			let latitude= this.rentACarObject.location.latitude;	
+			this.initializeMap(longitude, latitude);
 		});
 		
-		let longitude = this.rentACarObject.location.longitude;
-		let latitude= this.rentACarObject.location.latitude;
 		
-		const map = new ol.Map({
+    },
+    methods: {
+		initializeMap: function(longitude, latitude) {
+			console.log(longitude + "   " + latitude);
+			let coordinate = ol.proj.fromLonLat([longitude, latitude]);
+			console.log(coordinate);
+			const map = new ol.Map({
 	        view: new ol.View({
-	            center: [longitude, latitude],
+	            center: coordinate,
 	            zoom: 5
 	        }),
 	        layers: [
@@ -52,7 +59,7 @@ Vue.component("openmap", {
 	            features: [
 	                new ol.Feature({
 	                    geometry: new ol.geom.Point(
-	                        ol.proj.fromLonLat([longitude, latitude])
+	                        coordinate
 	                    )
 	                })
 	            ],
@@ -68,8 +75,6 @@ Vue.component("openmap", {
 	
 	    map.addLayer(baseLayerGroup);
 	    map.addLayer(marker);
-    },
-    methods: {
-		
+		}
     }
 });
