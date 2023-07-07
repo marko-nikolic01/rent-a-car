@@ -145,7 +145,7 @@ public class OrderDAO {
 					customerName = st.nextToken().trim();
 					customerId = Integer.parseInt(st.nextToken().trim());
 					status = OrderStatus.valueOf(st.nextToken().trim());
-					rejectionExplanation = st.nextToken().trim();
+					rejectionExplanation = st.nextToken();
 					isRated = Boolean.parseBoolean(st.nextToken().trim());
 				}
 				

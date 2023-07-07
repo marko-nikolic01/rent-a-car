@@ -19,9 +19,11 @@ import javax.ws.rs.core.MediaType;
 
 import beans.CustomerType;
 import beans.Order;
+import beans.OrderCancellation;
 import beans.RentACarObject;
 import beans.User;
 import beans.Vehicle;
+import dao.OrderCancellationDAO;
 import dao.OrderDAO;
 import dao.RentACarObjectDAO;
 import dao.UserDAO;
@@ -167,8 +169,10 @@ public class OrderService {
 	public Order cancelOrder(@PathParam("orderCode") String orderCode) {
 		OrderDAO orderDAO = (OrderDAO) servletContext.getAttribute("orderDAO");
 		UserDAO userDAO = (UserDAO) servletContext.getAttribute("userDAO");
+		OrderCancellationDAO cancellationDAO = (OrderCancellationDAO) servletContext.getAttribute("orderCancellationDAO");
 		
 		Order order = orderDAO.getByCode(orderCode);
+		User user = userDAO.getSignedInUser();
 		
 		if (order == null ||
 				!order.getStatus().equals(OrderStatus.PROCESSING)) {
@@ -177,10 +181,12 @@ public class OrderService {
 		
 		order.setStatus(OrderStatus.CANCELLED);
 		orderDAO.toCSV();
+		cancellationDAO.save(new OrderCancellation(user, order));
 
-		User user = userDAO.getSignedInUser();
 		double orderPrice = order.getPrice() * (100 - user.getType().getDiscount()) / 100;
 		user.setPoints(user.getPoints() - orderPrice/1000 * 133 * 4);
+		if(cancellationDAO.getByUserLastMonth(user).size() > 5)
+			user.setSuspicious(true);
 		userDAO.toCSV();
 		
 		return order;

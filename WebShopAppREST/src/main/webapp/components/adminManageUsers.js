@@ -83,9 +83,10 @@ Vue.component("adminManageUsers", {
 				<label class="containerLabel">Date of birth: {{user.birthday}}</label><br/>
 				<label class="containerLabel">Gender: {{user.gender}}</label><br/>
 				<label class="containerLabel">Role: {{user.role}}</label><br/>
-				<label class="containerLabel" v-if="user.role=='CUSTOMER'">Points: {{user.points}} ({{user.type.name}})</label><br/>
-				<label v-if="user.blocked" class="containerConditionalLabelFalse">This user is blocked</label><br/>
-				<label v-if="!user.blocked" class="containerConditionalLabelTrue"></label><br/>
+				<label class="containerLabel" v-if="user.role=='CUSTOMER'">Points: {{user.points}} ({{user.type.name}})</label><br v-if="user.role=='CUSTOMER'"/>
+				<label v-if="user.blocked" class="containerConditionalLabelFalse">This user is blocked</label>
+				<label v-if="user.suspicious && !user.blocked" class="containerConditionalLabelFalse">This user is suspicious</label><br v-if="user.role!='CUSTOMER'"/>
+				<button class="button" v-if="user.role != 'ADMINISTRATOR' && !user.blocked" v-on:click="block(user)">Block</button>
 			</div>
 		</div>
 	    `,
@@ -109,6 +110,11 @@ Vue.component("adminManageUsers", {
     	},
     	home : function() {
 			router.push('/admin/home/');
+    	},
+    	block : function(user) {
+			axios.put('rest/users/block/' + user.id).then(response => {
+				user.blocked = true;
+			})
     	},
     	cancelSearch: function() {
 			this.filteredUsers = structuredClone(this.users);

@@ -10,6 +10,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -25,6 +26,7 @@ import dao.UserDAO;
 import dao.VehicleDAO;
 import dto.SignInCredentialsDTO;
 import dto.UserUsernameDTO;
+import utilities.Role;
 
 @Path("/users")
 public class UserService {
@@ -125,6 +127,19 @@ public class UserService {
 	public User updateUser(User updatedUser) {
 		UserDAO dao = (UserDAO) servletContext.getAttribute("userDAO");
 		return dao.update(updatedUser);
+	}
+	
+	@PUT
+	@Path("/block/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public User block(@PathParam("id") int id) {
+		UserDAO dao = (UserDAO) servletContext.getAttribute("userDAO");
+		User user = dao.getById(id);
+		if(user.getRole() != Role.ADMINISTRATOR) {
+			user.setBlocked(true);
+			dao.toCSV();
+		}
+		return user;
 	}
 	
 	@DELETE

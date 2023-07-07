@@ -42,7 +42,7 @@ public class UserDAO {
 	
 	public User singInByUsernamePassword(String username, String password) {
 		for (User user : users) {
-			if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+			if (user.getUsername().equals(username) && user.getPassword().equals(password) && !user.isBlocked()) {
 				signedInUser = user;
 				return user;
 			}

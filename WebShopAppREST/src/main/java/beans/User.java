@@ -44,8 +44,8 @@ public class User {
 	}
 
 	public User(int id, String username, String password, String firstName, String lastName, LocalDate birthday,
-			Gender gender, Role role, RentACarObject rentACarObject, double points, boolean isDeleted,
-			boolean isSuspicious, boolean isBlocked) {
+			Gender gender, Role role, RentACarObject rentACarObject, double points,
+			boolean isSuspicious, boolean isBlocked, boolean isDeleted) {
 		super();
 		this.id = id;
 		this.username = username;
