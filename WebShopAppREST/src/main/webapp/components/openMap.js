@@ -68,7 +68,7 @@ Vue.component("openmap", {
 	        style: new ol.style.Style({
 	            image: new ol.style.Icon({
 	                anchor: [0.5, 1],
-	                src: 'https://docs.maptiler.com/openlayers/default-marker/marker-icon.png'
+	                src: './images/marker.png'
 	            })
 	        })
 	    })
