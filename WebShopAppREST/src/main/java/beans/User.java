@@ -20,6 +20,8 @@ public class User {
 	private double points;
 	private CustomerType type;
 	private Cart cart;
+	private boolean isSuspicious;
+	private boolean isBlocked;
 	private boolean isDeleted;
 
 	public User() {
@@ -36,11 +38,14 @@ public class User {
 		points = 0;
 		type = new CustomerType("Normal", 0, 0);
 		cart = new Cart(this);
+		isSuspicious = false;
+		isBlocked = false;
 		isDeleted = false;
 	}
 
 	public User(int id, String username, String password, String firstName, String lastName, LocalDate birthday,
-			Gender gender, Role role, RentACarObject rentACarObject, double points, boolean isDeleted) {
+			Gender gender, Role role, RentACarObject rentACarObject, double points, boolean isDeleted,
+			boolean isSuspicious, boolean isBlocked) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -54,6 +59,8 @@ public class User {
 		this.points = points;
 		setType();
 		cart = new Cart(this);
+		this.isSuspicious = isSuspicious;
+		this.isBlocked = isBlocked;
 		this.isDeleted = isDeleted;
 	}
 
@@ -188,4 +195,22 @@ public class User {
 	public void setCart(Cart cart) {
 		this.cart = cart;
 	}
+
+	public boolean isSuspicious() {
+		return isSuspicious;
+	}
+
+	public void setSuspicious(boolean isSuspicious) {
+		this.isSuspicious = isSuspicious;
+	}
+
+	public boolean isBlocked() {
+		return isBlocked;
+	}
+
+	public void setBlocked(boolean isBlocked) {
+		this.isBlocked = isBlocked;
+	}
+	
+	
 }
