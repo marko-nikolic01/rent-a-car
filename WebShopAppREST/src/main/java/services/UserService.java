@@ -18,6 +18,7 @@ import beans.Order;
 import beans.RentACarObject;
 import beans.User;
 import beans.Vehicle;
+import dao.OrderCancellationDAO;
 import dao.OrderDAO;
 import dao.RentACarObjectDAO;
 import dao.UserDAO;
@@ -51,6 +52,11 @@ public class UserService {
 		if (servletContext.getAttribute("orderDAO") == null) {
 			String contextPath = servletContext.getRealPath("");
 			servletContext.setAttribute("orderDAO", new OrderDAO(contextPath));
+		}
+		
+		if (servletContext.getAttribute("orderCancellationDAO") == null) {
+			String contextPath = servletContext.getRealPath("");
+			servletContext.setAttribute("orderCancellationDAO", new OrderCancellationDAO(contextPath));
 		}
 		
 		UserDAO userDAO = (UserDAO) servletContext.getAttribute("userDAO");
