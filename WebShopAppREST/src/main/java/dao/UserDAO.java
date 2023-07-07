@@ -169,7 +169,7 @@ public class UserDAO {
 			Gender gender = null;
 			Role role = null;
 			RentACarObject rentACarObject = new RentACarObject();
-			boolean isDeleted = false;
+			boolean isDeleted = false, isSuspicious = false, isBlocked = false;
 
 			StringTokenizer st;
 			while ((line = reader.readLine()) != null) {
@@ -189,10 +189,12 @@ public class UserDAO {
 					role = Role.valueOf(st.nextToken().trim());
 					rentACarObject.setId(Integer.parseInt(st.nextToken()));
 					points = Double.parseDouble(st.nextToken().trim());
+					isSuspicious = Boolean.parseBoolean(st.nextToken().trim());
+					isBlocked = Boolean.parseBoolean(st.nextToken().trim());
 					isDeleted = Boolean.parseBoolean(st.nextToken().trim());
 				}
 
-				users.add(new User(id, username, password, firstName, lastName, birthday, gender, role, rentACarObject, points, isDeleted));
+				users.add(new User(id, username, password, firstName, lastName, birthday, gender, role, rentACarObject, points, isSuspicious, isBlocked, isDeleted));
 				rentACarObject = new RentACarObject();
 			}
 		} catch (Exception e) {
@@ -220,6 +222,8 @@ public class UserDAO {
 			content += user.getRole().toString() + ';';
 			content += Integer.toString(user.getRentACarObject().getId()) + ';';
 			content += Double.toString(user.getPoints()) + ';';
+			content += Boolean.toString(user.isSuspicious()) + ';';
+			content += Boolean.toString(user.isBlocked()) + ';';
 			content += Boolean.toString(user.isDeleted()) + '\n';
 		}
 
