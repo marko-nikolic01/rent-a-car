@@ -53,7 +53,7 @@ Vue.component("managerAddVehicle", {
   
   <ul>
     <li v-on:click="signOut" style="float:right"><a>Sign out</a></li>
-    <li style="float:right"><a>Profile</a></li>
+    <li v-on:click="profile" style="float:right"><a>Profile</a></li>
     <li v-on:click="home" style="float:left"><a>Home</a></li>
     <li v-on:click="goBack" v-if="signedInUser.rentACarObject.id != -1" style="float:left"><a>My object</a></li>
     <li v-on:click="orders" style="float:left" v-if="signedInUser.rentACarObject.id != -1"><a>Orders</a></li>
@@ -64,15 +64,15 @@ Vue.component("managerAddVehicle", {
   <table class="center">
     <tr>
       <td><label class="signUpLabel">Brand:</label></td>
-      <td><input type="text" v-model="vehicle.brand"/></td>
+      <td><input type="text" v-model="vehicle.brand" class="signUpInput"/></td>
     </tr>
      <tr>
       <td><label class="signUpLabel">Model:</label></td> 
-      <td><input type="text" v-model="vehicle.model"/></td>
+      <td><input type="text" v-model="vehicle.model" class="signUpInput"/></td>
      </tr>
      <tr>
       <td><label class="signUpLabel">Price:</label></td>
-      <td><input type="number" v-model="vehicle.price" min="1"/></td>
+      <td><input type="number" v-model="vehicle.price" min="1" class="signUpInput"/></td>
     </tr>
     <tr>
       <td><label class="signUpLabel">Type:</label></td>
@@ -100,23 +100,23 @@ Vue.component("managerAddVehicle", {
     </tr>
      <tr>
       <td><label class="signUpLabel">Fuel consumption:</label></td>
-      <td><input type="number" v-model="vehicle.fuelConsumption" min="1"/></td>
+      <td><input type="number" v-model="vehicle.fuelConsumption" min="1" class="signUpInput"/></td>
     </tr>
      <tr>
       <td><label class="signUpLabel">No. doors:</label></td>
-      <td><input type="number" v-model="vehicle.doors" min="1"/></td>
+      <td><input type="number" v-model="vehicle.doors" min="1" class="signUpInput"/></td>
     </tr>
      <tr>
       <td><label class="signUpLabel">No. passengers:</label></td>
-      <td><input type="number" v-model="vehicle.numberOfPassengers" min="1"/></td>
+      <td><input type="number" v-model="vehicle.numberOfPassengers" min="1" class="signUpInput"/></td>
     </tr>
      <tr>
       <td><label class="signUpLabel">Description:</label></td>
-      <td><input type="text" v-model="vehicle.description"/></td>
+      <td><input type="text" v-model="vehicle.description" class="signUpInput"/></td>
     </tr>
      <tr>
       <td><label class="signUpLabel">Photo URL:</label></td>
-      <td><input type="text" v-model="vehicle.photoURL"/></td>
+      <td><input type="text" v-model="vehicle.photoURL" class="signUpInput"/></td>
     </tr>
     
     <tr>
@@ -141,6 +141,9 @@ Vue.component("managerAddVehicle", {
     	},
     	home : function() {
 			router.push('/manager/home/');
+    	},
+    	profile : function() {
+			router.push('/manager/userProfile/');
     	},
     	addVehicle: function() {
 			this.vehicle.rentACarObjectId = this.signedInUser.rentACarObject.id;

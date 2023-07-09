@@ -37,7 +37,7 @@ Vue.component("customerComment", {
   <table class="center">
     <tr>
       <td><label class="signUpLabel">Comment:</label></td>
-      <td><input type="text" v-model="comment.text"/></td>
+      <td><input type="text" v-model="comment.text" class="signUpInput"/></td>
     </tr>
      <tr>
       <td><label class="signUpLabel">Rating:</label></td>

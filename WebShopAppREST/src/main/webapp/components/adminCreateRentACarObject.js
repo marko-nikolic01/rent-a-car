@@ -37,7 +37,7 @@ Vue.component("adminCreateRentACarObject", {
 						}
 					},
 					logoURL: '',
-					rating: 3
+					rating: 0
 				},
 				managerId: -1
 			},

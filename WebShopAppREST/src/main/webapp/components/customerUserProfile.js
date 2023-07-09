@@ -165,6 +165,10 @@ Vue.component("customerUserProfile", {
 		cancel: function(order) {
 			axios.put("rest/orders/cancel/" + order.orderCode);
 			order.status = 'CANCELLED';
+			axios.get("rest/users/signedInUser").then(response => {this.signedInUser = response.data;
+																  this.filteredObjects = structuredClone(this.signedInUser.orders);
+																  this.sortedObjects = structuredClone(this.signedInUser.orders);
+																  this.updateMaxPrice();});
 		},
     	cancelSearch: function() {
 			this.filteredObjects = structuredClone(this.signedInUser.orders);

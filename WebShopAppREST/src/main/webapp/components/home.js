@@ -12,7 +12,7 @@ Vue.component("home", {
 				rating: 1,
 				transmission: '-',
 				fuel: '-',
-				open: true
+				open: false
 			},
 	    }
 	},
@@ -44,7 +44,7 @@ Vue.component("home", {
    				</tr>
     			<tr>
     				<td><label class="signUpLabel">Location:</label></td>
-        			<td><input v-model="filter.location" type="password" class="signUpInput"/></td>
+        			<td><input v-model="filter.location" type="text" class="signUpInput"/></td>
     			</tr>
     			<tr>
     				<td><label class="signUpLabel">Rating (1 to 5):</label></td>
@@ -104,7 +104,8 @@ Vue.component("home", {
 				<img v-bind:src="object.logoURL" height="100" width="100" class="containerImage">
 				<label class="containerLabel">Name: {{object.name}}</label><br/>
 				<label class="containerLabel">Location: {{object.location.address.street}} {{object.location.address.streetNumber}}, {{object.location.address.city}}</label><br/>
-				<label class="containerLabel">Rating: {{object.rating}}</label><br/>
+				<label class="containerLabel" v-if="object.rating > 0">Rating: {{object.rating}}</label>
+				<label class="containerLabel" v-if="object.rating == 0">Rating: Not rated yet</label><br/>
 				<label v-bind:class="{'containerConditionalLabelTrue': object.workingHours.open,  'containerConditionalLabelFalse': !object.workingHours.open}">Working time: {{object.workingHours.startTime}}   -   {{object.workingHours.endTime}}</label><br/>
 				<button class="button" v-on:click="info(object)">Info</button>
 			</div>

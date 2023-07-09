@@ -95,7 +95,7 @@ Vue.component("managerOrders", {
 	</div>
 	
 	
-    <h4 class="headingCenter">Users</h4>
+    <h4 class="headingCenter">Customers</h4>
 	<div v-for="user in users" class='container' style="height: 120px;">
 		<img src="https://i.pinimg.com/originals/09/04/9a/09049aa9d6e8cb79674ab772702b8c9b.jpg" height="120" width="100" class="containerImage">
 		<label class="containerLabel">Username: {{user.username}}</label><br/>

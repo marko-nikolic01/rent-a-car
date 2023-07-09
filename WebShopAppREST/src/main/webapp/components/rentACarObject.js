@@ -80,12 +80,11 @@ Vue.component("rentACarObject", {
 	
 	<h4 class="headingCenter">Comments</h4>
   
-  <div v-for="comment in comments" class='container' style="height: 120px; margin-left: 20%; margin-right: 20%">
+  <div v-for="comment in comments" v-if="comment.status == 'APPROVED'" class='container' style="height: 120px; margin-left: 20%; margin-right: 20%">
 	<img src="https://i.pinimg.com/originals/09/04/9a/09049aa9d6e8cb79674ab772702b8c9b.jpg" height="120" width="100" class="containerImage">
 	<label class='containerLabel'>Text: {{comment.text}}</label></br>
 	<label class='containerLabel'>Rating: {{comment.rating}}</label></br>
 	<label class='containerLabel'>Customer: {{comment.order.customerName}}</label></br>
-	<label class='containerLabel'>Status: {{comment.status}}</label></br>
   </div>
 </div>
 	    `,

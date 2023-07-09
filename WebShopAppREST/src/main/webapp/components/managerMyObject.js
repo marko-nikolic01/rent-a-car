@@ -35,7 +35,7 @@ Vue.component("managerMyObject", {
   
   <ul>
     <li v-on:click="signOut" style="float:right"><a>Sign out</a></li>
-    <li style="float:right"><a>Profile</a></li>
+    <li v-on:click="profile" style="float:right"><a>Profile</a></li>
     <li v-on:click="home" style="float:left"><a>Home</a></li>
     <li style="float:left"><a class="selectedTab">My object</a></li>
     <li v-on:click="orders" style="float:left"><a>Orders</a></li>
@@ -109,8 +109,8 @@ Vue.component("managerMyObject", {
 		});
     },
     methods: {
-    	editProfile : function() {
-			router.push("/manager/editProfile/");
+    	profile : function() {
+			router.push('/manager/userProfile/');
     	},
     	signOut : function() {
 			router.push('/');
@@ -136,6 +136,11 @@ Vue.component("managerMyObject", {
 		approve: function(comment) {
 			axios.put("rest/comments/approve/" + comment.id);
 			comment.status = "APPROVED";
+			axios.get("rest/users/signedInUser").then(response => {
+				this.signedInUser = response.data;
+				
+				axios.get("rest/comments/" + this.signedInUser.rentACarObject.id).then(response => this.comments = response.data);	
+			});
 		},
 		reject: function(comment) {
 			axios.put("rest/comments/reject/" + comment.id);
