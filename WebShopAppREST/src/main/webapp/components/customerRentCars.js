@@ -37,11 +37,11 @@ Vue.component("customerRentCars", {
 	<table class="center">
 	  	<tr>
 	    	<td><label class="signUpLabel">Start date:</label></td>
-	       	<td><input type="date" v-model="dateRange.startDate" class="signUpInput"/></td>
+	       	<td><input type="date" v-model="dateRange.startDate" class="signUpInput" id="startDatePicker"/></td>
 	    </tr>
 	    <tr>
 	    	<td><label class="signUpLabel">End date:</label></td>
-	       	<td><input type="date" v-model="dateRange.endDate" class="signUpInput"/></td>
+	       	<td><input type="date" v-model="dateRange.endDate" class="signUpInput" id="endDatePicker"/></td>
 	    </tr>
 	    <tr>
 	    	<td><button v-on:click="filterObjects" class="button">Search</button></td>
@@ -65,6 +65,19 @@ Vue.component("customerRentCars", {
 	    `,
     mounted () {
         axios.get("rest/users/signedInUser").then(response => {this.signedInUser = response.data;});
+        now = new Date();
+        var dd = now.getDate();
+		var mm = now.getMonth() + 1;
+		var yyyy = now.getFullYear();
+		if (dd < 10) {
+   			dd = '0' + dd;
+		}
+		if (mm < 10) {
+  			mm = '0' + mm;
+		} 
+		minDate = yyyy + '-' + mm + '-' + dd;
+        document.getElementById("startDatePicker").setAttribute("min", minDate);
+        document.getElementById("endDatePicker").setAttribute("min", minDate);
     },
     methods: {
     	editProfile : function() {
